@@ -9,9 +9,10 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Accelerometer.class}, version = 1, exportSchema = false)
+@Database(entities = {Accelerometer.class, Mood.class}, version = 1, exportSchema = false)
 abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
+    abstract MoodDao moodDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
