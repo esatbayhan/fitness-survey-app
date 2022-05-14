@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RUB-SE-LAB-22A15</string>
+    <string name="tvAccelerometerText">tvAccelerometer</string>
+    <string name="btnClearAccelerometerDatabaseText">Clear Accelerometer Database</string>
+    <string name="swAccelerometerActivatedText">Accelerometer Activated</string>
+    <string name="btnOpenAccelerometerTestText">Open Accelerometer Test</string>
 </resources>
