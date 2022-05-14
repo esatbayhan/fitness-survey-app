@@ -9,7 +9,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnOpenActivityAccelerometerTest;
+    private Button btnOpenActivityAccelerometerTest;
+    private Button btnOpenActivitySurveyTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +18,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnOpenActivityAccelerometerTest = findViewById(R.id.btnOpenActivityAccelerometerTest);
-        btnOpenActivityAccelerometerTest.setOnClickListener(new btnOpenActivityAccelerometerTestOnClickListener());
+        btnOpenActivitySurveyTest = findViewById(R.id.btnOpenActivitySurveyTest);
+
+        btnOpenActivityAccelerometerTest.setOnClickListener(new btnOpenActivityAccelerometerTestOnClick());
+        btnOpenActivitySurveyTest.setOnClickListener(new btnOpenActivitySurveyTestOnClick());
     }
 
-    private class btnOpenActivityAccelerometerTestOnClickListener implements View.OnClickListener {
+    private class btnOpenActivityAccelerometerTestOnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(MainActivity.this, AccelerometerTestActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private class btnOpenActivitySurveyTestOnClick implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MainActivity.this, SurveyTestActivity.class);
             startActivity(intent);
         }
     }

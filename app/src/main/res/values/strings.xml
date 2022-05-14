@@ -4,4 +4,13 @@
     <string name="btnClearAccelerometerDatabaseText">Clear Accelerometer Database</string>
     <string name="swAccelerometerActivatedText">Accelerometer Activated</string>
     <string name="btnOpenAccelerometerTestText">Open Accelerometer Test</string>
+    <string name="tvAwakeText">Awake</string>
+    <string name="tvEnergeticText">Energetic</string>
+    <string name="tvRelaxedText">Relaxed</string>
+    <string name="tvWellText">Well</string>
+    <string name="tvCalmText">Calm</string>
+    <string name="tvSatisfiedText">Satisfied</string>
+    <string name="btnSurveySaveText">Save Survey</string>
+    <string name="btnSurveyClearText">Clear Survey</string>
+    <string name="btnOpenSurveyTestText">Open Survey Test</string>
 </resources>
