@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class GPSRepository {
-    private GPSDao gpsDao;
-    private LiveData<List<GPS>> allGPS;
+    private final GPSDao gpsDao;
+    private final LiveData<List<GPS>> allGPS;
 
     public GPSRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);

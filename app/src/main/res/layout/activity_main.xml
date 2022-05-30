@@ -26,6 +26,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenActivityGPS" />
+
+    <Button
+        android:id="@+id/btnOpenActivityGPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open GPS Acitivity"
+        app:layout_constraintBottom_toTopOf="@+id/btnOpenActivitySurveyTest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenActivityExport" />
 
     <Button
@@ -33,9 +44,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btnExportActivityText"
-        app:layout_constraintBottom_toTopOf="@+id/btnOpenActivitySurveyTest"
+        app:layout_constraintBottom_toTopOf="@+id/btnOpenActivityGPS"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenActivityAccelerometerTest" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

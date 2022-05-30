@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class MoodRepository {
-    private MoodDao moodDao;
-    private LiveData<List<Mood>> allMood;
+    private final MoodDao moodDao;
+    private final LiveData<List<Mood>> allMood;
 
     public MoodRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
