@@ -4,9 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_accelerometer_test.xml" value="0.1" />
+        <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_export_database.xml" value="0.1956521739130435" />
+        <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_firebase_storage_test.xml" value="0.264" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_main.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_mood_test.xml" value="0.2" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_survey_test.xml" value="0.176" />
+        <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/xml/provider_paths.xml" value="0.1" />
       </map>
     </option>
   </component>

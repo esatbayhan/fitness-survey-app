@@ -13,4 +13,6 @@
     <string name="btnSurveySaveText">Save Survey</string>
     <string name="btnSurveyClearText">Clear Survey</string>
     <string name="btnOpenSurveyTestText">Open Survey Test</string>
+    <string name="btnExportText">Export</string>
+    <string name="btnExportActivityText">Export</string>
 </resources>
