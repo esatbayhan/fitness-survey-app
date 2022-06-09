@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import de.rub.selab22a15.R;
+
 @Database(entities = {Accelerometer.class, Mood.class, GPS.class}, version = 1, exportSchema = false)
 abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
@@ -25,7 +27,7 @@ abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "app_database.db")
+                                    AppDatabase.class, context.getString(R.string.appDatabaseName))
                             .build();
                 }
             }
