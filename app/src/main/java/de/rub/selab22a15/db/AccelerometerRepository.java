@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class AccelerometerRepository {
-    private AccelerometerDao accelerometerDao;
-    private LiveData<List<Accelerometer>> allAccelerometer;
+    private final AccelerometerDao accelerometerDao;
+    private final LiveData<List<Accelerometer>> allAccelerometer;
 
     public AccelerometerRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);

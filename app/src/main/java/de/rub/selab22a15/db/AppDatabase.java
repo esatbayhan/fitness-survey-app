@@ -9,10 +9,13 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Accelerometer.class, Mood.class}, version = 1, exportSchema = false)
+import de.rub.selab22a15.R;
+
+@Database(entities = {Accelerometer.class, Mood.class, GPS.class}, version = 1, exportSchema = false)
 abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
     abstract MoodDao moodDao();
+    abstract GPSDao gpsDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -24,7 +27,7 @@ abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "tracking_database")
+                                    AppDatabase.class, context.getString(R.string.appDatabaseName))
                             .build();
                 }
             }
