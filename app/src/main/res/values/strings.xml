@@ -15,4 +15,6 @@
     <string name="btnOpenSurveyTestText">Open Survey Test</string>
     <string name="btnExportText">Export</string>
     <string name="btnExportActivityText">Export</string>
+    <string name="appDatabaseName">app_database.db</string>
+    <string name="researcherEmail">esat.bayhan@rub.de</string>
 </resources>
