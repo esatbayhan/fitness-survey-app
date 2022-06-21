@@ -11,11 +11,20 @@ import java.util.concurrent.Executors;
 
 import de.rub.selab22a15.R;
 
-@Database(entities = {Accelerometer.class, Mood.class, GPS.class}, version = 1, exportSchema = false)
+@Database(entities =
+        {Accelerometer.class,
+        Mood.class,
+        GPS.class,
+        EventAppraisal.class,
+        Emotion.class,
+        SocialContext.class}, version = 1, exportSchema = false)
 abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
     abstract MoodDao moodDao();
     abstract GPSDao gpsDao();
+    abstract EventAppraisalDao eventAppraisalDao();
+    abstract EmotionDao emotionDao();
+    abstract SocialContextDao socialContextDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
