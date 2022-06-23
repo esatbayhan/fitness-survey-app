@@ -2,52 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccelerometerTestActivity">
 
-    <Button
-        android:id="@+id/btnOpenActivityAccelerometerTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnOpenAccelerometerTestText"
-        app:layout_constraintBottom_toTopOf="@+id/btnOpenActivityExport"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+    <FrameLayout
+        android:id="@+id/frmLytMainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnOpenActivitySurveyTest"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btnOpenSurveyTestText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenActivityGPS" />
+        app:layout_constraintStart_toStartOf="@+id/frmLytMainActivity"
+        app:menu="@menu/bottom_navigation_menu">
 
-    <Button
-        android:id="@+id/btnOpenActivityGPS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Open GPS Acitivity"
-        app:layout_constraintBottom_toTopOf="@+id/btnOpenActivitySurveyTest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenActivityExport" />
-
-    <Button
-        android:id="@+id/btnOpenActivityExport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnExportActivityText"
-        app:layout_constraintBottom_toTopOf="@+id/btnOpenActivityGPS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenActivityAccelerometerTest" />
-
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </androidx.constraintlayout.widget.ConstraintLayout>

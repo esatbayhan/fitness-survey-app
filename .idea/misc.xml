@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/activity_accelerometer_test.xml" value="0.2259963768115942" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/fragment_activity.xml" value="0.2259963768115942" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/fragment_export.xml" value="0.2259963768115942" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/fragment_home.xml" value="0.2259963768115942" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/fragment_settings.xml" value="0.2259963768115942" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.253125" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_accelerometer_test.xml" value="0.1" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_export_database.xml" value="0.1956521739130435" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_firebase_storage_test.xml" value="0.264" />
