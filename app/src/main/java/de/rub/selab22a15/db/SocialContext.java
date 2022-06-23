@@ -16,18 +16,20 @@ public class SocialContext {
     @ColumnInfo(name = "timestamp")
     private final long timestamp;
 
-    @ColumnInfo(name = "like")
-    private final int like;
+    @ColumnInfo(name = "place")
+    private final int place;
 
     @ColumnInfo(name = "alone")
     private final boolean alone;
 
     @ColumnInfo(name = "surrounded")
     private final int surrounded;
-
     private int bound(int x) {
         return bound(x, MINIMUM, MAXIMUM);
     }
+
+    @ColumnInfo(name = "like")
+    private final int like;
 
     private int bound(int x, int mn, int mx) {
         if (x < mn) {
@@ -38,19 +40,20 @@ public class SocialContext {
     }
 
     public SocialContext
-            (long timestamp, int like, boolean alone, int surrounded) {
+            (long timestamp, int place, boolean alone, int surrounded, int like) {
         this.timestamp = timestamp;
-        this.like = bound(like);
+        this.place = bound(place);
         this.alone = alone;
         this.surrounded = bound(surrounded);
+        this.like = bound(like);
     }
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public int getLike() {
-        return like;
+    public int getPlace() {
+        return place;
     }
 
     public boolean isAlone() {
@@ -59,5 +62,9 @@ public class SocialContext {
 
     public int getSurrounded() {
         return surrounded;
+    }
+
+    public int getLike() {
+        return like;
     }
 }
