@@ -136,11 +136,11 @@ public class GPSActivity extends AppCompatActivity {
     }
 
     private void saveToDatabase(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        double altitude = (location.hasAltitude()) ? location.getAltitude() : null;
-        double accuracy = (location.hasAccuracy()) ? location.getAccuracy() : null;
-        double speed = (location.hasSpeed()) ? location.getSpeed() : null;
+        Double latitude = location.getLatitude();
+        Double longitude = location.getLongitude();
+        Double altitude = (location.hasAltitude()) ? location.getAltitude() : null;
+        Float accuracy = (location.hasAccuracy()) ? location.getAccuracy() : null;
+        Float speed = (location.hasSpeed()) ? location.getSpeed() : null;
 
         GPS gps = new GPS(System.currentTimeMillis(), latitude, longitude, altitude, accuracy, speed);
         gpsRepository.insert(gps);
