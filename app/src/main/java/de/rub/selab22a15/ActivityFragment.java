@@ -138,6 +138,7 @@ public class ActivityFragment extends Fragment {
     }
 
     private void discard() {
+        accelerometerRepository.delete(activity.getTimestamp());
         reset();
     }
 

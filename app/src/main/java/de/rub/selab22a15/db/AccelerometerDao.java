@@ -18,4 +18,7 @@ public interface AccelerometerDao {
 
     @Query("DELETE FROM accelerometer")
     void delete();
+
+    @Query("DELETE FROM accelerometer WHERE activity_timestamp = :activityTimestamp")
+    void delete(long activityTimestamp);
 }

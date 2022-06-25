@@ -29,4 +29,9 @@ public class AccelerometerRepository {
         AppDatabase.databaseWriteExecutor.execute(() ->
                 accelerometerDao.delete());
     }
+
+    public void delete(Long activityTimestamp) {
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                accelerometerDao.delete(activityTimestamp));
+    }
 }
