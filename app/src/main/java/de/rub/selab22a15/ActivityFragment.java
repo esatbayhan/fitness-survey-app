@@ -1,10 +1,6 @@
 package de.rub.selab22a15;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,13 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
-
-import de.rub.selab22a15.db.Accelerometer;
-import de.rub.selab22a15.db.AccelerometerRepository;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ActivityFragment extends Fragment {
     private MaterialButton btnStartActivity;
@@ -96,6 +88,8 @@ public class ActivityFragment extends Fragment {
             disableButton(btnResumeActivity);
             enableButton(btnStartActivity);
             btnStopActivity.setClickable(false);
+
+            alertSave();
         });
     }
 
@@ -108,6 +102,27 @@ public class ActivityFragment extends Fragment {
         button.setEnabled(true);
         button.setVisibility(View.VISIBLE);
     }
+
+    private void reset() {
+
+    }
+
+    private void save() {
+
+        reset();
+    }
+
+    private void alertSave() {
+        new MaterialAlertDialogBuilder(getContext())
+                .setMessage(R.string.alertSaveActivityMessage)
+                .setNegativeButton(R.string.alertSaveActivityNegative, (dialogInterface, i) -> {
+                    reset();
+                })
+                .setPositiveButton(R.string.alertSaveActivityPositive, ((dialogInterface, i) -> {
+                    save();
+                }))
+                .show();
+        }
 
     //    @Override
 //    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

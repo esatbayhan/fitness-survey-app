@@ -31,4 +31,7 @@
     <string name="btnStopActivity">Stop</string>
     <string name="btnPauseActivity">Pause</string>
     <string name="btnResumeActivity">Resume</string>
+    <string name="alertSaveActivityMessage">Do you want to save your recorded activity?</string>
+    <string name="alertSaveActivityNegative">DISCARD</string>
+    <string name="alertSaveActivityPositive">SAVE</string>
 </resources>
