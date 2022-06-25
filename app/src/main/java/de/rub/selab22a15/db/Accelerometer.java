@@ -11,7 +11,7 @@ public class Accelerometer {
     private final Long timestamp;
 
     @ColumnInfo(name = "activity_timestamp")
-    private final Long activity_timestamp;
+    private final Long activityTimestamp;
 
     @ColumnInfo(name = "x")
     private final Float x;
@@ -22,9 +22,9 @@ public class Accelerometer {
     @ColumnInfo(name = "z")
     private final Float z;
 
-    public Accelerometer(Long timestamp, Long activity_timestamp, Float x, Float y, Float z) {
+    public Accelerometer(Long timestamp, Long activityTimestamp, Float x, Float y, Float z) {
         this.timestamp = timestamp;
-        this.activity_timestamp = activity_timestamp;
+        this.activityTimestamp = activityTimestamp;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -34,8 +34,8 @@ public class Accelerometer {
         return timestamp;
     }
 
-    public Long getActivity_timestamp() {
-        return activity_timestamp;
+    public Long getActivityTimestamp() {
+        return activityTimestamp;
     }
 
     public Float getX() {
