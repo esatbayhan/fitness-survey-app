@@ -10,26 +10,79 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvAccelerometer"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilActivity"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/tvAccelerometerText"
-            app:layout_constraintBottom_toTopOf="@+id/swAccelerometerActivated"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/tilActivityHint"
+            app:helperText="Which activity do you want to track?"
+            app:helperTextEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_baseline_directions_run_24">
 
-        <Switch
-            android:id="@+id/swAccelerometerActivated"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/oteActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swGPSEnabled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/swGPSEnabledText"
+            app:layout_constraintEnd_toEndOf="@+id/tilActivity"
+            app:layout_constraintStart_toStartOf="@+id/tilActivity"
+            app:layout_constraintTop_toBottomOf="@+id/tilActivity" />
+
+        <Chronometer
+            android:id="@+id/cmtActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/swAccelerometerActivatedText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAccelerometer" />
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/swGPSEnabled"
+            app:layout_constraintStart_toStartOf="@+id/swGPSEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/swGPSEnabled"
+            android:countDown="false"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/btnStartActivity"
+            app:layout_constraintStart_toStartOf="@+id/swGPSEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/cmtActivity"
+            tools:ignore="DuplicateClickableBoundsCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPauseActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/btnPauseActivity"
+            app:layout_constraintStart_toStartOf="@+id/swGPSEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/cmtActivity"
+            android:enabled="false"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStopActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/btnStopActivity"
+            app:layout_constraintEnd_toEndOf="@+id/swGPSEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/cmtActivity" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

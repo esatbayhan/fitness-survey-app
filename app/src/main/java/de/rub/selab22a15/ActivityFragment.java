@@ -22,17 +22,17 @@ import de.rub.selab22a15.db.Accelerometer;
 import de.rub.selab22a15.db.AccelerometerRepository;
 
 public class ActivityFragment extends Fragment {
-    private float accelerometerX, accelerometerY, accelerometerZ;
-    private final float EPSILON = 0.1f;
-
-    private TextView tvAccelerometer;
-    private Switch swAccelerometerActivated;
-
-    private AccelerometerRepository accelerometerRepository;
-
-    private SensorManager sensorManager;
-    private Sensor sensorAccelerometer;
-    private SensorEventListener accelerometerEventListener;
+//    private float accelerometerX, accelerometerY, accelerometerZ;
+//    private final float EPSILON = 0.1f;
+//
+//    private TextView tvAccelerometer;
+//    private Switch swAccelerometerActivated;
+//
+//    private AccelerometerRepository accelerometerRepository;
+//
+//    private SensorManager sensorManager;
+//    private Sensor sensorAccelerometer;
+//    private SensorEventListener accelerometerEventListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,61 +40,61 @@ public class ActivityFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_activity, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        FragmentActivity activity = getActivity();
-
-        tvAccelerometer = activity.findViewById(R.id.tvAccelerometer);
-        swAccelerometerActivated = activity.findViewById(R.id.swAccelerometerActivated);
-
-        accelerometerRepository = new AccelerometerRepository(activity.getApplication());
-
-        sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        accelerometerEventListener = new AccelerometerEventListener();
-
-        swAccelerometerActivated.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (isChecked) {
-                sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
-                        SensorManager.SENSOR_DELAY_NORMAL);
-            }
-            else {
-                sensorManager.unregisterListener(accelerometerEventListener);
-            }
-        });
-    }
-
-    class AccelerometerEventListener implements SensorEventListener {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            if (sensorEvent.sensor.getType() != Sensor.REPORTING_MODE_ON_CHANGE) {
-                return;
-            }
-
-            long timestamp = System.currentTimeMillis();
-            float x = sensorEvent.values[0];
-            float y = sensorEvent.values[1];
-            float z = sensorEvent.values[2];
-
-            if (Math.abs(accelerometerX - x) < EPSILON &&
-                    Math.abs(accelerometerY - y) < EPSILON &&
-                    Math.abs(accelerometerZ - z) < EPSILON) {
-                return;
-            }
-
-            accelerometerX = x;
-            accelerometerY = y;
-            accelerometerZ = z;
-
-            tvAccelerometer.setText(String.format("x: %f y %f: z: %f", x, y, z));
-            accelerometerRepository.insert(new Accelerometer(timestamp, x, y, z));
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-
-        }
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        FragmentActivity activity = getActivity();
+//
+//        tvAccelerometer = activity.findViewById(R.id.tvAccelerometer);
+//        swAccelerometerActivated = activity.findViewById(R.id.swAccelerometerActivated);
+//
+//        accelerometerRepository = new AccelerometerRepository(activity.getApplication());
+//
+//        sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
+//        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//        accelerometerEventListener = new AccelerometerEventListener();
+//
+//        swAccelerometerActivated.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+//            if (isChecked) {
+//                sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
+//                        SensorManager.SENSOR_DELAY_NORMAL);
+//            }
+//            else {
+//                sensorManager.unregisterListener(accelerometerEventListener);
+//            }
+//        });
+//    }
+//
+//    class AccelerometerEventListener implements SensorEventListener {
+//        @Override
+//        public void onSensorChanged(SensorEvent sensorEvent) {
+//            if (sensorEvent.sensor.getType() != Sensor.REPORTING_MODE_ON_CHANGE) {
+//                return;
+//            }
+//
+//            long timestamp = System.currentTimeMillis();
+//            float x = sensorEvent.values[0];
+//            float y = sensorEvent.values[1];
+//            float z = sensorEvent.values[2];
+//
+//            if (Math.abs(accelerometerX - x) < EPSILON &&
+//                    Math.abs(accelerometerY - y) < EPSILON &&
+//                    Math.abs(accelerometerZ - z) < EPSILON) {
+//                return;
+//            }
+//
+//            accelerometerX = x;
+//            accelerometerY = y;
+//            accelerometerZ = z;
+//
+//            tvAccelerometer.setText(String.format("x: %f y %f: z: %f", x, y, z));
+//            accelerometerRepository.insert(new Accelerometer(timestamp, x, y, z));
+//        }
+//
+//        @Override
+//        public void onAccuracyChanged(Sensor sensor, int i) {
+//
+//        }
+//    }
 }
