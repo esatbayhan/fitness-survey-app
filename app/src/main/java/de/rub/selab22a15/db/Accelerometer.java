@@ -8,37 +8,45 @@ import androidx.room.PrimaryKey;
 public class Accelerometer {
     @PrimaryKey
     @ColumnInfo(name = "timestamp")
-    private final long timestamp;
+    private final Long timestamp;
+
+    @ColumnInfo(name = "activity_timestamp")
+    private final Long activity_timestamp;
 
     @ColumnInfo(name = "x")
-    private final float x;
+    private final Float x;
 
     @ColumnInfo(name = "y")
-    private final float y;
+    private final Float y;
 
     @ColumnInfo(name = "z")
-    private final float z;
+    private final Float z;
 
-    public Accelerometer(long timestamp, float x, float y, float z) {
+    public Accelerometer(Long timestamp, Long activity_timestamp, Float x, Float y, Float z) {
         this.timestamp = timestamp;
+        this.activity_timestamp = activity_timestamp;
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public long getTimestamp() {
-        return this.timestamp;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public float getX() {
-        return this.x;
+    public Long getActivity_timestamp() {
+        return activity_timestamp;
     }
 
-    public float getY() {
-        return this.y;
+    public Float getX() {
+        return x;
     }
 
-    public float getZ() {
-        return this.z;
+    public Float getY() {
+        return y;
+    }
+
+    public Float getZ() {
+        return z;
     }
 }

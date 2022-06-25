@@ -17,7 +17,8 @@ import de.rub.selab22a15.R;
         GPS.class,
         EventAppraisal.class,
         Emotion.class,
-        SocialContext.class}, version = 1, exportSchema = false)
+        SocialContext.class,
+        Activity.class}, version = 1, exportSchema = false)
 abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
     abstract MoodDao moodDao();
@@ -25,6 +26,7 @@ abstract class AppDatabase extends RoomDatabase {
     abstract EventAppraisalDao eventAppraisalDao();
     abstract EmotionDao emotionDao();
     abstract SocialContextDao socialContextDao();
+    abstract ActivityDao activityDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
