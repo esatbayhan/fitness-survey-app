@@ -48,10 +48,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:countDown="false"
             app:layout_constraintEnd_toEndOf="@+id/swGPSEnabled"
             app:layout_constraintStart_toStartOf="@+id/swGPSEnabled"
-            app:layout_constraintTop_toBottomOf="@+id/swGPSEnabled"
-            android:countDown="false"/>
+            app:layout_constraintTop_toBottomOf="@+id/swGPSEnabled" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartActivity"
@@ -68,10 +68,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:enabled="false"
             android:text="@string/btnPauseActivity"
             app:layout_constraintStart_toStartOf="@+id/swGPSEnabled"
-            app:layout_constraintTop_toBottomOf="@+id/cmtActivity"
-            android:enabled="false"/>
+            app:layout_constraintTop_toBottomOf="@+id/cmtActivity" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnResumeActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:enabled="false"
+            android:text="@string/btnResumeActivity"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/swGPSEnabled"
+            app:layout_constraintTop_toBottomOf="@+id/cmtActivity" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStopActivity"

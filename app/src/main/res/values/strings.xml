@@ -30,4 +30,5 @@
     <string name="btnStartActivity">Start</string>
     <string name="btnStopActivity">Stop</string>
     <string name="btnPauseActivity">Pause</string>
+    <string name="btnResumeActivity">Resume</string>
 </resources>
