@@ -11,13 +11,25 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvAccelerometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activity Fragment"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/tvAccelerometerText"
+            app:layout_constraintBottom_toTopOf="@+id/swAccelerometerActivated"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/swAccelerometerActivated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/swAccelerometerActivatedText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccelerometer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

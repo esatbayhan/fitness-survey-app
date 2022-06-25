@@ -20,13 +20,7 @@
             android:name=".GPSActivity"
             android:exported="false" />
         <activity
-            android:name=".ExportDatabaseActivity"
-            android:exported="false" />
-        <activity
             android:name=".SurveyTestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AccelerometerTestActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

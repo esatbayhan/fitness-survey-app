@@ -1,64 +1,100 @@
 package de.rub.selab22a15;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ActivityFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import de.rub.selab22a15.db.Accelerometer;
+import de.rub.selab22a15.db.AccelerometerRepository;
+
 public class ActivityFragment extends Fragment {
+    private float accelerometerX, accelerometerY, accelerometerZ;
+    private final float EPSILON = 0.1f;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView tvAccelerometer;
+    private Switch swAccelerometerActivated;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private AccelerometerRepository accelerometerRepository;
 
-    public ActivityFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ActivityFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ActivityFragment newInstance(String param1, String param2) {
-        ActivityFragment fragment = new ActivityFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private SensorManager sensorManager;
+    private Sensor sensorAccelerometer;
+    private SensorEventListener accelerometerEventListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_activity, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        FragmentActivity activity = getActivity();
+
+        tvAccelerometer = activity.findViewById(R.id.tvAccelerometer);
+        swAccelerometerActivated = activity.findViewById(R.id.swAccelerometerActivated);
+
+        accelerometerRepository = new AccelerometerRepository(activity.getApplication());
+
+        sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometerEventListener = new AccelerometerEventListener();
+
+        swAccelerometerActivated.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
+                        SensorManager.SENSOR_DELAY_NORMAL);
+            }
+            else {
+                sensorManager.unregisterListener(accelerometerEventListener);
+            }
+        });
+    }
+
+    class AccelerometerEventListener implements SensorEventListener {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            if (sensorEvent.sensor.getType() != Sensor.REPORTING_MODE_ON_CHANGE) {
+                return;
+            }
+
+            long timestamp = System.currentTimeMillis();
+            float x = sensorEvent.values[0];
+            float y = sensorEvent.values[1];
+            float z = sensorEvent.values[2];
+
+            if (Math.abs(accelerometerX - x) < EPSILON &&
+                    Math.abs(accelerometerY - y) < EPSILON &&
+                    Math.abs(accelerometerZ - z) < EPSILON) {
+                return;
+            }
+
+            accelerometerX = x;
+            accelerometerY = y;
+            accelerometerZ = z;
+
+            tvAccelerometer.setText(String.format("x: %f y %f: z: %f", x, y, z));
+            accelerometerRepository.insert(new Accelerometer(timestamp, x, y, z));
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
     }
 }
