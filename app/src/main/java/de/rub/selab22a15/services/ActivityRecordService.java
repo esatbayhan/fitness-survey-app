@@ -1,7 +1,7 @@
 package de.rub.selab22a15.services;
 
-import static de.rub.selab22a15.App.CHANNEL_ID_ACTIVITY_TRACKING;
-import static de.rub.selab22a15.App.CHANNEL_ID_NR_ACTIVITY_TRACKING;
+import static de.rub.selab22a15.App.CHANNEL_ID_ACTIVITY_RECORD;
+import static de.rub.selab22a15.App.CHANNEL_ID_NR_ACTIVITY_RECORD;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -12,8 +12,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -27,6 +27,7 @@ import de.rub.selab22a15.db.Activity;
 
 public class ActivityRecordService extends Service {
     private static final String LOG_ACTIVITY_SERVICE = "ACTIVITY_SERVICE";
+    private static Long timeElapsedRealtimeStarted;
     private static boolean isRunning;
     private static Activity activity;
     private static final float EPSILON = 0.1f;
@@ -51,6 +52,10 @@ public class ActivityRecordService extends Service {
         return activity;
     }
 
+    public static long getTimeElapsedRealtimeStarted() {
+        return timeElapsedRealtimeStarted;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -71,19 +76,20 @@ public class ActivityRecordService extends Service {
         }
 
         isRunning = true;
+        timeElapsedRealtimeStarted = SystemClock.elapsedRealtime();
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_ACTIVITY_TRACKING)
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_ACTIVITY_RECORD)
                 .setContentTitle(getString(R.string.channelActivityRecordTitle))
                 .setContentText(getString(R.string.channelActivityRecordText))
                 .setSmallIcon(R.drawable.ic_baseline_directions_run_24)
                 .setContentIntent(pendingIntent)
                 .build();
 
-        startForeground(CHANNEL_ID_NR_ACTIVITY_TRACKING, notification);
+        startForeground(CHANNEL_ID_NR_ACTIVITY_RECORD, notification);
         sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -95,6 +101,7 @@ public class ActivityRecordService extends Service {
         super.onDestroy();
         isRunning = false;
         activity = null;
+        timeElapsedRealtimeStarted = null;
         sensorManager.unregisterListener(accelerometerEventListener);
     }
 

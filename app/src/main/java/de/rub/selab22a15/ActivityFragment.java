@@ -1,21 +1,7 @@
 package de.rub.selab22a15;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-
-import android.os.Debug;
 import android.os.SystemClock;
 import android.text.InputType;
 import android.util.Log;
@@ -23,6 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -30,7 +23,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-import de.rub.selab22a15.db.Accelerometer;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
 import de.rub.selab22a15.db.ActivityRepository;
@@ -38,15 +30,12 @@ import de.rub.selab22a15.services.ActivityRecordService;
 
 public class ActivityFragment extends Fragment {
     private static final String LOG_ACTIVITY = "ACTIVITY";
-    private static long pauseOffset;
 
     private TextInputEditText oteActivity;
 
     private Chronometer cmtActivity;
 
     private MaterialButton btnStartActivity;
-    private MaterialButton btnPauseActivity;
-    private MaterialButton btnResumeActivity;
     private MaterialButton btnStopActivity;
 
     private Activity activity;
@@ -68,63 +57,59 @@ public class ActivityFragment extends Fragment {
         cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
 
         btnStartActivity = fragmentActivity.findViewById(R.id.btnStartActivity);
-        btnPauseActivity = fragmentActivity.findViewById(R.id.btnPauseActivity);
-        btnResumeActivity = fragmentActivity.findViewById(R.id.btnResumeActivity);
         btnStopActivity = fragmentActivity.findViewById(R.id.btnStopActivity);
 
-        btnStartActivity.setOnClickListener(view1 -> start());
-        btnPauseActivity.setOnClickListener(view1 -> pause());
-        btnResumeActivity.setOnClickListener(view1 -> resume());
-        btnStopActivity.setOnClickListener(view1 -> stop());
+        btnStartActivity.setOnClickListener(view1 -> startRecord());
+        btnStopActivity.setOnClickListener(view1 -> stopRecord());
 
         if (ActivityRecordService.isRunning()) {
             resumeIntent();
         }
-        else {
-            pauseOffset = 0;
-        }
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onResume() {
+        super.onResume();
 
         if (ActivityRecordService.isRunning()) {
-            pauseOffset = SystemClock.elapsedRealtime() - cmtActivity.getBase();
-        }
-        else {
-            pauseOffset = 0;
+            resumeIntent();
         }
     }
 
     private void resumeIntent() {
-        activity = ActivityRecordService.getActivity();
+        if (!ActivityRecordService.isRunning()) {
+            Log.w(LOG_ACTIVITY, "resumeIntent() got called while no service is running");
+            return;
+        }
 
-        resumeClock();
+        activity =  ActivityRecordService.getActivity();
+
+        cmtActivity.setBase(ActivityRecordService.getTimeElapsedRealtimeStarted());
+        cmtActivity.start();
 
         oteActivity.setText(activity.getActivity());
         oteActivity.setInputType(InputType.TYPE_NULL);
 
-        enableButton(btnPauseActivity);
-        disableButton(btnStartActivity);
-        disableButton(btnResumeActivity);
+        btnStartActivity.setClickable(false);
         btnStopActivity.setClickable(true);
     }
 
     /**
      * Starts the activity recording if an activity name is entered.
      */
-    private void start() {
+    private void startRecord() {
         String activityName = Objects.requireNonNull(oteActivity.getText()).toString();
-        if (activityName.isEmpty()) return;
+        if (activityName.isEmpty()) {
+            Toast.makeText(getContext(), getString(R.string.toastActivityFragmentStartError),Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
 
         activity = new Activity(System.currentTimeMillis(), activityName);
 
         oteActivity.setInputType(InputType.TYPE_NULL);
 
-        enableButton(btnStartActivity);
-        disableButton(btnPauseActivity);
-        disableButton(btnResumeActivity);
+        btnStartActivity.setClickable(false);
         btnStopActivity.setClickable(true);
 
         cmtActivity.setBase(SystemClock.elapsedRealtime());
@@ -133,44 +118,27 @@ public class ActivityFragment extends Fragment {
         startAccelerometerRecording();
     }
 
-    private void pause() {
-        pauseClock();
+    private void stopRecord() {
         stopAccelerometerRecording();
 
-        disableButton(btnPauseActivity);
-        enableButton(btnResumeActivity);
+        new MaterialAlertDialogBuilder(requireContext())
+                .setMessage(R.string.alertSaveActivityMessage)
+                .setNegativeButton(R.string.alertSaveActivityNegative, (dialogInterface, i) -> discard())
+                .setPositiveButton(R.string.alertSaveActivityPositive, (dialogInterface, i) -> save())
+                .show();
+
+        resetUI();
     }
 
-    private void resume() {
-        resumeClock();
-        startAccelerometerRecording();
-
-        disableButton(btnResumeActivity);
-        disableButton(btnStartActivity);
-        enableButton(btnPauseActivity);
-        btnStopActivity.setClickable(true);
-    }
-
-    private void stop() {
-        pauseClock();
-        stopAccelerometerRecording();
-        alertSave();
-        reset();
-    }
-
-    private void reset() {
+    private void resetUI() {
         oteActivity.setText("");
         oteActivity.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        enableButton(btnStartActivity);
-        disableButton(btnPauseActivity);
-        disableButton(btnResumeActivity);
+        btnStartActivity.setClickable(true);
         btnStopActivity.setClickable(false);
 
         cmtActivity.setBase(SystemClock.elapsedRealtime());
-
-        activity = null;
-        pauseOffset = 0;
+        cmtActivity.stop();
     }
 
     private void discard() {
@@ -181,6 +149,7 @@ public class ActivityFragment extends Fragment {
 
         new AccelerometerRepository(requireActivity().getApplication())
                 .delete(activity.getTimestamp());
+        activity = null;
     }
 
     private void save() {
@@ -190,44 +159,16 @@ public class ActivityFragment extends Fragment {
         }
 
         new ActivityRepository(requireActivity().getApplication()).insert(activity);
-    }
-
-    private void resumeClock() {
-        cmtActivity.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-        cmtActivity.start();
-    }
-
-    private void pauseClock() {
-        cmtActivity.stop();
-        pauseOffset = SystemClock.elapsedRealtime() - cmtActivity.getBase();
-    }
-
-    private void enableButton(MaterialButton button) {
-        button.setEnabled(true);
-        button.setVisibility(View.VISIBLE);
-    }
-
-    private void disableButton(MaterialButton button) {
-        button.setEnabled(false);
-        button.setVisibility(View.GONE);
+        activity = null;
     }
 
     private void startAccelerometerRecording() {
         ActivityRecordService.setActivity(activity);
         Intent activityRecordService = new Intent(getActivity(), ActivityRecordService.class);
-        activityRecordService.putExtra("activity_timestamp", activity.getTimestamp());
         ContextCompat.startForegroundService(requireActivity(), activityRecordService);
     }
 
     private void stopAccelerometerRecording() {
         requireActivity().stopService(new Intent(getActivity(), ActivityRecordService.class));
-    }
-
-    private void alertSave() {
-        new MaterialAlertDialogBuilder(requireContext())
-                .setMessage(R.string.alertSaveActivityMessage)
-                .setNegativeButton(R.string.alertSaveActivityNegative, (dialogInterface, i) -> discard())
-                .setPositiveButton(R.string.alertSaveActivityPositive, (dialogInterface, i) -> save())
-                .show();
     }
 }

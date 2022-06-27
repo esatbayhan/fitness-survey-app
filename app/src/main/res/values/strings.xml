@@ -37,4 +37,5 @@
     <string name="channelActivityRecordTitle">Activity Recording</string>
     <string name="channelActivityRecordText">Recording Activity</string>
     <string name="channelActivityRecordActionStopTitle">STOP</string>
+    <string name="toastActivityFragmentStartError">Enter Activity Name</string>
 </resources>

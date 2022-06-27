@@ -3,12 +3,12 @@ package de.rub.selab22a15;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.os.Build;
 
 
 public class App extends Application {
-    public static final String CHANNEL_ID = "activityTrackingServiceChannel";
-    public static final String CHANNEL_NAME = "Activity Tracking Service Channel";
+    public static final String CHANNEL_ID_ACTIVITY_RECORD = "activityTrackingServiceChannel";
+    public static final int CHANNEL_ID_NR_ACTIVITY_RECORD = 1;
+    public static final String CHANNEL_NAME_ACTIVITY_RECORD = "Activity Tracking Service Channel";
 
     @Override
     public void onCreate() {
@@ -19,8 +19,8 @@ public class App extends Application {
 
     private void createNotificationChannel() {
         NotificationChannel serviceChannel = new NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
+                CHANNEL_ID_ACTIVITY_RECORD,
+                CHANNEL_NAME_ACTIVITY_RECORD,
                 NotificationManager.IMPORTANCE_DEFAULT
         );
 
