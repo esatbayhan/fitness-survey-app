@@ -2,6 +2,7 @@ package de.rub.selab22a15;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -23,10 +25,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
 import de.rub.selab22a15.db.Accelerometer;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
 import de.rub.selab22a15.db.ActivityRepository;
+import de.rub.selab22a15.services.ActivityRecordService;
 
 public class ActivityFragment extends Fragment {
     private TextInputEditText oteActivity;
@@ -38,18 +43,8 @@ public class ActivityFragment extends Fragment {
     private MaterialButton btnResumeActivity;
     private MaterialButton btnStopActivity;
 
-
     private Activity activity;
-
-    private float accelerometerX, accelerometerY, accelerometerZ;
-    private final float EPSILON = 0.1f;
     private long pauseOffset;
-
-    private AccelerometerRepository accelerometerRepository;
-
-    private SensorManager sensorManager;
-    private Sensor sensorAccelerometer;
-    private SensorEventListener accelerometerEventListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,23 +56,18 @@ public class ActivityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FragmentActivity activity = getActivity();
-        oteActivity = activity.findViewById(R.id.oteActivity);
+        FragmentActivity fragmentActivity = requireActivity();
+        oteActivity = fragmentActivity.findViewById(R.id.oteActivity);
 
-        cmtActivity = activity.findViewById(R.id.cmtActivity);
+        cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
 
-        btnStartActivity = activity.findViewById(R.id.btnStartActivity);
-        btnPauseActivity = activity.findViewById(R.id.btnPauseActivity);
-        btnResumeActivity = activity.findViewById(R.id.btnResumeActivity);
-        btnStopActivity = activity.findViewById(R.id.btnStopActivity);
-
-        accelerometerRepository = new AccelerometerRepository(activity.getApplication());
-
-        sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        accelerometerEventListener = new AccelerometerEventListener();
+        btnStartActivity = fragmentActivity.findViewById(R.id.btnStartActivity);
+        btnPauseActivity = fragmentActivity.findViewById(R.id.btnPauseActivity);
+        btnResumeActivity = fragmentActivity.findViewById(R.id.btnResumeActivity);
+        btnStopActivity = fragmentActivity.findViewById(R.id.btnStopActivity);
 
         btnStartActivity.setOnClickListener(view1 -> {
+            // todo don't start activity recording when text edit is empty
             this.activity = new Activity(System.currentTimeMillis(), oteActivity.getText().toString());
 
             cmtActivity.setBase(SystemClock.elapsedRealtime());
@@ -138,30 +128,34 @@ public class ActivityFragment extends Fragment {
     }
 
     private void discard() {
-        accelerometerRepository.delete(activity.getTimestamp());
+        new AccelerometerRepository(requireActivity().getApplication())
+                .delete(activity.getTimestamp());
         reset();
     }
 
     private void save() {
         this.activity.setActivity(oteActivity.getText().toString());
 
-        new ActivityRepository(getActivity().getApplication())
+        new ActivityRepository(requireActivity().getApplication())
                 .insert(this.activity);
 
         reset();
     }
 
     private void startAccelerometerRecording() {
-        sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        Intent intent = new Intent(getActivity(), ActivityRecordService.class);
+        intent.putExtra("activity_timestamp", activity.getTimestamp());
+        ContextCompat.startForegroundService(requireActivity(), intent);
     }
 
     private void stopAccelerometerRecording() {
-        sensorManager.unregisterListener(accelerometerEventListener);
+        Intent intent = new Intent(getActivity(), ActivityRecordService.class);
+        requireActivity().stopService(intent);
+
     }
 
     private void alertSave() {
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireContext())
                 .setMessage(R.string.alertSaveActivityMessage)
                 .setNegativeButton(R.string.alertSaveActivityNegative, (dialogInterface, i) -> {
                     discard();
@@ -170,63 +164,5 @@ public class ActivityFragment extends Fragment {
                     save();
                 }))
                 .show();
-    }
-
-    //    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        FragmentActivity activity = getActivity();
-//
-//        tvAccelerometer = activity.findViewById(R.id.tvAccelerometer);
-//        swAccelerometerActivated = activity.findViewById(R.id.swAccelerometerActivated);
-//
-//        accelerometerRepository = new AccelerometerRepository(activity.getApplication());
-//
-//        sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-//        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-//        accelerometerEventListener = new AccelerometerEventListener();
-//
-//        swAccelerometerActivated.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-//            if (isChecked) {
-//                sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
-//                        SensorManager.SENSOR_DELAY_NORMAL);
-//            }
-//            else {
-//                sensorManager.unregisterListener(accelerometerEventListener);
-//            }
-//        });
-//    }
-//
-    class AccelerometerEventListener implements SensorEventListener {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            if (sensorEvent.sensor.getType() != Sensor.REPORTING_MODE_ON_CHANGE) {
-                return;
-            }
-
-            long timestamp = System.currentTimeMillis();
-            float x = sensorEvent.values[0];
-            float y = sensorEvent.values[1];
-            float z = sensorEvent.values[2];
-
-            if (Math.abs(accelerometerX - x) < EPSILON &&
-                    Math.abs(accelerometerY - y) < EPSILON &&
-                    Math.abs(accelerometerZ - z) < EPSILON) {
-                return;
-            }
-
-            accelerometerX = x;
-            accelerometerY = y;
-            accelerometerZ = z;
-
-            accelerometerRepository.insert(
-                    new Accelerometer(timestamp, activity.getTimestamp(), x, y, z));
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-
-        }
     }
 }
