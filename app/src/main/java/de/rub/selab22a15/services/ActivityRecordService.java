@@ -1,8 +1,8 @@
 package de.rub.selab22a15.services;
 
-import static de.rub.selab22a15.App.CHANNEL_ID;
+import static de.rub.selab22a15.App.CHANNEL_ID_ACTIVITY_TRACKING;
+import static de.rub.selab22a15.App.CHANNEL_ID_NR_ACTIVITY_TRACKING;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -12,19 +12,26 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import de.rub.selab22a15.ActivityFragment;
 import de.rub.selab22a15.MainActivity;
 import de.rub.selab22a15.R;
 import de.rub.selab22a15.db.Accelerometer;
 import de.rub.selab22a15.db.AccelerometerRepository;
+import de.rub.selab22a15.db.Activity;
 
 public class ActivityRecordService extends Service {
+    private static final String LOG_ACTIVITY_SERVICE = "ACTIVITY_SERVICE";
+    private static boolean isRunning;
+    private static Activity activity;
+    private static final float EPSILON = 0.1f;
 
+    private float accelerometerX, accelerometerY, accelerometerZ;
 
     private AccelerometerRepository accelerometerRepository;
 
@@ -32,10 +39,17 @@ public class ActivityRecordService extends Service {
     private Sensor sensorAccelerometer;
     private SensorEventListener accelerometerEventListener;
 
-    private float accelerometerX, accelerometerY, accelerometerZ;
-    private final float EPSILON = 0.1f;
+    public static boolean isRunning() {
+        return isRunning;
+    }
 
-    private long activity_timestamp;
+    public static void setActivity(Activity activity) {
+        ActivityRecordService.activity = activity;
+    }
+
+    public static Activity getActivity() {
+        return activity;
+    }
 
     @Override
     public void onCreate() {
@@ -50,23 +64,28 @@ public class ActivityRecordService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        activity_timestamp = intent.getLongExtra("activity_timestamp", 0);
+        if (activity == null) {
+            Log.w(LOG_ACTIVITY_SERVICE,
+                    "ActivityRecordService.activity is null and has to be set before.");
+            stopSelf();
+        }
+
+        isRunning = true;
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Activity Record Service")
-                .setContentText("Hello World")
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_ACTIVITY_TRACKING)
+                .setContentTitle(getString(R.string.channelActivityRecordTitle))
+                .setContentText(getString(R.string.channelActivityRecordText))
                 .setSmallIcon(R.drawable.ic_baseline_directions_run_24)
                 .setContentIntent(pendingIntent)
                 .build();
 
-        startForeground(1, notification);
+        startForeground(CHANNEL_ID_NR_ACTIVITY_TRACKING, notification);
         sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
-
 
         return START_STICKY;
     }
@@ -74,6 +93,8 @@ public class ActivityRecordService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        isRunning = false;
+        activity = null;
         sensorManager.unregisterListener(accelerometerEventListener);
     }
 
@@ -106,7 +127,7 @@ public class ActivityRecordService extends Service {
             accelerometerZ = z;
 
             accelerometerRepository.insert(
-                    new Accelerometer(timestamp, activity_timestamp, x, y, z));
+                    new Accelerometer(timestamp, activity.getTimestamp(), x, y, z));
         }
 
         @Override

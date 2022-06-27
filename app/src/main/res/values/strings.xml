@@ -34,4 +34,7 @@
     <string name="alertSaveActivityMessage">Do you want to save your recorded activity?</string>
     <string name="alertSaveActivityNegative">DISCARD</string>
     <string name="alertSaveActivityPositive">SAVE</string>
+    <string name="channelActivityRecordTitle">Activity Recording</string>
+    <string name="channelActivityRecordText">Recording Activity</string>
+    <string name="channelActivityRecordActionStopTitle">STOP</string>
 </resources>
