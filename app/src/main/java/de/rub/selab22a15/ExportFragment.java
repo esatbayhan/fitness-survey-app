@@ -4,36 +4,56 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-public class ExportDatabaseActivity extends AppCompatActivity {
-
-    private Button btnExport;
+public class ExportFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_export, container, false);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_export_database);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        btnExport = findViewById(R.id.btnExport);
-        btnExport.setOnClickListener(new btnExportOnClick());
+        Button btnExportDatabase = getView().findViewById(R.id.btnExportDatabase);
+        btnExportDatabase.setOnClickListener(view1 -> {
+            File booger = copyFileToFilesDir(getString(R.string.appDatabaseName));
+
+            if (booger == null) {
+                Toast.makeText(getActivity().getApplicationContext(), R.string.msgExportError, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+            Uri contentUri = FileProvider.getUriForFile(getActivity().getApplicationContext(),
+                    "com.android.example.provider",
+                    booger);
+            sendEmail(contentUri);
+        });
     }
 
     private File copyFileToFilesDir(String fileName) {
         File file;
-        String newPath = getFileStreamPath("").toString();
+        String newPath = getActivity().getFileStreamPath("").toString();
         Log.d("LOG PRINT SHARE DB", "newPath found, Here is string: " + newPath);
-        String oldPath = getDatabasePath(fileName).toString();
+        String oldPath = getActivity().getDatabasePath(fileName).toString();
         Log.d("LOG PRINT SHARE DB", "oldPath found, Her is string: " + oldPath);
         try {
             File f = new File(newPath);
@@ -75,20 +95,19 @@ public class ExportDatabaseActivity extends AppCompatActivity {
             File booger = copyFileToFilesDir(getString(R.string.appDatabaseName));
 
             if (booger == null) {
-                Toast.makeText(getApplicationContext(), R.string.msgExportError, Toast.LENGTH_LONG)
+                Toast.makeText(getActivity().getApplicationContext(), R.string.msgExportError, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
 
-            Uri contentUri = FileProvider.getUriForFile(getApplicationContext(),
+            Uri contentUri = FileProvider.getUriForFile(getActivity().getApplicationContext(),
                     "com.android.example.provider",
                     booger);
             sendEmail(contentUri);
         }
     }
 
-    private class DBFileProvider extends FileProvider {
-
+    private static class DBFileProvider extends FileProvider {
         Uri getDatabaseURI(Context context, String dbName) {
             File file = context.getDatabasePath(dbName);
             return getFileUri(context, file);

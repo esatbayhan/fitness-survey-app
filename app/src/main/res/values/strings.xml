@@ -18,4 +18,24 @@
     <string name="msgExportError">Something went wrong</string>
     <string name="appDatabaseName">app_database.db</string>
     <string name="researcherEmail">esat.bayhan@rub.de</string>
+    <string name="btmNavSettingsLabel">Settings</string>
+    <string name="btmNavActivityLabel">Activity</string>
+    <string name="btmNavExportLabel">Export</string>
+    <string name="btmNavHomeLabel">Home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btnExportDatabaseText">Export Database</string>
+    <string name="tilActivityHint">Activity</string>
+    <string name="swGPSEnabledText">Enable GPS?</string>
+    <string name="btnStartActivity">Start</string>
+    <string name="btnStopActivity">Stop</string>
+    <string name="btnPauseActivity">Pause</string>
+    <string name="btnResumeActivity">Resume</string>
+    <string name="alertSaveActivityMessage">Do you want to save your recorded activity?</string>
+    <string name="alertSaveActivityNegative">DISCARD</string>
+    <string name="alertSaveActivityPositive">SAVE</string>
+    <string name="channelActivityRecordTitle">Activity Recording</string>
+    <string name="channelActivityRecordText">Recording Activity</string>
+    <string name="channelActivityRecordActionStopTitle">STOP</string>
+    <string name="toastActivityFragmentStartError">Enter Activity Name</string>
 </resources>
