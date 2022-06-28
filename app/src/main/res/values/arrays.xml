@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="preferenceScreenLanguageEntries">
+        <item>German</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="preferenceScreenLanguageValues">
+        <item>german</item>
+        <item>english</item>
+    </string-array>
+
+    <string-array name="preferenceScreenBatteryEntries">
+        <item>Low Battery Drain &amp; Low Accuracy</item>
+        <item>Medium Battery Drain &amp; Medium Accuracy</item>
+        <item>High Battery Drain &amp; High Accuracy</item>
+    </string-array>
+
+    <string-array name="preferenceScreenBatteryValues">
+        <item>low</item>
+        <item>medium</item>
+        <item>high</item>
+    </string-array>
+
+    <string-array name="preferenceScreenSurveyEntries">
+        <item>3 Hours</item>
+        <item>6 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+    </string-array>
+
+    <string-array name="preferenceScreenSurveyValues">
+        <item>3</item>
+        <item>6</item>
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+
+</resources>

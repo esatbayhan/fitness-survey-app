@@ -38,4 +38,18 @@
     <string name="channelActivityRecordText">Recording Activity</string>
     <string name="channelActivityRecordActionStopTitle">STOP</string>
     <string name="toastActivityFragmentStartError">Enter Activity Name</string>
+    <string name="preferenceScreenLanguageTitle">Language</string>
+    <string name="preferenceScreenLanguageSummary">Select your preferred language.</string>
+    <string name="preferencesScreenBatteryTitle">Battery Consumption &amp; Accuracy</string>
+    <string name="preferenceScreenBatterySummary">Select your preferred battery consumption option.</string>
+    <string name="preferenceScreenSurveyTitle">Survey Interval</string>
+    <string name="preferenceScreenSurveySummary">How often do you want to get notified for new surveys</string>
+    <string name="preferenceScreenUploadTitle">Upload Database</string>
+    <string name="preferenceScreenUploadSummary">Upload research data to researcher</string>
+    <string name="preferenceScreenUpload">preferenceUpload</string>
+    <string name="preferenceScreenSurvey">preferenceSurvey</string>
+    <string name="preferenceScreenBattery">preferenceBattery</string>
+    <string name="preferenceScreenLanguage">preferenceLanguage</string>
+    <string name="toastPreferenceUploadSuccess">Uploaded database successfully</string>
+    <string name="toastPreferenceUploadFailure">Upload failed try later again</string>
 </resources>
