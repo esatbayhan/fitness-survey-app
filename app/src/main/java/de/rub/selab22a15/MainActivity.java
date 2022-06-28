@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btmNavActivity:
                     switchFragment(new ActivityFragment());
                     break;
-                case R.id.btmNavExport:
-                    switchFragment(new ExportFragment());
-                    break;
                 case R.id.btmNavSettings:
                     switchFragment(new SettingsFragment());
                     break;

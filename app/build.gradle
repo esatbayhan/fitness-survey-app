@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -62,3 +63,15 @@ dependencies {
     implementation "com.google.android.material:material:1.6.1"
 }
 
+dependencies {
+
+
+    implementation 'com.google.firebase:firebase-auth:21.0.6'
+    implementation 'com.google.firebase:firebase-storage:20.0.1'
+    def preference_version = "1.2.0"
+
+    // Java language implementation
+    implementation "androidx.preference:preference:$preference_version"
+    // Kotlin
+    implementation "androidx.preference:preference-ktx:$preference_version"
+}

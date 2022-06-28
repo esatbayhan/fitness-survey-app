@@ -19,7 +19,7 @@ import de.rub.selab22a15.R;
         Emotion.class,
         SocialContext.class,
         Activity.class}, version = 1, exportSchema = false)
-abstract class AppDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
     abstract MoodDao moodDao();
     abstract GPSDao gpsDao();
@@ -45,5 +45,17 @@ abstract class AppDatabase extends RoomDatabase {
         }
 
         return INSTANCE;
+    }
+
+    public static void destroyInstance() {
+        if (INSTANCE == null) {
+            return;
+        }
+
+        if (INSTANCE.isOpen()) {
+            INSTANCE.close();
+        }
+
+        INSTANCE = null;
     }
 }
