@@ -12,12 +12,6 @@
         android:title="@string/btmNavActivityLabel"/>
 
     <item
-        android:id="@+id/btmNavExport"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_send_24"
-        android:title="@string/btmNavExportLabel"/>
-
-    <item
         android:id="@+id/btmNavSettings"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
