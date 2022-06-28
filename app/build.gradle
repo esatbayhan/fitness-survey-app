@@ -65,6 +65,8 @@ dependencies {
 
 dependencies {
 
+
+    implementation 'com.google.firebase:firebase-auth:21.0.6'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     def preference_version = "1.2.0"
 
