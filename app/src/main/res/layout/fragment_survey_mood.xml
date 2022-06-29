@@ -32,7 +32,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,39 +57,31 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBar1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="27dp"
+                    android:id="@+id/seekBarSurveyMood1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:max="100"
                     android:progress="0"
-                    android:progressTint="#804747"
-                    android:scaleX="1"
-                    android:scaleY="2"
-                    android:thumb="@color/white"
-                    android:thumbTint="#C63C6B" />
+                    android:thumb="@android:color/transparent"
+                    android:splitTrack="true" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/textViewSurveyMood1Result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#151722"
-                    tools:text="TextView" />
+                    tools:text="textViewSurveyMood1Result" />
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="64dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" />
 
             <!--Calm - Restless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -112,39 +105,33 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBar2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="35dp"
+                    android:id="@+id/seekBarSurveyMood2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:max="100"
                     android:progress="0"
-                    android:scaleX="1"
-                    android:scaleY="2"
-                    android:thumb="@color/white" />
+                    android:thumb="@android:color/transparent"
+                    android:splitTrack="true" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/textViewSurveyMood2Result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#0F1012"
-                    tools:text="TextView" />
+                    tools:text="textViewSurveyMood2Result" />
 
 
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="64dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" />
 
             <!-- Well - Unwell -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -168,39 +155,33 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBar3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="37dp"
+                    android:id="@+id/seekBarSurveyMood3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:max="100"
                     android:progress="0"
-                    android:scaleX="1"
-                    android:scaleY="2"
-                    android:thumb="@color/white" />
+                    android:thumb="@android:color/transparent"
+                    android:splitTrack="true" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/textViewSurveyMood3Result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#040405"
-                    tools:text="TextView" />
+                    tools:text="textViewSurveyMood3Result" />
 
 
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="64dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" />
 
             <!--Relaxed - Tense-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -224,37 +205,31 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBar4"
+                    android:id="@+id/seekBarSurveyMood4"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:max="100"
                     android:progress="0"
-                    android:scaleX="1"
-                    android:scaleY="2"
-                    android:thumb="@color/white" />
+                    android:thumb="@android:color/transparent"
+                    android:splitTrack="true" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/textViewSurveyMood4Result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#101013"
-                    tools:text="TextView" />
+                    tools:text="textViewSurveyMood4Result" />
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="64dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" />
 
             <!--Energetic - Powerless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -278,37 +253,31 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBar5"
+                    android:id="@+id/seekBarSurveyMood5"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:max="100"
                     android:progress="0"
-                    android:scaleX="1"
-                    android:scaleY="2"
-                    android:thumb="@color/white" />
+                    android:thumb="@android:color/transparent"
+                    android:splitTrack="true" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/textViewSurveyMood5Result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#131417"
-                    tools:text="TextView" />
+                    tools:text="textViewSurveyMood5Result" />
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="64dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" />
 
             <!-- Awake - Powerless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -317,8 +286,8 @@
 
                     <TextView
                         android:id="@+id/textViewSurveyMood6Positive"
-                        android:layout_width="319dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/textViewSurveyMood6PositiveText" />
 
@@ -332,28 +301,26 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/seekBar"
+                    android:id="@+id/seekBarSurveyMood6"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:max="100"
                     android:progress="0"
-                    android:scaleX="1"
-                    android:scaleY="2"
-                    android:thumb="@color/white" />
+                    android:thumb="@android:color/transparent"
+                    android:splitTrack="true" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/textViewSurveyMood6Result"
                     android:layout_width="wrap_content"
-                    android:layout_height="49dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#131417"
-                    tools:text="TextView" />
+                    tools:text="textViewSurveyMood6Result" />
 
             </LinearLayout>
 
-
         </LinearLayout>
-
     </ScrollView>
 </FrameLayout>
