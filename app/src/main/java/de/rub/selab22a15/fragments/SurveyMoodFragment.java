@@ -1,62 +1,58 @@
 package de.rub.selab22a15.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import com.google.android.material.slider.LabelFormatter;
+import com.google.android.material.slider.Slider;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.rub.selab22a15.R;
 
 public class SurveyMoodFragment extends Fragment {
-    private static final int TRANSPARENT = 0;
-    private static final int OPAQUE = 255;
-    private static final int NEGATIVE_THRESHOLD = 40;
-    private static final int POSITIVE_THRESHOLD = 60;
+    private static final int THUMB_RADIUS_OPAQUE = 20;
+    private static final float NEGATIVE_THRESHOLD = 0.4f;
+    private static final float POSITIVE_THRESHOLD = 0.6f;
 
-    private SeekBar seekBarSurveyMoodSatisfied;
-    private SeekBar seekBarSurveyMoodCalm;
-    private SeekBar seekBarSurveyMoodWell;
-    private SeekBar seekBarSurveyMoodEnergetic;
-    private SeekBar seekBarSurveyMoodRelaxed;
-    private SeekBar seekBarSurveyMoodAwake;
+    private Slider sliderSurveyMoodSatisfied;
+    private Slider sliderSurveyMoodCalm;
+    private Slider sliderSurveyMoodWell;
+    private Slider sliderSurveyMoodEnergetic;
+    private Slider sliderSurveyMoodRelaxed;
+    private Slider sliderSurveyMoodAwake;
 
     public Integer getSatisfied() {
-        return getProgress(seekBarSurveyMoodSatisfied);
+        return getProgress(sliderSurveyMoodSatisfied);
     }
 
     public Integer getCalm() {
-        return getProgress(seekBarSurveyMoodCalm);
+        return getProgress(sliderSurveyMoodCalm);
     }
 
     public Integer getWell() {
-        return getProgress(seekBarSurveyMoodWell);
+        return getProgress(sliderSurveyMoodWell);
     }
 
     public Integer getEnergetic() {
-        return getProgress(seekBarSurveyMoodEnergetic);
+        return getProgress(sliderSurveyMoodEnergetic);
     }
 
     public Integer getRelaxed() {
-        return getProgress(seekBarSurveyMoodRelaxed);
+        return getProgress(sliderSurveyMoodRelaxed);
     }
 
     public Integer getAwake() {
-        return getProgress(seekBarSurveyMoodAwake);
+        return getProgress(sliderSurveyMoodAwake);
     }
 
     @Override
@@ -71,109 +67,96 @@ public class SurveyMoodFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FragmentActivity activity = requireActivity();
-        seekBarSurveyMoodSatisfied = activity.findViewById(R.id.seekBarSurveyMoodSatisfied);
-        seekBarSurveyMoodCalm = activity.findViewById(R.id.seekBarSurveyMoodCalm);
-        seekBarSurveyMoodWell = activity.findViewById(R.id.seekBarSurveyMoodWell);
-        seekBarSurveyMoodEnergetic = activity.findViewById(R.id.seekBarSurveyMoodEnergetic);
-        seekBarSurveyMoodRelaxed = activity.findViewById(R.id.seekBarSurveyMoodRelaxed);
-        seekBarSurveyMoodAwake = activity.findViewById(R.id.seekBarSurveyMoodAwake);
+        sliderSurveyMoodSatisfied = activity.findViewById(R.id.sliderSurveyMoodSatisfied);
+        sliderSurveyMoodCalm = activity.findViewById(R.id.sliderSurveyMoodCalm);
+        sliderSurveyMoodWell = activity.findViewById(R.id.sliderSurveyMoodWell);
+        sliderSurveyMoodEnergetic = activity.findViewById(R.id.sliderSurveyMoodEnergetic);
+        sliderSurveyMoodRelaxed = activity.findViewById(R.id.sliderSurveyMoodRelaxed);
+        sliderSurveyMoodAwake = activity.findViewById(R.id.sliderSurveyMoodAwake);
 
-        List<SeekBar> seekBars = Arrays.asList(
-                seekBarSurveyMoodSatisfied,
-                seekBarSurveyMoodCalm,
-                seekBarSurveyMoodWell,
-                seekBarSurveyMoodEnergetic,
-                seekBarSurveyMoodRelaxed,
-                seekBarSurveyMoodAwake);
+        List<Slider> sliders = Arrays.asList(
+                sliderSurveyMoodSatisfied,
+                sliderSurveyMoodCalm,
+                sliderSurveyMoodWell,
+                sliderSurveyMoodEnergetic,
+                sliderSurveyMoodRelaxed,
+                sliderSurveyMoodAwake
+        );
 
-        for (SeekBar seekBar : seekBars) {
-            seekBar.getThumb().setAlpha(TRANSPARENT);
+        for (Slider slider : sliders) {
+            slider.addOnChangeListener(new customSliderOnChangeListener());
+            slider.setTrackActiveTintList(
+                    slider.getTrackInactiveTintList()
+            );
         }
 
-        seekBarSurveyMoodSatisfied.setOnSeekBarChangeListener(new customOnSeekBarChangeListener(
-                R.id.textViewSurveyMoodSatisfiedResult,
+        sliderSurveyMoodSatisfied.setLabelFormatter(new customLabelFormatter(
                 R.string.textViewSurveyMoodSatisfiedNegativeText,
                 R.string.textViewSurveyMoodSatisfiedPositiveText
         ));
-        seekBarSurveyMoodCalm.setOnSeekBarChangeListener(new customOnSeekBarChangeListener(
-                R.id.textViewSurveyMoodCalmResult,
+        sliderSurveyMoodCalm.setLabelFormatter(new customLabelFormatter(
                 R.string.textViewSurveyMoodCalmNegativeText,
                 R.string.textViewSurveyMoodCalmPositiveText
         ));
-        seekBarSurveyMoodWell.setOnSeekBarChangeListener(new customOnSeekBarChangeListener(
-                R.id.textViewSurveyMoodWellResult,
+        sliderSurveyMoodWell.setLabelFormatter(new customLabelFormatter(
                 R.string.textViewSurveyMoodWellNegativeText,
                 R.string.textViewSurveyMoodWellPositiveText
         ));
-        seekBarSurveyMoodEnergetic.setOnSeekBarChangeListener(new customOnSeekBarChangeListener(
-                R.id.textViewSurveyMoodEnergeticResult,
+        sliderSurveyMoodEnergetic.setLabelFormatter(new customLabelFormatter(
                 R.string.textViewSurveyMoodEnergeticNegativeText,
                 R.string.textViewSurveyMoodEnergeticPositiveText
         ));
-        seekBarSurveyMoodRelaxed.setOnSeekBarChangeListener(new customOnSeekBarChangeListener(
-                R.id.textViewSurveyMoodRelaxedResult,
+        sliderSurveyMoodRelaxed.setLabelFormatter(new customLabelFormatter(
                 R.string.textViewSurveyMoodRelaxedNegativeText,
                 R.string.textViewSurveyMoodRelaxedPositiveText
         ));
-        seekBarSurveyMoodAwake.setOnSeekBarChangeListener(new customOnSeekBarChangeListener(
-                R.id.textViewSurveyMoodAwakeResult,
+        sliderSurveyMoodAwake.setLabelFormatter(new customLabelFormatter(
                 R.string.textViewSurveyMoodAwakeNegativeText,
                 R.string.textViewSurveyMoodAwakePositiveText
         ));
     }
 
-    private Integer getProgress(SeekBar seekBar) {
-        if (seekBar.getThumb().getAlpha() != OPAQUE) {
+    private Integer getProgress(Slider slider) {
+        if (slider.getThumbRadius() != THUMB_RADIUS_OPAQUE) {
             return null;
         }
 
-        return seekBar.getProgress();
+        return (int) (slider.getValue() * 100);
     }
 
-    private class customOnSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
-        @StringRes private final int negativeTextId;
-        @StringRes private final int positiveTextId;
-        private final TextView textViewResult;
-
-        public customOnSeekBarChangeListener(@IdRes int textViewResultId, @StringRes int negativeTextId, @StringRes int positiveTextId) {
-            this.textViewResult = requireActivity().findViewById(textViewResultId);
-            this.negativeTextId = negativeTextId;
-            this.positiveTextId = positiveTextId;
-        }
-
-        /* I think it is better to not show the progress, because i believe it would bias the user
-        private void setText(String text, int progress) {
-            textViewResult.setText(String.format("%s %d%%", text, progress));
-        }*/
-
-        private void setText(int id) {
-            textViewResult.setText(id);
-        }
+    private class customSliderOnChangeListener implements Slider.OnChangeListener {
+        private boolean isFirstUsage = true;
 
         @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            seekBar.getThumb().setAlpha(255);
-            seekBar.setProgress(progress);
-
-            if (progress < NEGATIVE_THRESHOLD) {
-                setText(negativeTextId);
-            }
-            else if (progress > POSITIVE_THRESHOLD) {
-                setText(positiveTextId);
-            }
-            else {
-                setText(R.string.stringSurveyMoodResultNeutral);
+        public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+            if (isFirstUsage) {
+                isFirstUsage = false;
+                slider.setThumbRadius(THUMB_RADIUS_OPAQUE);
             }
         }
+    }
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
+    private class customLabelFormatter implements LabelFormatter {
+        private final String negativeText;
+        private final String positiveText;
+        private final String neutralText;
 
+        public customLabelFormatter(@StringRes int negativeTextId, @StringRes int positiveTextId) {
+            negativeText = getString(negativeTextId);
+            positiveText = getString(positiveTextId);
+            neutralText = getString(R.string.stringSurveyMoodResultNeutral);
         }
 
+        @NonNull
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
+        public String getFormattedValue(float value) {
+            if (value < NEGATIVE_THRESHOLD) {
+                return negativeText;
+            } else if (value > POSITIVE_THRESHOLD) {
+                return positiveText;
+            }
 
+            return neutralText;
         }
     }
 }

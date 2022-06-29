@@ -23,17 +23,17 @@
                 android:id="@+id/textViewSurveyMoodTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:paddingBottom="32dp"
                 android:text="@string/textViewSurveyMoodTitleText"
-                android:gravity="center"
                 android:textSize="24sp" />
 
             <!--Satisfied - Dissatisfied-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,30 +56,20 @@
                         android:text="@string/textViewSurveyMoodSatisfiedPositiveText" />
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarSurveyMoodSatisfied"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSurveyMoodSatisfied"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/textViewSurveyMoodSatisfiedResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="textViewSurveyMoodSatisfiedResult" />
+                    app:thumbRadius="0dp"
+                    app:trackColorActive="?attr/colorPrimary" />
             </LinearLayout>
 
             <!--Calm - Restless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,32 +93,19 @@
 
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarSurveyMoodCalm"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSurveyMoodCalm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/textViewSurveyMoodCalmResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="textViewSurveyMoodCalmResult" />
-
-
+                    app:thumbRadius="0dp" />
             </LinearLayout>
 
             <!-- Well - Unwell -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -151,32 +128,19 @@
                         android:text="@string/textViewSurveyMoodWellPositiveText" />
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarSurveyMoodWell"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSurveyMoodWell"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/textViewSurveyMoodWellResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="textViewSurveyMoodWellResult" />
-
-
+                    app:thumbRadius="0dp" />
             </LinearLayout>
 
             <!--Relaxed - Tense-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -199,30 +163,19 @@
                         android:text="@string/textViewSurveyMoodRelaxedPositiveText" />
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarSurveyMoodRelaxed"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSurveyMoodRelaxed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/textViewSurveyMoodRelaxedResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="textViewSurveyMoodRelaxedResult" />
+                    app:thumbRadius="0dp" />
             </LinearLayout>
 
             <!--Energetic - Powerless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -245,30 +198,19 @@
                         android:text="@string/textViewSurveyMoodEnergeticPositiveText" />
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarSurveyMoodEnergetic"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSurveyMoodEnergetic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/textViewSurveyMoodEnergeticResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="textViewSurveyMoodEnergeticResult" />
+                    app:thumbRadius="0dp" />
             </LinearLayout>
 
             <!--Awake - Powerless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -291,22 +233,11 @@
                         android:text="@string/textViewSurveyMoodAwakePositiveText" />
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarSurveyMoodAwake"
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSurveyMoodAwake"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/textViewSurveyMoodAwakeResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="textViewSurveyMoodAwakeResult" />
+                    app:thumbRadius="0dp" />
 
             </LinearLayout>
 
