@@ -52,4 +52,17 @@
     <string name="preferenceScreenLanguage">preferenceLanguage</string>
     <string name="toastPreferenceUploadSuccess">Uploaded database successfully</string>
     <string name="toastPreferenceUploadFailure">Upload failed try later again</string>
+    <string name="textViewSurveyMoodTitleText">in the last 24 hours i felt...</string>
+    <string name="textViewSurveyMood1PositiveText">satisfied</string>
+    <string name="textViewSurveyMood1NegativeText">dissatisfied</string>
+    <string name="textViewSurveyMood2PositiveText">calm</string>
+    <string name="textViewSurveyMood2NegativeText">restless</string>
+    <string name="textViewSurveyMood3PositiveText">well</string>
+    <string name="textViewSurveyMood3NegativeText">unwell</string>
+    <string name="textViewSurveyMood4PositiveText">relaxed</string>
+    <string name="textViewSurveyMood4NegativeText">tense</string>
+    <string name="textViewSurveyMood5NegativeText">powerless</string>
+    <string name="textViewSurveyMood5PositiveText">energetic</string>
+    <string name="textViewSurveyMood6PositiveText">awake</string>
+    <string name="textViewSurveyMood6NegativeText">tired</string>
 </resources>

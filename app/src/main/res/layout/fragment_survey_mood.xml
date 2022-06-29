@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SurveyMoodFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleX="1"
@@ -17,18 +16,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="24dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewSurveyMoodTitle"
                 android:layout_width="match_parent"
-                android:layout_height="105dp"
-                android:fontFamily="serif"
-                android:text="in the last 24 hours i felt..."
-                android:textAlignment="center"
-                android:textColor="#546E7A"
+                android:layout_height="wrap_content"
+                android:paddingBottom="32dp"
+                android:text="@string/textViewSurveyMoodTitleText"
+                android:gravity="center"
                 android:textSize="24sp" />
 
+            <!--Satisfied - Dissatisfied-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,24 +40,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="325dp"
-                        android:layout_height="49dp"
+                        android:id="@+id/textViewSurveyMood1Positive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="satisfied"
-                        android:textColor="#121010"
-                        android:textStyle="bold" />
+                        android:text="@string/textViewSurveyMood1PositiveText" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/textViewSurveyMood1Negative"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="dissatisfied"
-                        android:textColor="#13100F"
-                        android:textStyle="bold" />
+                        android:gravity="end"
+                        android:text="@string/textViewSurveyMood1NegativeText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -80,15 +75,20 @@
                     android:layout_gravity="center"
                     android:textColor="#151722"
                     tools:text="TextView" />
-
-
             </LinearLayout>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="64dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp" />
+
+            <!--Calm - Restless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,24 +96,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="283dp"
-                        android:layout_height="66dp"
+                        android:id="@+id/textViewSurveyMood2Positive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="calm"
-                        android:textColor="#100D0C"
-                        android:textStyle="bold" />
+                        android:text="@string/textViewSurveyMood2PositiveText" />
 
                     <TextView
-                        android:id="@+id/textView7"
+                        android:id="@+id/textViewSurveyMood2Negative"
                         android:layout_width="wrap_content"
-                        android:layout_height="54dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="restless"
-                        android:textColor="#120D0D"
-                        android:textStyle="bold" />
+                        android:gravity="end"
+                        android:text="@string/textViewSurveyMood2NegativeText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -138,6 +133,14 @@
 
             </LinearLayout>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="64dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Well - Unwell -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -149,24 +152,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="330dp"
-                        android:layout_height="52dp"
+                        android:id="@+id/textViewSurveyMood3Positive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="well"
-                        android:textColor="#1E1515"
-                        android:textStyle="bold" />
+                        android:text="@string/textViewSurveyMood3PositiveText" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textViewSurveyMood3Negative"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="unwell"
-                        android:textColor="#0B0707"
-                        android:textStyle="bold" />
+                        android:gravity="end"
+                        android:text="@string/textViewSurveyMood3NegativeText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -191,6 +189,14 @@
 
             </LinearLayout>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="64dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp" />
+
+            <!--Relaxed - Tense-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -202,24 +208,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="322dp"
-                        android:layout_height="42dp"
+                        android:id="@+id/textViewSurveyMood4Positive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="relaxed"
-                        android:textColor="#131010"
-                        android:textStyle="bold" />
+                        android:text="@string/textViewSurveyMood4PositiveText" />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/textViewSurveyMood4Negative"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="tense"
-                        android:textColor="#191616"
-                        android:textStyle="bold" />
+                        android:gravity="end"
+                        android:text="@string/textViewSurveyMood4NegativeText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -242,6 +243,14 @@
                     tools:text="TextView" />
             </LinearLayout>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="64dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp" />
+
+            <!--Energetic - Powerless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -253,24 +262,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="313dp"
-                        android:layout_height="51dp"
+                        android:id="@+id/textViewSurveyMood5Positive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="energetic"
-                        android:textColor="#131010"
-                        android:textStyle="bold" />
+                        android:text="@string/textViewSurveyMood5PositiveText" />
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/textViewSurveyMood5Negative"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="powerless"
-                        android:textColor="#0C0B0B"
-                        android:textStyle="bold" />
+                        android:gravity="end"
+                        android:text="@string/textViewSurveyMood5NegativeText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -293,6 +297,14 @@
                     tools:text="TextView" />
             </LinearLayout>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="64dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Awake - Powerless-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -304,23 +316,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/textViewSurveyMood6Positive"
                         android:layout_width="319dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="awake"
-                        android:textColor="#191717" />
+                        android:text="@string/textViewSurveyMood6PositiveText" />
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/textViewSurveyMood6Negative"
                         android:layout_width="wrap_content"
-                        android:layout_height="55dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-smallcaps"
-                        android:text="tired"
-                        android:textColor="#090909"
-                        android:textStyle="bold" />
+                        android:gravity="end"
+                        android:text="@string/textViewSurveyMood6NegativeText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -343,11 +351,9 @@
                     tools:text="TextView" />
 
             </LinearLayout>
-            <include layout="@layout/stepper_survey" />
+
 
         </LinearLayout>
 
     </ScrollView>
-
-
 </FrameLayout>
