@@ -64,9 +64,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:max="100"
-                    android:progress="0"
-                    android:thumb="@android:color/transparent"
-                    android:splitTrack="true" />
+                    android:progress="0" />
 
                 <TextView
                     android:id="@+id/textViewSurveyMoodSatisfiedResult"
@@ -113,9 +111,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:max="100"
-                    android:progress="0"
-                    android:thumb="@android:color/transparent"
-                    android:splitTrack="true" />
+                    android:progress="0" />
 
                 <TextView
                     android:id="@+id/textViewSurveyMoodCalmResult"
@@ -163,9 +159,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:max="100"
-                    android:progress="0"
-                    android:thumb="@android:color/transparent"
-                    android:splitTrack="true" />
+                    android:progress="0" />
 
                 <TextView
                     android:id="@+id/textViewSurveyMoodWellResult"
@@ -213,9 +207,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:max="100"
-                    android:progress="0"
-                    android:thumb="@android:color/transparent"
-                    android:splitTrack="true" />
+                    android:progress="0" />
 
                 <TextView
                     android:id="@+id/textViewSurveyMoodRelaxedResult"
@@ -261,9 +253,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:max="100"
-                    android:progress="0"
-                    android:thumb="@android:color/transparent"
-                    android:splitTrack="true" />
+                    android:progress="0" />
 
                 <TextView
                     android:id="@+id/textViewSurveyMoodEnergeticResult"
@@ -309,9 +299,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:max="100"
-                    android:progress="0"
-                    android:thumb="@android:color/transparent"
-                    android:splitTrack="true" />
+                    android:progress="0" />
 
                 <TextView
                     android:id="@+id/textViewSurveyMoodAwakeResult"

@@ -65,4 +65,5 @@
     <string name="textViewSurveyMoodEnergeticPositiveText">energetic</string>
     <string name="textViewSurveyMoodAwakePositiveText">awake</string>
     <string name="textViewSurveyMoodAwakeNegativeText">tired</string>
+    <string name="stringSurveyMoodResultNeutral">neutral</string>
 </resources>
