@@ -66,4 +66,10 @@
     <string name="textViewSurveyMoodAwakePositiveText">awake</string>
     <string name="textViewSurveyMoodAwakeNegativeText">tired</string>
     <string name="stringSurveyMoodResultNeutral">neutral</string>
+    <string name="textViewSurveyEventAppraisalNegativeQuestionText">Have you experienced one or more negative events since the last query?\nHow intense was the most significant negative event?</string>
+    <string name="textViewSurveyEventAppraisalFromText">0</string>
+    <string name="textViewSurveyEventAppraisalFromTo">100</string>
+    <string name="textViewSurveyEventAppraisalPositiveQuestionText">Have you experienced one or more positive events since the last query?\nHow intense was the most important positive event?</string>
+    <string name="stringSurveyEventAppraisalLowIntenseText">low</string>
+    <string name="stringSurveyEventAppraisalHighIntenseText">high</string>
 </resources>
