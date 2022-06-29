@@ -21,8 +21,8 @@ import de.rub.selab22a15.R;
 
 public class SurveyMoodFragment extends Fragment {
     private static final int THUMB_RADIUS_OPAQUE = 20;
-    private static final float NEGATIVE_THRESHOLD = 0.4f;
-    private static final float POSITIVE_THRESHOLD = 0.6f;
+    private static final float NEGATIVE_THRESHOLD = 0.35f;
+    private static final float POSITIVE_THRESHOLD = 0.65f;
 
     private Slider sliderSurveyMoodSatisfied;
     private Slider sliderSurveyMoodCalm;
@@ -31,28 +31,28 @@ public class SurveyMoodFragment extends Fragment {
     private Slider sliderSurveyMoodRelaxed;
     private Slider sliderSurveyMoodAwake;
 
-    public Integer getSatisfied() {
-        return getProgress(sliderSurveyMoodSatisfied);
+    public Integer getSatisfiedValue() {
+        return getValue(sliderSurveyMoodSatisfied);
     }
 
-    public Integer getCalm() {
-        return getProgress(sliderSurveyMoodCalm);
+    public Integer getCalmValue() {
+        return getValue(sliderSurveyMoodCalm);
     }
 
-    public Integer getWell() {
-        return getProgress(sliderSurveyMoodWell);
+    public Integer getWellValue() {
+        return getValue(sliderSurveyMoodWell);
     }
 
-    public Integer getEnergetic() {
-        return getProgress(sliderSurveyMoodEnergetic);
+    public Integer getEnergeticValue() {
+        return getValue(sliderSurveyMoodEnergetic);
     }
 
-    public Integer getRelaxed() {
-        return getProgress(sliderSurveyMoodRelaxed);
+    public Integer getRelaxedValue() {
+        return getValue(sliderSurveyMoodRelaxed);
     }
 
-    public Integer getAwake() {
-        return getProgress(sliderSurveyMoodAwake);
+    public Integer getAwakeValue() {
+        return getValue(sliderSurveyMoodAwake);
     }
 
     @Override
@@ -84,39 +84,39 @@ public class SurveyMoodFragment extends Fragment {
         );
 
         for (Slider slider : sliders) {
-            slider.addOnChangeListener(new customSliderOnChangeListener());
+            slider.addOnChangeListener(new CustomSliderOnChangeListener());
             slider.setTrackActiveTintList(
                     slider.getTrackInactiveTintList()
             );
         }
 
-        sliderSurveyMoodSatisfied.setLabelFormatter(new customLabelFormatter(
+        sliderSurveyMoodSatisfied.setLabelFormatter(new CustomLabelFormatter(
                 R.string.textViewSurveyMoodSatisfiedNegativeText,
                 R.string.textViewSurveyMoodSatisfiedPositiveText
         ));
-        sliderSurveyMoodCalm.setLabelFormatter(new customLabelFormatter(
+        sliderSurveyMoodCalm.setLabelFormatter(new CustomLabelFormatter(
                 R.string.textViewSurveyMoodCalmNegativeText,
                 R.string.textViewSurveyMoodCalmPositiveText
         ));
-        sliderSurveyMoodWell.setLabelFormatter(new customLabelFormatter(
+        sliderSurveyMoodWell.setLabelFormatter(new CustomLabelFormatter(
                 R.string.textViewSurveyMoodWellNegativeText,
                 R.string.textViewSurveyMoodWellPositiveText
         ));
-        sliderSurveyMoodEnergetic.setLabelFormatter(new customLabelFormatter(
+        sliderSurveyMoodEnergetic.setLabelFormatter(new CustomLabelFormatter(
                 R.string.textViewSurveyMoodEnergeticNegativeText,
                 R.string.textViewSurveyMoodEnergeticPositiveText
         ));
-        sliderSurveyMoodRelaxed.setLabelFormatter(new customLabelFormatter(
+        sliderSurveyMoodRelaxed.setLabelFormatter(new CustomLabelFormatter(
                 R.string.textViewSurveyMoodRelaxedNegativeText,
                 R.string.textViewSurveyMoodRelaxedPositiveText
         ));
-        sliderSurveyMoodAwake.setLabelFormatter(new customLabelFormatter(
+        sliderSurveyMoodAwake.setLabelFormatter(new CustomLabelFormatter(
                 R.string.textViewSurveyMoodAwakeNegativeText,
                 R.string.textViewSurveyMoodAwakePositiveText
         ));
     }
 
-    private Integer getProgress(Slider slider) {
+    private Integer getValue(Slider slider) {
         if (slider.getThumbRadius() != THUMB_RADIUS_OPAQUE) {
             return null;
         }
@@ -124,7 +124,7 @@ public class SurveyMoodFragment extends Fragment {
         return (int) (slider.getValue() * 100);
     }
 
-    private class customSliderOnChangeListener implements Slider.OnChangeListener {
+    private class CustomSliderOnChangeListener implements Slider.OnChangeListener {
         private boolean isFirstUsage = true;
 
         @Override
@@ -136,12 +136,12 @@ public class SurveyMoodFragment extends Fragment {
         }
     }
 
-    private class customLabelFormatter implements LabelFormatter {
+    private class CustomLabelFormatter implements LabelFormatter {
         private final String negativeText;
         private final String positiveText;
         private final String neutralText;
 
-        public customLabelFormatter(@StringRes int negativeTextId, @StringRes int positiveTextId) {
+        public CustomLabelFormatter(@StringRes int negativeTextId, @StringRes int positiveTextId) {
             negativeText = getString(negativeTextId);
             positiveText = getString(positiveTextId);
             neutralText = getString(R.string.stringSurveyMoodResultNeutral);
