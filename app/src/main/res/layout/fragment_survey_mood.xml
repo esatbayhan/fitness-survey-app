@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scaleX="1"
+    android:scaleY="1"
     tools:context=".fragments.SurveyMoodFragment">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleX="1"
-        android:scaleY="1">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -209,7 +204,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="48dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -242,5 +237,4 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+</ScrollView>
