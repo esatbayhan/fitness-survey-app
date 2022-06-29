@@ -45,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/textViewSurveyMood1NegativeText" />
+                        android:text="@string/textViewSurveyMoodSatisfiedNegativeText" />
 
                     <TextView
                         android:id="@+id/textViewSurveyMoodSatisfiedPositive"
@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/textViewSurveyMood1PositiveText" />
+                        android:text="@string/textViewSurveyMoodSatisfiedPositiveText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/textViewSurveyMood2NegativeText" />
+                        android:text="@string/textViewSurveyMoodCalmNegativeText" />
 
                     <TextView
                         android:id="@+id/textViewSurveyMoodCalmPositive"
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/textViewSurveyMood2PositiveText" />
+                        android:text="@string/textViewSurveyMoodCalmPositiveText" />
 
                 </LinearLayout>
 
@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/textViewSurveyMood3NegativeText" />
+                        android:text="@string/textViewSurveyMoodWellNegativeText" />
 
                     <TextView
                         android:id="@+id/textViewSurveyMoodWellPositive"
@@ -152,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/textViewSurveyMood3PositiveText" />
+                        android:text="@string/textViewSurveyMoodWellPositiveText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -194,7 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/textViewSurveyMood4NegativeText" />
+                        android:text="@string/textViewSurveyMoodRelaxedNegativeText" />
 
                     <TextView
                         android:id="@+id/textViewSurveyMoodRelaxedPositive"
@@ -202,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/textViewSurveyMood4PositiveText" />
+                        android:text="@string/textViewSurveyMoodRelaxedPositiveText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/textViewSurveyMood5NegativeText" />
+                        android:text="@string/textViewSurveyMoodEnergeticNegativeText" />
 
                     <TextView
                         android:id="@+id/textViewSurveyMoodEnergeticPositive"
@@ -250,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/textViewSurveyMood5PositiveText" />
+                        android:text="@string/textViewSurveyMoodEnergeticPositiveText" />
                 </LinearLayout>
 
                 <SeekBar
@@ -290,7 +290,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/textViewSurveyMood6NegativeText" />
+                        android:text="@string/textViewSurveyMoodAwakeNegativeText" />
 
                     <TextView
                         android:id="@+id/textViewSurveyMoodAwakePositive"
@@ -298,7 +298,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/textViewSurveyMood6PositiveText" />
+                        android:text="@string/textViewSurveyMoodAwakePositiveText" />
                 </LinearLayout>
 
                 <SeekBar
