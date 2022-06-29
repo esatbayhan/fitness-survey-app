@@ -55,8 +55,7 @@
                     android:id="@+id/sliderSurveyMoodSatisfied"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:thumbRadius="0dp"
-                    app:trackColorActive="?attr/colorPrimary" />
+                    app:thumbRadius="0dp" />
             </LinearLayout>
 
             <!--Calm - Restless-->
