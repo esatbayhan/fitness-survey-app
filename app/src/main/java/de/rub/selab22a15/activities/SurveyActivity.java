@@ -1,6 +1,7 @@
 package de.rub.selab22a15.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,9 @@ import de.rub.selab22a15.fragments.SurveySocialContextFragment;
 
 public class SurveyActivity extends AppCompatActivity {
     private static final String LOG_TAG = "SURVEY";
+    public static final String EXTRA_ACTIVITY_TIMESTAMP = "activityTimestamp";
+
+    Long activityTimestamp;
 
     Integer satisfied, calm, well, relaxed, energetic, awake;
 
@@ -51,6 +55,10 @@ public class SurveyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
+
+        if (getIntent().hasExtra(EXTRA_ACTIVITY_TIMESTAMP)) {
+            activityTimestamp = getIntent().getLongExtra(EXTRA_ACTIVITY_TIMESTAMP, 0L);
+        }
 
         buttonSurveyBack = findViewById(R.id.buttonSurveyBack);
         buttonSurveyNext = findViewById(R.id.buttonSurveyNext);
@@ -176,7 +184,7 @@ public class SurveyActivity extends AppCompatActivity {
     private void save() {
         Survey survey = new Survey(
                 System.currentTimeMillis(),
-                null,
+                activityTimestamp,
                 satisfied,
                 calm,
                 well,
