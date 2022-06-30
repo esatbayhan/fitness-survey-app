@@ -11,20 +11,50 @@
         android:id="@+id/frameLayoutSurveyActivity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSurveySave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/stepper_survey"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSurveyBack"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/stringBack"
+        app:icon="@drawable/ic_baseline_chevron_left_24"
+        app:iconGravity="start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSurveyNext"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSurveyNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/stringNext"
+        app:icon="@drawable/ic_baseline_chevron_right_24"
+        app:iconGravity="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonSurveyBack" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSurveySave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:enabled="false"
+        android:text="@string/stringSave"
+        android:visibility="invisible"
+        app:icon="@drawable/ic_baseline_save_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonSurveyBack" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
