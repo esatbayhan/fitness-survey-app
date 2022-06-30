@@ -25,9 +25,6 @@
             android:name=".GPSActivity"
             android:exported="false" />
         <activity
-            android:name=".SurveyTestActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

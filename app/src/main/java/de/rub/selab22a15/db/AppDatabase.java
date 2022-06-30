@@ -13,20 +13,14 @@ import de.rub.selab22a15.R;
 
 @Database(entities =
         {Accelerometer.class,
-        Mood.class,
         GPS.class,
-        EventAppraisal.class,
-        Emotion.class,
-        SocialContext.class,
-        Activity.class}, version = 1, exportSchema = false)
+        Activity.class,
+        Survey.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
-    abstract MoodDao moodDao();
     abstract GPSDao gpsDao();
-    abstract EventAppraisalDao eventAppraisalDao();
-    abstract EmotionDao emotionDao();
-    abstract SocialContextDao socialContextDao();
     abstract ActivityDao activityDao();
+    abstract SurveyDao surveyDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
