@@ -98,6 +98,10 @@
     <string name="stringSave">Save</string>
     <string name="alertSurveySaveDialog">Do you want to save your survey?</string>
     <string name="stringDecline">Decline</string>
+    <string name="stringCardViewSurveyTitle">Survey</string>
+    <string name="stringRemindLater">Remind Later</string>
+    <string name="stringStart">Start</string>
+    <string name="stringCardViewSurveySupportingText">It is time for a new survey to keep track of your mood.</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>
