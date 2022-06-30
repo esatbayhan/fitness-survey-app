@@ -1,5 +1,7 @@
 package de.rub.selab22a15.fragments;
 
+import static de.rub.selab22a15.helpers.SurveySliderOnChangeListener.THUMB_RADIUS_OPAQUE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +20,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.rub.selab22a15.R;
+import de.rub.selab22a15.helpers.SurveySliderLabelFormatter;
+import de.rub.selab22a15.helpers.SurveySliderOnChangeListener;
 
 public class SurveyMoodFragment extends Fragment {
-    private static final int THUMB_RADIUS_OPAQUE = 20;
     private static final float NEGATIVE_THRESHOLD = 0.35f;
     private static final float POSITIVE_THRESHOLD = 0.65f;
 
@@ -84,35 +87,59 @@ public class SurveyMoodFragment extends Fragment {
         );
 
         for (Slider slider : sliders) {
-            slider.addOnChangeListener(new CustomSliderOnChangeListener());
+            slider.addOnChangeListener(new SurveySliderOnChangeListener());
             slider.setTrackActiveTintList(
                     slider.getTrackInactiveTintList()
             );
         }
 
-        sliderSurveyMoodSatisfied.setLabelFormatter(new CustomLabelFormatter(
+        sliderSurveyMoodSatisfied.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
                 R.string.textViewSurveyMoodSatisfiedNegativeText,
-                R.string.textViewSurveyMoodSatisfiedPositiveText
+                R.string.textViewSurveyMoodSatisfiedPositiveText,
+                R.string.stringSurveyResultNeutral,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
         ));
-        sliderSurveyMoodCalm.setLabelFormatter(new CustomLabelFormatter(
+        sliderSurveyMoodCalm.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
                 R.string.textViewSurveyMoodCalmNegativeText,
-                R.string.textViewSurveyMoodCalmPositiveText
+                R.string.textViewSurveyMoodCalmPositiveText,
+                R.string.stringSurveyResultNeutral,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
         ));
-        sliderSurveyMoodWell.setLabelFormatter(new CustomLabelFormatter(
+        sliderSurveyMoodWell.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
                 R.string.textViewSurveyMoodWellNegativeText,
-                R.string.textViewSurveyMoodWellPositiveText
+                R.string.textViewSurveyMoodWellPositiveText,
+                R.string.stringSurveyResultNeutral,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
         ));
-        sliderSurveyMoodEnergetic.setLabelFormatter(new CustomLabelFormatter(
+        sliderSurveyMoodEnergetic.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
                 R.string.textViewSurveyMoodEnergeticNegativeText,
-                R.string.textViewSurveyMoodEnergeticPositiveText
+                R.string.textViewSurveyMoodEnergeticPositiveText,
+                R.string.stringSurveyResultNeutral,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
         ));
-        sliderSurveyMoodRelaxed.setLabelFormatter(new CustomLabelFormatter(
+        sliderSurveyMoodRelaxed.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
                 R.string.textViewSurveyMoodRelaxedNegativeText,
-                R.string.textViewSurveyMoodRelaxedPositiveText
+                R.string.textViewSurveyMoodRelaxedPositiveText,
+                R.string.stringSurveyResultNeutral,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
         ));
-        sliderSurveyMoodAwake.setLabelFormatter(new CustomLabelFormatter(
+        sliderSurveyMoodAwake.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
                 R.string.textViewSurveyMoodAwakeNegativeText,
-                R.string.textViewSurveyMoodAwakePositiveText
+                R.string.textViewSurveyMoodAwakePositiveText,
+                R.string.stringSurveyResultNeutral,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
         ));
     }
 
@@ -122,41 +149,5 @@ public class SurveyMoodFragment extends Fragment {
         }
 
         return (int) (slider.getValue() * 100);
-    }
-
-    private class CustomSliderOnChangeListener implements Slider.OnChangeListener {
-        private boolean isFirstUsage = true;
-
-        @Override
-        public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-            if (isFirstUsage) {
-                isFirstUsage = false;
-                slider.setThumbRadius(THUMB_RADIUS_OPAQUE);
-            }
-        }
-    }
-
-    private class CustomLabelFormatter implements LabelFormatter {
-        private final String negativeText;
-        private final String positiveText;
-        private final String neutralText;
-
-        public CustomLabelFormatter(@StringRes int negativeTextId, @StringRes int positiveTextId) {
-            negativeText = getString(negativeTextId);
-            positiveText = getString(positiveTextId);
-            neutralText = getString(R.string.stringSurveyMoodResultNeutral);
-        }
-
-        @NonNull
-        @Override
-        public String getFormattedValue(float value) {
-            if (value < NEGATIVE_THRESHOLD) {
-                return negativeText;
-            } else if (value > POSITIVE_THRESHOLD) {
-                return positiveText;
-            }
-
-            return neutralText;
-        }
     }
 }
