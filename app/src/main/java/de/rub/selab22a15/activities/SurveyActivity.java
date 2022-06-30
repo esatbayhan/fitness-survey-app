@@ -145,7 +145,10 @@ public class SurveyActivity extends AppCompatActivity {
 
             setSocialContextFragment();
         });
-        buttonSurveySave.setOnClickListener(v -> exitDialog());
+        buttonSurveySave.setOnClickListener(v -> {
+            note = noteFragment.getNote();
+            exitDialog();
+        });
     }
 
     private void exitDialog() {
