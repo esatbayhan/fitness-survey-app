@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".App"
@@ -19,10 +19,10 @@
         android:theme="@style/Theme.RUBSELAB22A15"
         tools:targetApi="31">
         <activity
-            android:name=".GPSActivity"
+            android:name=".activities.SurveyActivity"
             android:exported="false" />
         <activity
-            android:name=".SurveyTestActivity"
+            android:name=".GPSActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.ActivityRecordService"/>
+        <service android:name=".services.ActivityRecordService" />
     </application>
 
 </manifest>

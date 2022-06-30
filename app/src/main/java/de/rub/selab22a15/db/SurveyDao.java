@@ -9,13 +9,13 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface EmotionDao {
-    @Query("SELECT * FROM emotion")
-    LiveData<List<Emotion>> getEmotionData();
+public interface SurveyDao {
+    @Query("SELECT * FROM survey")
+    LiveData<List<Survey>> getSurveyData();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Emotion emotion);
+    void insert(Survey survey);
 
-    @Query("DELETE FROM emotion")
+    @Query("DELETE FROM survey")
     void delete();
 }

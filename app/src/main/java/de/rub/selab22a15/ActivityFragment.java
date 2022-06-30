@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
+import de.rub.selab22a15.activities.SurveyActivity;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
 import de.rub.selab22a15.db.ActivityRepository;
@@ -124,10 +125,20 @@ public class ActivityFragment extends Fragment {
         new MaterialAlertDialogBuilder(requireContext())
                 .setMessage(R.string.alertSaveActivityMessage)
                 .setNegativeButton(R.string.alertSaveActivityNegative, (dialogInterface, i) -> discard())
-                .setPositiveButton(R.string.alertSaveActivityPositive, (dialogInterface, i) -> save())
+                .setPositiveButton(R.string.alertSaveActivityPositive, (dialogInterface, i) -> {
+                    save();
+                    startSurvey();
+                })
                 .show();
 
         resetUI();
+    }
+
+    private void startSurvey() {
+        long activityTimestamp = activity.getTimestamp();
+        Intent surveyIntent = new Intent(requireActivity(), SurveyActivity.class);
+        surveyIntent.putExtra(SurveyActivity.EXTRA_ACTIVITY_TIMESTAMP, activityTimestamp);
+        startActivity(surveyIntent);
     }
 
     private void resetUI() {
@@ -159,7 +170,6 @@ public class ActivityFragment extends Fragment {
         }
 
         new ActivityRepository(requireActivity().getApplication()).insert(activity);
-        activity = null;
     }
 
     private void startAccelerometerRecording() {

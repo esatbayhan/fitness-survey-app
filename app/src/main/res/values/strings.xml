@@ -52,4 +52,74 @@
     <string name="preferenceScreenLanguage">preferenceLanguage</string>
     <string name="toastPreferenceUploadSuccess">Uploaded database successfully</string>
     <string name="toastPreferenceUploadFailure">Upload failed try later again</string>
+    <string name="textViewSurveyMoodTitleText">in the last 24 hours i felt…</string>
+    <string name="textViewSurveyMoodSatisfiedPositiveText">satisfied</string>
+    <string name="textViewSurveyMoodSatisfiedNegativeText">dissatisfied</string>
+    <string name="textViewSurveyMoodCalmPositiveText">calm</string>
+    <string name="textViewSurveyMoodCalmNegativeText">restless</string>
+    <string name="textViewSurveyMoodWellPositiveText">well</string>
+    <string name="textViewSurveyMoodWellNegativeText">unwell</string>
+    <string name="textViewSurveyMoodRelaxedPositiveText">relaxed</string>
+    <string name="textViewSurveyMoodRelaxedNegativeText">tense</string>
+    <string name="textViewSurveyMoodEnergeticNegativeText">powerless</string>
+    <string name="textViewSurveyMoodEnergeticPositiveText">energetic</string>
+    <string name="textViewSurveyMoodAwakePositiveText">awake</string>
+    <string name="textViewSurveyMoodAwakeNegativeText">tired</string>
+    <string name="stringSurveyResultNeutral">neutral</string>
+    <string name="textViewSurveyEventAppraisalNegativeQuestionText">Have you experienced one or more negative events since the last query?\nHow intense was the most significant negative event?</string>
+    <string name="textViewSurveyEventAppraisalFromText">0</string>
+    <string name="textViewSurveyEventAppraisalFromTo">100</string>
+    <string name="textViewSurveyEventAppraisalPositiveQuestionText">Have you experienced one or more positive events since the last query?\nHow intense was the most important positive event?</string>
+    <string name="stringSurveyEventAppraisalLowIntenseText">low</string>
+    <string name="stringSurveyEventAppraisalHighIntenseText">high</string>
+    <string name="textViewSurveySelfWorthPositiveQuestionText">For now I\'m happy with myself</string>
+    <string name="textViewSurveySelfWorthNegativeQuestionText">Right now I consider myself a failure</string>
+    <string name="textViewSurveySelfWorthNegativeLabelText">strongly disagree</string>
+    <string name="textViewSurveySelfWorthPositiveLabelText">That is completely right</string>
+    <string name="textViewSurveyImpulsivenessActedOnImpulseQuestionText">Since the last query, I have acted on impulse, i.e. I have acted without thinking about possible consequences</string>
+    <string name="stringStronglyDisagree">strongly disagree</string>
+    <string name="stringThatIsCompletelyRight">that is completely right</string>
+    <string name="textViewSurveyImpulsivenessActedAggressiveQuestionText">Since the last query, I have behaved angrily or aggressively toward another person which I was sorry for afterwards</string>
+    <string name="exposedDropdownMenuSurveySocialContextLocationHint">Location</string>
+    <string name="textViewSurveySocialContextLocationQuestionText">Where are you now?</string>
+    <string name="textViewSurveySocialContextAloneQuestionText">Are you alone at the moment?</string>
+    <string name="stringNo">No</string>
+    <string name="stringYes">Yes</string>
+    <string name="textViewSurveySocialContextSurroundedQuestionText">What kind of people are you surrounded by at the moment</string>
+    <string name="exposedDropdownMenuSurveySocialContextSurroundedHint">Surrounded</string>
+    <string name="textViewSurveySocialContextSurroundedLikeQuestionText">When you think of the people you are surrounded, how does the following statement apply? I do not like these people!</string>
+    <string name="stringDoesNotApplyAtAll">does not apply at all</string>
+    <string name="stringIsCompletelyTrue">is completely true</string>
+    <string name="textViewSurveyNoteTitleText">If you want you can add a note to your record</string>
+    <string name="stringClear">Clear</string>
+    <string name="editTextSurveyNoteHint">Note</string>
+    <string name="stringBack">Back</string>
+    <string name="stringNext">Next</string>
+    <string name="stringSave">Save</string>
+    <string name="alertSurveySaveDialog">Do you want to save your survey?</string>
+    <string name="stringDecline">Decline</string>
+    <string name="stringCardViewSurveyTitle">Survey</string>
+    <string name="stringRemindLater">Remind Later</string>
+    <string name="stringStart">Start</string>
+    <string name="stringCardViewSurveySupportingText">It is time for a new survey to keep track of your mood.</string>
+    <string name="stringDiscard">Discard</string>
+
+    <string-array name="surveySocialContextLocationsItems">
+        <item>Home</item>
+        <item>Work</item>
+        <item>Sport</item>
+        <item>Hobby</item>
+        <item>Shopping</item>
+        <item>Visit</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="surveySocialContextSurroundedItems">
+        <item>Life Partner</item>
+        <item>Family</item>
+        <item>Friends</item>
+        <item>Work Colleague</item>
+        <item>Stranger</item>
+        <item>Other</item>
+    </string-array>
 </resources>
