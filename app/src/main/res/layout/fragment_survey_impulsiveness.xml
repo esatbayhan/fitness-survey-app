@@ -43,6 +43,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+            <!--ToDo RadioButton's aren't perfectly centered. Fix it!-->
+
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/radioButtonSurveyImpulsivenessActedOnImpulse0"
                 android:layout_width="0dp"
