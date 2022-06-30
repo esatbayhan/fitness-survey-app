@@ -8,232 +8,232 @@
     android:scaleY="1"
     tools:context=".fragments.SurveyMoodFragment">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textViewSurveyMoodTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:gravity="center"
+            android:paddingBottom="32dp"
+            android:text="@string/textViewSurveyMoodTitleText" />
+
+        <!--Satisfied - Dissatisfied-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewSurveyMoodTitle"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodSatisfiedNegative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/textViewSurveyMoodSatisfiedNegativeText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodSatisfiedPositive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/textViewSurveyMoodSatisfiedPositiveText" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSurveyMoodSatisfied"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="32dp"
-                android:text="@string/textViewSurveyMoodTitleText"
-                android:textSize="24sp" />
+                app:thumbRadius="0dp" />
+        </LinearLayout>
 
-            <!--Satisfied - Dissatisfied-->
+        <!--Calm - Restless-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodSatisfiedNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/textViewSurveyMoodSatisfiedNegativeText" />
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodSatisfiedPositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/textViewSurveyMoodSatisfiedPositiveText" />
-                </LinearLayout>
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderSurveyMoodSatisfied"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodCalmNegative"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:thumbRadius="0dp" />
+                    android:layout_weight="1"
+                    android:text="@string/textViewSurveyMoodCalmNegativeText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodCalmPositive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/textViewSurveyMoodCalmPositiveText" />
+
             </LinearLayout>
 
-            <!--Calm - Restless-->
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSurveyMoodCalm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:thumbRadius="0dp" />
+        </LinearLayout>
+
+        <!-- Well - Unwell -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodWellNegative"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:text="@string/textViewSurveyMoodWellNegativeText" />
 
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodCalmNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/textViewSurveyMoodCalmNegativeText" />
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodCalmPositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/textViewSurveyMoodCalmPositiveText" />
-
-                </LinearLayout>
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderSurveyMoodCalm"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodWellPositive"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:thumbRadius="0dp" />
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/textViewSurveyMoodWellPositiveText" />
             </LinearLayout>
 
-            <!-- Well - Unwell -->
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSurveyMoodWell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:thumbRadius="0dp" />
+        </LinearLayout>
+
+        <!--Relaxed - Tense-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodRelaxedNegative"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:text="@string/textViewSurveyMoodRelaxedNegativeText" />
 
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodWellNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/textViewSurveyMoodWellNegativeText" />
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodWellPositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/textViewSurveyMoodWellPositiveText" />
-                </LinearLayout>
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderSurveyMoodWell"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodRelaxedPositive"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:thumbRadius="0dp" />
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/textViewSurveyMoodRelaxedPositiveText" />
             </LinearLayout>
 
-            <!--Relaxed - Tense-->
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSurveyMoodRelaxed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:thumbRadius="0dp" />
+        </LinearLayout>
+
+        <!--Energetic - Powerless-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodRelaxedNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/textViewSurveyMoodRelaxedNegativeText" />
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodRelaxedPositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/textViewSurveyMoodRelaxedPositiveText" />
-                </LinearLayout>
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderSurveyMoodRelaxed"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodEnergeticNegative"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:thumbRadius="0dp" />
+                    android:layout_weight="1"
+                    android:text="@string/textViewSurveyMoodEnergeticNegativeText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodEnergeticPositive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/textViewSurveyMoodEnergeticPositiveText" />
             </LinearLayout>
 
-            <!--Energetic - Powerless-->
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSurveyMoodEnergetic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:thumbRadius="0dp" />
+        </LinearLayout>
+
+        <!--Awake - Powerless-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="48dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodEnergeticNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/textViewSurveyMoodEnergeticNegativeText" />
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodEnergeticPositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/textViewSurveyMoodEnergeticPositiveText" />
-                </LinearLayout>
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderSurveyMoodEnergetic"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodAwakeNegative"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:thumbRadius="0dp" />
+                    android:layout_weight="1"
+                    android:text="@string/textViewSurveyMoodAwakeNegativeText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textViewSurveyMoodAwakePositive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/textViewSurveyMoodAwakePositiveText" />
             </LinearLayout>
 
-            <!--Awake - Powerless-->
-            <LinearLayout
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderSurveyMoodAwake"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="48dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodAwakeNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/textViewSurveyMoodAwakeNegativeText" />
-
-                    <TextView
-                        android:id="@+id/textViewSurveyMoodAwakePositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/textViewSurveyMoodAwakePositiveText" />
-                </LinearLayout>
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderSurveyMoodAwake"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:thumbRadius="0dp" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                app:thumbRadius="0dp" />
 
         </LinearLayout>
+
+    </LinearLayout>
 </ScrollView>
