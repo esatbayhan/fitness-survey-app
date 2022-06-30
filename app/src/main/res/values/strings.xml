@@ -102,6 +102,7 @@
     <string name="stringRemindLater">Remind Later</string>
     <string name="stringStart">Start</string>
     <string name="stringCardViewSurveySupportingText">It is time for a new survey to keep track of your mood.</string>
+    <string name="stringDiscard">Discard</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>

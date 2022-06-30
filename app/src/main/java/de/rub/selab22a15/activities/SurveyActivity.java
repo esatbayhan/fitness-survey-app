@@ -66,6 +66,15 @@ public class SurveyActivity extends AppCompatActivity {
         setMoodFragment();
     }
 
+    @Override
+    public void onBackPressed() {
+        new MaterialAlertDialogBuilder(this)
+                .setMessage("Do you really want to discard the survey?")
+                .setNeutralButton(R.string.stringDecline, ((dialog, which) -> {}))
+                .setPositiveButton(R.string.stringDiscard, ((dialog, which) -> super.onBackPressed()))
+                .show();
+    }
+
     private void setMoodFragment() {
         replaceFragment(moodFragment);
 
