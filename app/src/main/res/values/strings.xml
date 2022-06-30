@@ -80,4 +80,33 @@
     <string name="stringStronglyDisagree">strongly disagree</string>
     <string name="stringThatIsCompletelyRight">that is completely right</string>
     <string name="textViewSurveyImpulsivenessActedAggressiveQuestionText">Since the last query, I have behaved angrily or aggressively toward another person which I was sorry for afterwards</string>
+    <string name="exposedDropdownMenuSurveySocialContextLocationHint">Location</string>
+    <string name="textViewSurveySocialContextLocationQuestionText">Where are you now?</string>
+    <string name="textViewSurveySocialContextAloneQuestionText">Are you alone at the moment?</string>
+    <string name="stringNo">No</string>
+    <string name="stringYes">Yes</string>
+    <string name="textViewSurveySocialContextSurroundedQuestionText">What kind of people are you surrounded by at the moment</string>
+    <string name="exposedDropdownMenuSurveySocialContextSurroundedHint">Surrounded</string>
+    <string name="textViewSurveySocialContextSurroundedLikeQuestionText">When you think of the people you are surrounded, how does the following statement apply? I do not like these people!</string>
+    <string name="stringDoesNotApplyAtAll">does not apply at all</string>
+    <string name="stringIsCompletelyTrue">is completely true</string>
+
+    <string-array name="surveySocialContextLocationsItems">
+        <item>Home</item>
+        <item>Work</item>
+        <item>Sport</item>
+        <item>Hobby</item>
+        <item>Shopping</item>
+        <item>Visit</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="surveySocialContextSurroundedItems">
+        <item>Life Partner</item>
+        <item>Family</item>
+        <item>Friends</item>
+        <item>Work Colleague</item>
+        <item>Stranger</item>
+        <item>Other</item>
+    </string-array>
 </resources>
