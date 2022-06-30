@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.Objects;
 
@@ -36,9 +36,9 @@ public class SurveySocialContextFragment extends Fragment {
     private RadioGroup radioGroupSurveySocialContextAlone;
     private Slider sliderSurveySocialContextSurroundedLike;
 
-    private TextView textViewSurveySocialContextSurroundedQuestion;
+    private MaterialTextView textViewSurveySocialContextSurroundedQuestion;
 
-    private TextView textViewSurveySocialContextSurroundedLikeQuestion;
+    private MaterialTextView textViewSurveySocialContextSurroundedLikeQuestion;
     private LinearLayout linearLayoutSurveySocialContextSurroundedLikeLabels;
 
     public String getLocation() {
