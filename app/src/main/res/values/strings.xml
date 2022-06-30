@@ -90,6 +90,9 @@
     <string name="textViewSurveySocialContextSurroundedLikeQuestionText">When you think of the people you are surrounded, how does the following statement apply? I do not like these people!</string>
     <string name="stringDoesNotApplyAtAll">does not apply at all</string>
     <string name="stringIsCompletelyTrue">is completely true</string>
+    <string name="textViewSurveyNoteTitleText">If you want you can add a note to your record</string>
+    <string name="stringClear">Clear</string>
+    <string name="editTextSurveyNoteHint">Note</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>
