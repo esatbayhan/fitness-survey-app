@@ -1,5 +1,7 @@
 package de.rub.selab22a15.fragments;
 
+import static de.rub.selab22a15.helpers.SurveySliderOnChangeListener.THUMB_RADIUS_OPAQUE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,11 @@ public class SurveySelfWorthFragment extends Fragment {
     private Slider sliderSurveySelfWorthPositive;
 
     public Integer getNegativeQuestionValue() {
-        return (int) sliderSurveySelfWorthNegative.getValue();
+        return getValue(sliderSurveySelfWorthNegative);
     }
 
     public Integer getPositiveQuestionValue() {
-        return (int) sliderSurveySelfWorthPositive.getValue();
+        return getValue(sliderSurveySelfWorthPositive);
     }
 
     @Override
@@ -55,6 +57,9 @@ public class SurveySelfWorthFragment extends Fragment {
                 NEGATIVE_THRESHOLD,
                 POSITIVE_THRESHOLD
         ));
+        sliderSurveySelfWorthNegative.setTrackActiveTintList(
+                sliderSurveySelfWorthNegative.getTrackInactiveTintList()
+        );
 
         sliderSurveySelfWorthPositive.addOnChangeListener(new SurveySliderOnChangeListener());
         sliderSurveySelfWorthPositive.setLabelFormatter(new SurveySliderLabelFormatter(
@@ -65,5 +70,17 @@ public class SurveySelfWorthFragment extends Fragment {
                 NEGATIVE_THRESHOLD,
                 POSITIVE_THRESHOLD
         ));
+
+        sliderSurveySelfWorthPositive.setTrackActiveTintList(
+                sliderSurveySelfWorthPositive.getTrackInactiveTintList()
+        );
+    }
+
+    private Integer getValue(Slider slider) {
+        if (slider.getThumbRadius() != THUMB_RADIUS_OPAQUE) {
+            return null;
+        }
+
+        return (int) slider.getValue();
     }
 }
