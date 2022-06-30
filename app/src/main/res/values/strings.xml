@@ -76,4 +76,8 @@
     <string name="textViewSurveySelfWorthNegativeQuestionText">Right now I consider myself a failure</string>
     <string name="textViewSurveySelfWorthNegativeLabelText">strongly disagree</string>
     <string name="textViewSurveySelfWorthPositiveLabelText">That is completely right</string>
+    <string name="textViewSurveyImpulsivenessActedOnImpulseQuestionText">Since the last query, I have acted on impulse, i.e. I have acted without thinking about possible consequences</string>
+    <string name="stringStronglyDisagree">strongly disagree</string>
+    <string name="stringThatIsCompletelyRight">that is completely right</string>
+    <string name="textViewSurveyImpulsivenessActedAggressiveQuestionText">Since the last query, I have behaved angrily or aggressively toward another person which I was sorry for afterwards</string>
 </resources>

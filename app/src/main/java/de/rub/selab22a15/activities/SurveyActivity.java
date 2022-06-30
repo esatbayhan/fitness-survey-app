@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import de.rub.selab22a15.R;
 import de.rub.selab22a15.fragments.SurveyEventAppraisalFragment;
+import de.rub.selab22a15.fragments.SurveyImpulsivenessFragment;
 import de.rub.selab22a15.fragments.SurveyMoodFragment;
 import de.rub.selab22a15.fragments.SurveySelfWorthFragment;
 
@@ -17,7 +18,7 @@ public class SurveyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
 
-        changeFragment(2);
+        changeFragment(3);
     }
 
     private void changeFragment(int id) {
@@ -33,6 +34,9 @@ public class SurveyActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragment = new SurveySelfWorthFragment();
+                break;
+            case 3:
+                fragment = new SurveyImpulsivenessFragment();
                 break;
             default:
                 return;
