@@ -133,9 +133,6 @@ public class ActivityFragment extends Fragment {
         cmtActivity.setBase(ActivityRecordService.getTimeElapsedRealtimeStarted());
         cmtActivity.start();
 
-        textEditActivityRecord.setText(activity.getActivity());
-        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
-
         buttonStartActivityRecord.setEnabled(false);
         buttonStopActivityRecord.setEnabled(true);
     }
@@ -159,7 +156,7 @@ public class ActivityFragment extends Fragment {
 
     private void stopRecord() {
         stopAccelerometerRecording();
-        if (switchActivityRecordGPS.isChecked()) {
+        if (LocationRecordService.isRunning()) {
             stopLocationRecording();
         }
 
@@ -210,10 +207,10 @@ public class ActivityFragment extends Fragment {
 
         new AccelerometerRepository(requireActivity().getApplication())
                 .delete(activity.getTimestamp());
-        // resetUI() gets called before discard() finishes so location switch is already unchecked
-        // It is okay to delete non existent data so we do not need any workaround
-        new GPSRepository(requireActivity().getApplication())
-                .delete(activity.getTimestamp());
+        if (LocationRecordService.isRunning()) {
+            new GPSRepository(requireActivity().getApplication())
+                    .delete(activity.getTimestamp());
+        }
 
         activity = null;
     }
