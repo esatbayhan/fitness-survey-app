@@ -68,3 +68,7 @@ dependencies {
     // Java language implementation
     implementation "androidx.preference:preference:$preference_version"
 }
+
+dependencies {
+    implementation "androidx.work:work-runtime:2.7.1"
+}
