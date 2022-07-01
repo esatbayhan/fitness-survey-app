@@ -1,6 +1,9 @@
 package de.rub.selab22a15;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.InputType;
@@ -11,8 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -33,12 +39,13 @@ import de.rub.selab22a15.services.ActivityRecordService;
 public class ActivityFragment extends Fragment {
     private static final String LOG_ACTIVITY = "ACTIVITY";
 
+    private ActivityResultLauncher<String> requestPermissionLauncher;
+
     private TextInputEditText textEditActivityRecord;
     private SwitchMaterial switchActivityRecordGPS;
     private Chronometer cmtActivity;
     private MaterialButton buttonStartActivityRecord;
     private MaterialButton buttonStopActivityRecord;
-
 
     private Activity activity;
 
@@ -52,6 +59,13 @@ public class ActivityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (!isGranted) {
+                        switchActivityRecordGPS.setChecked(false);
+                    }
+                });
+
         FragmentActivity fragmentActivity = requireActivity();
 
         textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecord);
@@ -60,8 +74,27 @@ public class ActivityFragment extends Fragment {
         buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonStartActivityRecord);
         buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonStopActivityRecord);
 
-        buttonStartActivityRecord.setOnClickListener(view1 -> startRecord());
-        buttonStopActivityRecord.setOnClickListener(view1 -> stopRecord());
+        switchActivityRecordGPS.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                return;
+            }
+
+            if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                // In this case just continue
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), ACCESS_FINE_LOCATION)) {
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("GPS")
+                        .setMessage(R.string.stringActivityRecordPermissionText)
+                        .setNegativeButton(R.string.stringCancel, (dialog, which) -> switchActivityRecordGPS.setChecked(false))
+                        .setPositiveButton(R.string.stringOkay, (dialog, which) -> requestPermissionLauncher.launch(ACCESS_FINE_LOCATION))
+                        .show();
+            } else {
+                requestPermissionLauncher.launch(ACCESS_FINE_LOCATION);
+            }
+        });
+        buttonStartActivityRecord.setOnClickListener(v -> startRecord());
+        buttonStopActivityRecord.setOnClickListener(v -> stopRecord());
 
         resetUI();
 
