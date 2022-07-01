@@ -106,6 +106,7 @@
     <string name="stringActivityRecordPermissionText">We need permissions to gps if you want to use it while recording an activity</string>
     <string name="stringCancel">Cancel</string>
     <string name="stringOkay">Okay</string>
+    <string name="stringSurveyDiscardTitle">Why do you want to discard the survey?</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>

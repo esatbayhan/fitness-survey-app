@@ -1,7 +1,6 @@
 package de.rub.selab22a15.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +10,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import de.rub.selab22a15.R;
+import de.rub.selab22a15.db.Rumination;
+import de.rub.selab22a15.db.RuminationRepository;
 import de.rub.selab22a15.db.Survey;
 import de.rub.selab22a15.db.SurveyRepository;
 import de.rub.selab22a15.fragments.SurveyEventAppraisalFragment;
@@ -24,21 +25,29 @@ public class SurveyActivity extends AppCompatActivity {
     private static final String LOG_TAG = "SURVEY";
     public static final String EXTRA_ACTIVITY_TIMESTAMP = "activityTimestamp";
 
-    Long activityTimestamp;
+    private Long activityTimestamp;
 
-    Integer satisfied, calm, well, relaxed, energetic, awake;
+    // Mood Fragment
+    private Integer satisfied, calm, well, relaxed, energetic, awake;
 
-    Integer negativeEvent, positiveEvent;
+    // Event Appraisal Fragment
+    private Integer negativeEvent, positiveEvent;
 
-    Integer negativeSelfWorth, positiveSelfWorth;
+    // Self Worth Fragment
+    private Integer negativeSelfWorth, positiveSelfWorth;
 
-    Integer actedOnImpulse, actedAggressive;
+    // Impulsiveness Fragment
+    private Integer actedOnImpulse, actedAggressive;
 
-    String location, surrounded;
-    Boolean isAlone;
-    Integer surroundedLike;
+    // Social Context Fragment
+    private String location, surrounded;
+    private Boolean isAlone;
+    private Integer surroundedLike;
 
-    String note;
+    // Note Fragment
+    private String note;
+
+    private int ruminationItemIndex = 3;
 
     private SurveyMoodFragment moodFragment;
     private SurveyEventAppraisalFragment eventAppraisalFragment;
@@ -77,9 +86,19 @@ public class SurveyActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new MaterialAlertDialogBuilder(this)
-                .setMessage("Do you really want to discard the survey?")
-                .setNeutralButton(R.string.stringDecline, ((dialog, which) -> {}))
-                .setPositiveButton(R.string.stringDiscard, ((dialog, which) -> super.onBackPressed()))
+                .setTitle(R.string.stringSurveyDiscardTitle)
+                .setNeutralButton(R.string.stringCancel, ((dialog, which) -> {
+                }))
+                .setPositiveButton(R.string.stringDiscard, ((dialog, which) -> {
+                    Rumination rumination = new Rumination(
+                            System.currentTimeMillis(),
+                            activityTimestamp,
+                            ruminationItemIndex);
+                    new RuminationRepository(getApplication()).insert(rumination);
+                    super.onBackPressed();
+                }))
+                .setSingleChoiceItems(R.array.surveyRumination, ruminationItemIndex,
+                        (dialog, which) -> ruminationItemIndex = which)
                 .show();
     }
 

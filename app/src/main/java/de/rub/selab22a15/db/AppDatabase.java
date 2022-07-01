@@ -15,12 +15,14 @@ import de.rub.selab22a15.R;
         {Accelerometer.class,
         GPS.class,
         Activity.class,
-        Survey.class}, version = 1, exportSchema = false)
+        Survey.class,
+        Rumination.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
     abstract GPSDao gpsDao();
     abstract ActivityDao activityDao();
     abstract SurveyDao surveyDao();
+    abstract RuminationDao ruminationDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
