@@ -10,14 +10,29 @@
     accelerometerRepository.insert(new Accelerometer(timestamp, x, y, z));
 ```
 
-## How to export database inside android studio?
-- Go to View -> Tool Windows -> Device File Explorer
-- Then go to data -> data -> de.rub.selab22a15 -> databases
-- Select tracking_database, tracking_database-shm & tracking_database-wal
-- Right click & click save to
-- save to a place e.g. your Desktop
+## Firebase Security rules:
+```
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{uid}/{db_file} {
+      allow create: if isSignedIn() && isOwner(uid);
+    }
+  
+    function isSignedIn() {
+    	return request.auth != null;
+    }
+    
+    function isOwner(uid) {
+    	return request.auth.uid == uid;
+    }
+  }
+}
+```
 
-## How to open database outside android?
-- Download sqlitebrowser from (https://sqlitebrowser.org/)[https://sqlitebrowser.org/]
-- Open sqlitebrowser
-- Drag & Drop tracking_database to sqlitebrowser
+## Database Datasheet
+### Rumination
+rumination:
+- I was stuck on negative thoughts and could not disengage from them
+- I am thinking about my feelings
+- I am thinking about my problems
