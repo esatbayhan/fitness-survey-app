@@ -1,11 +1,7 @@
 package de.rub.selab22a15.services;
 
-import static de.rub.selab22a15.App.CHANNEL_ID_ACTIVITY_RECORD;
-import static de.rub.selab22a15.App.CHANNEL_ID_NR_ACTIVITY_RECORD;
 import static de.rub.selab22a15.helpers.ServiceNotification.NOTIFICATION_ID;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,10 +14,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
-import de.rub.selab22a15.MainActivity;
-import de.rub.selab22a15.R;
 import de.rub.selab22a15.db.Accelerometer;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
@@ -89,11 +82,11 @@ public class ActivityRecordService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         isRunning = false;
         activity = null;
         timeElapsedRealtimeStarted = null;
         sensorManager.unregisterListener(accelerometerEventListener);
-        super.onDestroy();
     }
 
     @Nullable
@@ -106,6 +99,10 @@ public class ActivityRecordService extends Service {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             if (sensorEvent.sensor.getType() != Sensor.REPORTING_MODE_ON_CHANGE) {
+                return;
+            }
+
+            if (activity == null) {
                 return;
             }
 
