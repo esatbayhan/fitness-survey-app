@@ -17,12 +17,20 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
 import de.rub.selab22a15.db.GPS;
 import de.rub.selab22a15.db.GPSRepository;
+import de.rub.selab22a15.helpers.ServiceNotification;
 
 public class LocationRecordService extends Service {
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
     private static boolean isRunning;
+
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -36,33 +44,55 @@ public class LocationRecordService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION)
+                == PERMISSION_DENIED) {
+            stopSelf();
+        }
 
         gpsRepository = new GPSRepository(getApplication());
-        locationRequest = LocationRequest.create();
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
-                for (Location location : locationResult.getLocations()) {
-                    GPS gps = new GPS(
-                            System.currentTimeMillis(),
-                            location.getLongitude(),
-                            location.getLatitude(),
-                            location.getAltitude(),
-                            location.getAccuracy(),
-                            location.getSpeed());
-                    gpsRepository.insert(gps);
+                super.onLocationResult(locationResult);
+                Location location = locationResult.getLastLocation();
+
+                if (location == null) {
+                    return;
                 }
+
+                GPS gps = new GPS(
+                        System.currentTimeMillis(),
+                        location.getLongitude(),
+                        location.getLatitude(),
+                        location.getAltitude(),
+                        location.getAccuracy(),
+                        location.getSpeed());
+                gpsRepository.insert(gps);
             }
         };
+
+        createLocationRequest();
+    }
+
+    private void createLocationRequest() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        locationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION)
                 == PERMISSION_DENIED) {
-            onDestroy();
+            stopSelf();
+
         }
+        isRunning = true;
+
+        startForeground(ServiceNotification.NOTIFICATION_ID, ServiceNotification.getNotification(this));
 
         fusedLocationProviderClient.requestLocationUpdates(
                 locationRequest,
@@ -75,10 +105,9 @@ public class LocationRecordService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         isRunning = false;
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-
-        super.onDestroy();
     }
 
     @Nullable
