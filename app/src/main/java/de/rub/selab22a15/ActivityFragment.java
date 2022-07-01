@@ -122,6 +122,14 @@ public class ActivityFragment extends Fragment {
 
         activity = ActivityRecordService.getActivity();
 
+        textEditActivityRecord.setText(activity.getActivity());
+        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
+
+        if (LocationRecordService.isRunning()) {
+            switchActivityRecordGPS.setChecked(true);
+        }
+        switchActivityRecordGPS.setEnabled(false);
+
         cmtActivity.setBase(ActivityRecordService.getTimeElapsedRealtimeStarted());
         cmtActivity.start();
 
