@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 
+import de.rub.selab22a15.db.Activity;
 import de.rub.selab22a15.db.GPS;
 import de.rub.selab22a15.db.GPSRepository;
 import de.rub.selab22a15.helpers.ServiceNotification;
@@ -30,6 +31,7 @@ public class LocationRecordService extends Service {
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
     private static boolean isRunning;
+    private static Activity activity;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
@@ -39,6 +41,10 @@ public class LocationRecordService extends Service {
 
     public static boolean isRunning() {
         return isRunning;
+    }
+
+    public static void setActivity(Activity activity) {
+        LocationRecordService.activity = activity;
     }
 
     @Override
@@ -62,8 +68,13 @@ public class LocationRecordService extends Service {
                     return;
                 }
 
+                if (activity == null) {
+                    return;
+                }
+
                 GPS gps = new GPS(
                         System.currentTimeMillis(),
+                        activity.getTimestamp(),
                         location.getLongitude(),
                         location.getLatitude(),
                         location.getAltitude(),
@@ -74,13 +85,6 @@ public class LocationRecordService extends Service {
         };
 
         createLocationRequest();
-    }
-
-    private void createLocationRequest() {
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        locationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
     }
 
     @Override
@@ -107,6 +111,7 @@ public class LocationRecordService extends Service {
     public void onDestroy() {
         super.onDestroy();
         isRunning = false;
+        activity = null;
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
@@ -114,5 +119,12 @@ public class LocationRecordService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    private void createLocationRequest() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        locationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
     }
 }
