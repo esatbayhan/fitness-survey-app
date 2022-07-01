@@ -34,7 +34,9 @@ import de.rub.selab22a15.activities.SurveyActivity;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
 import de.rub.selab22a15.db.ActivityRepository;
+import de.rub.selab22a15.db.GPSRepository;
 import de.rub.selab22a15.services.ActivityRecordService;
+import de.rub.selab22a15.services.LocationRecordService;
 
 public class ActivityFragment extends Fragment {
     private static final String LOG_ACTIVITY = "ACTIVITY";
@@ -140,11 +142,18 @@ public class ActivityFragment extends Fragment {
 
         activity = new Activity(System.currentTimeMillis(), activityName);
         blockUI();
+
         startAccelerometerRecording();
+        if (switchActivityRecordGPS.isChecked()) {
+            startLocationRecording();
+        }
     }
 
     private void stopRecord() {
         stopAccelerometerRecording();
+        if (switchActivityRecordGPS.isChecked()) {
+            stopLocationRecording();
+        }
 
         new MaterialAlertDialogBuilder(requireContext())
                 .setMessage(R.string.alertSaveActivityMessage)
@@ -193,6 +202,11 @@ public class ActivityFragment extends Fragment {
 
         new AccelerometerRepository(requireActivity().getApplication())
                 .delete(activity.getTimestamp());
+        // resetUI() gets called before discard() finishes so location switch is already unchecked
+        // It is okay to delete non existent data so we do not need any workaround
+        new GPSRepository(requireActivity().getApplication())
+                .delete(activity.getTimestamp());
+
         activity = null;
     }
 
@@ -213,5 +227,15 @@ public class ActivityFragment extends Fragment {
 
     private void stopAccelerometerRecording() {
         requireActivity().stopService(new Intent(getActivity(), ActivityRecordService.class));
+    }
+
+    private void startLocationRecording() {
+        LocationRecordService.setActivity(activity);
+        Intent locationRecordService = new Intent(requireActivity(), LocationRecordService.class);
+        ContextCompat.startForegroundService(requireContext(), locationRecordService);
+    }
+
+    private void stopLocationRecording() {
+        requireActivity().stopService(new Intent(requireActivity(), LocationRecordService.class));
     }
 }
