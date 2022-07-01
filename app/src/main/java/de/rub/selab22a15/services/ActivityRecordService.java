@@ -98,11 +98,11 @@ public class ActivityRecordService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         isRunning = false;
         activity = null;
         timeElapsedRealtimeStarted = null;
         sensorManager.unregisterListener(accelerometerEventListener);
+        super.onDestroy();
     }
 
     @Nullable

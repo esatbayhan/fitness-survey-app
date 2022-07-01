@@ -32,12 +32,12 @@ import de.rub.selab22a15.services.ActivityRecordService;
 public class ActivityFragment extends Fragment {
     private static final String LOG_ACTIVITY = "ACTIVITY";
 
-    private TextInputEditText oteActivity;
+    private TextInputEditText textEditActivityRecord;
 
     private Chronometer cmtActivity;
 
-    private MaterialButton btnStartActivity;
-    private MaterialButton btnStopActivity;
+    private MaterialButton buttonStartActivityRecord;
+    private MaterialButton buttonStopActivityRecord;
 
     private Activity activity;
 
@@ -53,15 +53,15 @@ public class ActivityFragment extends Fragment {
 
         FragmentActivity fragmentActivity = requireActivity();
 
-        oteActivity = fragmentActivity.findViewById(R.id.oteActivity);
-
+        textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecord);
         cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
+        buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonStartActivityRecord);
+        buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonStopActivityRecord);
 
-        btnStartActivity = fragmentActivity.findViewById(R.id.btnStartActivity);
-        btnStopActivity = fragmentActivity.findViewById(R.id.btnStopActivity);
+        buttonStartActivityRecord.setOnClickListener(view1 -> startRecord());
+        buttonStopActivityRecord.setOnClickListener(view1 -> stopRecord());
 
-        btnStartActivity.setOnClickListener(view1 -> startRecord());
-        btnStopActivity.setOnClickListener(view1 -> stopRecord());
+        resetUI();
 
         if (ActivityRecordService.isRunning()) {
             resumeIntent();
@@ -83,35 +83,32 @@ public class ActivityFragment extends Fragment {
             return;
         }
 
-        activity =  ActivityRecordService.getActivity();
+        activity = ActivityRecordService.getActivity();
 
         cmtActivity.setBase(ActivityRecordService.getTimeElapsedRealtimeStarted());
         cmtActivity.start();
 
-        oteActivity.setText(activity.getActivity());
-        oteActivity.setInputType(InputType.TYPE_NULL);
+        textEditActivityRecord.setText(activity.getActivity());
+        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
 
-        btnStartActivity.setClickable(false);
-        btnStopActivity.setClickable(true);
+        buttonStartActivityRecord.setEnabled(false);
+        buttonStopActivityRecord.setEnabled(true);
     }
 
-    /**
-     * Starts the activity recording if an activity name is entered.
-     */
     private void startRecord() {
-        String activityName = Objects.requireNonNull(oteActivity.getText()).toString();
+        String activityName = Objects.requireNonNull(textEditActivityRecord.getText()).toString();
         if (activityName.isEmpty()) {
-            Toast.makeText(getContext(), getString(R.string.toastActivityFragmentStartError),Toast.LENGTH_SHORT)
+            Toast.makeText(getContext(), getString(R.string.toastActivityFragmentStartError), Toast.LENGTH_SHORT)
                     .show();
             return;
         }
 
         activity = new Activity(System.currentTimeMillis(), activityName);
 
-        oteActivity.setInputType(InputType.TYPE_NULL);
+        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
 
-        btnStartActivity.setClickable(false);
-        btnStopActivity.setClickable(true);
+        buttonStartActivityRecord.setEnabled(false);
+        buttonStopActivityRecord.setEnabled(true);
 
         cmtActivity.setBase(SystemClock.elapsedRealtime());
         cmtActivity.start();
@@ -142,11 +139,11 @@ public class ActivityFragment extends Fragment {
     }
 
     private void resetUI() {
-        oteActivity.setText("");
-        oteActivity.setInputType(InputType.TYPE_CLASS_TEXT);
+        textEditActivityRecord.setText("");
+        textEditActivityRecord.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        btnStartActivity.setClickable(true);
-        btnStopActivity.setClickable(false);
+        buttonStartActivityRecord.setEnabled(true);
+        buttonStopActivityRecord.setEnabled(false);
 
         cmtActivity.setBase(SystemClock.elapsedRealtime());
         cmtActivity.stop();
