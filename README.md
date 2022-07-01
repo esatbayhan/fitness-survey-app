@@ -10,7 +10,7 @@
     accelerometerRepository.insert(new Accelerometer(timestamp, x, y, z));
 ```
 
-## Firebase Security rules:
+## Firebase Security Rules:
 ```
 rules_version = '2';
 service firebase.storage {
@@ -33,6 +33,7 @@ service firebase.storage {
 ## Database Datasheet
 ### Rumination
 rumination:
-- I was stuck on negative thoughts and could not disengage from them
-- I am thinking about my feelings
-- I am thinking about my problems
+- 0: I was stuck on negative thoughts and could not disengage from them
+- 1: I am thinking about my feelings
+- 2: I am thinking about my problems
+- 3: Other
