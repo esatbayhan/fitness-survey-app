@@ -1,6 +1,9 @@
 package de.rub.selab22a15;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.InputType;
@@ -11,14 +14,18 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -27,17 +34,20 @@ import de.rub.selab22a15.activities.SurveyActivity;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
 import de.rub.selab22a15.db.ActivityRepository;
+import de.rub.selab22a15.db.GPSRepository;
 import de.rub.selab22a15.services.ActivityRecordService;
+import de.rub.selab22a15.services.LocationRecordService;
 
 public class ActivityFragment extends Fragment {
     private static final String LOG_ACTIVITY = "ACTIVITY";
 
-    private TextInputEditText oteActivity;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
+    private TextInputEditText textEditActivityRecord;
+    private SwitchMaterial switchActivityRecordGPS;
     private Chronometer cmtActivity;
-
-    private MaterialButton btnStartActivity;
-    private MaterialButton btnStopActivity;
+    private MaterialButton buttonStartActivityRecord;
+    private MaterialButton buttonStopActivityRecord;
 
     private Activity activity;
 
@@ -51,17 +61,44 @@ public class ActivityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (!isGranted) {
+                        switchActivityRecordGPS.setChecked(false);
+                    }
+                });
+
         FragmentActivity fragmentActivity = requireActivity();
 
-        oteActivity = fragmentActivity.findViewById(R.id.oteActivity);
-
+        textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecord);
+        switchActivityRecordGPS = fragmentActivity.findViewById(R.id.switchActivityRecordGPS);
         cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
+        buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonStartActivityRecord);
+        buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonStopActivityRecord);
 
-        btnStartActivity = fragmentActivity.findViewById(R.id.btnStartActivity);
-        btnStopActivity = fragmentActivity.findViewById(R.id.btnStopActivity);
+        switchActivityRecordGPS.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                return;
+            }
 
-        btnStartActivity.setOnClickListener(view1 -> startRecord());
-        btnStopActivity.setOnClickListener(view1 -> stopRecord());
+            if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                // In this case just continue
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), ACCESS_FINE_LOCATION)) {
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("GPS")
+                        .setMessage(R.string.stringActivityRecordPermissionText)
+                        .setNegativeButton(R.string.stringCancel, (dialog, which) -> switchActivityRecordGPS.setChecked(false))
+                        .setPositiveButton(R.string.stringOkay, (dialog, which) -> requestPermissionLauncher.launch(ACCESS_FINE_LOCATION))
+                        .show();
+            } else {
+                requestPermissionLauncher.launch(ACCESS_FINE_LOCATION);
+            }
+        });
+        buttonStartActivityRecord.setOnClickListener(v -> startRecord());
+        buttonStopActivityRecord.setOnClickListener(v -> stopRecord());
+
+        resetUI();
 
         if (ActivityRecordService.isRunning()) {
             resumeIntent();
@@ -83,44 +120,45 @@ public class ActivityFragment extends Fragment {
             return;
         }
 
-        activity =  ActivityRecordService.getActivity();
+        activity = ActivityRecordService.getActivity();
+
+        textEditActivityRecord.setText(activity.getActivity());
+        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
+
+        if (LocationRecordService.isRunning()) {
+            switchActivityRecordGPS.setChecked(true);
+        }
+        switchActivityRecordGPS.setEnabled(false);
 
         cmtActivity.setBase(ActivityRecordService.getTimeElapsedRealtimeStarted());
         cmtActivity.start();
 
-        oteActivity.setText(activity.getActivity());
-        oteActivity.setInputType(InputType.TYPE_NULL);
-
-        btnStartActivity.setClickable(false);
-        btnStopActivity.setClickable(true);
+        buttonStartActivityRecord.setEnabled(false);
+        buttonStopActivityRecord.setEnabled(true);
     }
 
-    /**
-     * Starts the activity recording if an activity name is entered.
-     */
     private void startRecord() {
-        String activityName = Objects.requireNonNull(oteActivity.getText()).toString();
+        String activityName = Objects.requireNonNull(textEditActivityRecord.getText()).toString();
         if (activityName.isEmpty()) {
-            Toast.makeText(getContext(), getString(R.string.toastActivityFragmentStartError),Toast.LENGTH_SHORT)
+            Toast.makeText(getContext(), getString(R.string.toastActivityFragmentStartError), Toast.LENGTH_SHORT)
                     .show();
             return;
         }
 
         activity = new Activity(System.currentTimeMillis(), activityName);
-
-        oteActivity.setInputType(InputType.TYPE_NULL);
-
-        btnStartActivity.setClickable(false);
-        btnStopActivity.setClickable(true);
-
-        cmtActivity.setBase(SystemClock.elapsedRealtime());
-        cmtActivity.start();
+        blockUI();
 
         startAccelerometerRecording();
+        if (switchActivityRecordGPS.isChecked()) {
+            startLocationRecording();
+        }
     }
 
     private void stopRecord() {
         stopAccelerometerRecording();
+        if (LocationRecordService.isRunning()) {
+            stopLocationRecording();
+        }
 
         new MaterialAlertDialogBuilder(requireContext())
                 .setMessage(R.string.alertSaveActivityMessage)
@@ -142,14 +180,23 @@ public class ActivityFragment extends Fragment {
     }
 
     private void resetUI() {
-        oteActivity.setText("");
-        oteActivity.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        btnStartActivity.setClickable(true);
-        btnStopActivity.setClickable(false);
-
+        textEditActivityRecord.setText("");
+        textEditActivityRecord.setInputType(InputType.TYPE_CLASS_TEXT);
+        switchActivityRecordGPS.setEnabled(true);
+        switchActivityRecordGPS.setChecked(false);
         cmtActivity.setBase(SystemClock.elapsedRealtime());
         cmtActivity.stop();
+        buttonStartActivityRecord.setEnabled(true);
+        buttonStopActivityRecord.setEnabled(false);
+    }
+
+    private void blockUI() {
+        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
+        switchActivityRecordGPS.setEnabled(false);
+        cmtActivity.setBase(SystemClock.elapsedRealtime());
+        cmtActivity.start();
+        buttonStartActivityRecord.setEnabled(false);
+        buttonStopActivityRecord.setEnabled(true);
     }
 
     private void discard() {
@@ -160,6 +207,11 @@ public class ActivityFragment extends Fragment {
 
         new AccelerometerRepository(requireActivity().getApplication())
                 .delete(activity.getTimestamp());
+        if (LocationRecordService.isRunning()) {
+            new GPSRepository(requireActivity().getApplication())
+                    .delete(activity.getTimestamp());
+        }
+
         activity = null;
     }
 
@@ -180,5 +232,15 @@ public class ActivityFragment extends Fragment {
 
     private void stopAccelerometerRecording() {
         requireActivity().stopService(new Intent(getActivity(), ActivityRecordService.class));
+    }
+
+    private void startLocationRecording() {
+        LocationRecordService.setActivity(activity);
+        Intent locationRecordService = new Intent(requireActivity(), LocationRecordService.class);
+        ContextCompat.startForegroundService(requireContext(), locationRecordService);
+    }
+
+    private void stopLocationRecording() {
+        requireActivity().stopService(new Intent(requireActivity(), LocationRecordService.class));
     }
 }

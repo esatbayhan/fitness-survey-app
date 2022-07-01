@@ -22,9 +22,6 @@
             android:name=".activities.SurveyActivity"
             android:exported="false" />
         <activity
-            android:name=".GPSActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -35,6 +32,10 @@
         </activity>
 
         <service android:name=".services.ActivityRecordService" />
+
+        <service
+            android:name=".services.LocationRecordService"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

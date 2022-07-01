@@ -103,6 +103,9 @@
     <string name="stringStart">Start</string>
     <string name="stringCardViewSurveySupportingText">It is time for a new survey to keep track of your mood.</string>
     <string name="stringDiscard">Discard</string>
+    <string name="stringActivityRecordPermissionText">We need permissions to gps if you want to use it while recording an activity</string>
+    <string name="stringCancel">Cancel</string>
+    <string name="stringOkay">Okay</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>

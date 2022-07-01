@@ -18,4 +18,7 @@ public interface GPSDao {
 
     @Query("DELETE FROM gps")
     void deleteAll();
+
+    @Query("DELETE FROM gps WHERE activity_timestamp = :activityTimestamp")
+    void delete(long activityTimestamp);
 }

@@ -55,11 +55,6 @@ dependencies {
 }
 
 dependencies {
-    implementation "androidx.compose.material3:material3:1.0.0-alpha13"
-    implementation "androidx.compose.material3:material3-window-size-class:1.0.0-alpha13"
-}
-
-dependencies {
     implementation "com.google.android.material:material:1.6.1"
 }
 
@@ -72,6 +67,4 @@ dependencies {
 
     // Java language implementation
     implementation "androidx.preference:preference:$preference_version"
-    // Kotlin
-    implementation "androidx.preference:preference-ktx:$preference_version"
 }
