@@ -3,7 +3,6 @@ package de.rub.selab22a15.helpers;
 import static de.rub.selab22a15.App.CHANNEL_ID_ACTIVITY_RECORD;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 
 import androidx.core.app.NotificationCompat;
