@@ -10,6 +10,9 @@ public class GPS {
     @ColumnInfo(name = "timestamp")
     private final long timestamp;
 
+    @ColumnInfo(name = "activity_timestamp")
+    private final Long activityTimestamp;
+
     @ColumnInfo(name = "longitude")
     private final Double longitude;
 
@@ -25,8 +28,16 @@ public class GPS {
     @ColumnInfo(name = "velocity")
     private final Float speed;
 
-    public GPS(long timestamp, Double latitude, Double longitude, Double altitude, Float accuracy, Float speed) {
+    public GPS(
+            long timestamp,
+            long activityTimestamp,
+            Double latitude,
+            Double longitude,
+            Double altitude,
+            Float accuracy,
+            Float speed) {
         this.timestamp = timestamp;
+        this.activityTimestamp = activityTimestamp;
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
@@ -36,6 +47,10 @@ public class GPS {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public Long getActivityTimestamp() {
+        return activityTimestamp;
     }
 
     public Double getLongitude() {

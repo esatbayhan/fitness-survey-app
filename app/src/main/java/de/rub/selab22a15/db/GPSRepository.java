@@ -25,6 +25,15 @@ public class GPSRepository {
                 gpsDao.insert(gps));
     }
 
+    public void delete(Long activityTimestamp) {
+        if (activityTimestamp == null) {
+            return;
+        }
+
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                gpsDao.delete(activityTimestamp));
+    }
+
     public void deleteAll() {
         AppDatabase.databaseWriteExecutor.execute(() ->
                 gpsDao.deleteAll());
