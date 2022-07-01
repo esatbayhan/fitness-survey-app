@@ -32,6 +32,10 @@
         </activity>
 
         <service android:name=".services.ActivityRecordService" />
+
+        <service
+            android:name=".services.LocationRecordService"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>
