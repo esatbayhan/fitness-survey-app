@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -33,11 +34,11 @@ public class ActivityFragment extends Fragment {
     private static final String LOG_ACTIVITY = "ACTIVITY";
 
     private TextInputEditText textEditActivityRecord;
-
+    private SwitchMaterial switchActivityRecordGPS;
     private Chronometer cmtActivity;
-
     private MaterialButton buttonStartActivityRecord;
     private MaterialButton buttonStopActivityRecord;
+
 
     private Activity activity;
 
@@ -54,6 +55,7 @@ public class ActivityFragment extends Fragment {
         FragmentActivity fragmentActivity = requireActivity();
 
         textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecord);
+        switchActivityRecordGPS = fragmentActivity.findViewById(R.id.switchActivityRecordGPS);
         cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
         buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonStartActivityRecord);
         buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonStopActivityRecord);
@@ -104,15 +106,7 @@ public class ActivityFragment extends Fragment {
         }
 
         activity = new Activity(System.currentTimeMillis(), activityName);
-
-        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
-
-        buttonStartActivityRecord.setEnabled(false);
-        buttonStopActivityRecord.setEnabled(true);
-
-        cmtActivity.setBase(SystemClock.elapsedRealtime());
-        cmtActivity.start();
-
+        blockUI();
         startAccelerometerRecording();
     }
 
@@ -141,12 +135,21 @@ public class ActivityFragment extends Fragment {
     private void resetUI() {
         textEditActivityRecord.setText("");
         textEditActivityRecord.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        buttonStartActivityRecord.setEnabled(true);
-        buttonStopActivityRecord.setEnabled(false);
-
+        switchActivityRecordGPS.setEnabled(true);
+        switchActivityRecordGPS.setChecked(false);
         cmtActivity.setBase(SystemClock.elapsedRealtime());
         cmtActivity.stop();
+        buttonStartActivityRecord.setEnabled(true);
+        buttonStopActivityRecord.setEnabled(false);
+    }
+
+    private void blockUI() {
+        textEditActivityRecord.setInputType(InputType.TYPE_NULL);
+        switchActivityRecordGPS.setEnabled(false);
+        cmtActivity.setBase(SystemClock.elapsedRealtime());
+        cmtActivity.start();
+        buttonStartActivityRecord.setEnabled(false);
+        buttonStopActivityRecord.setEnabled(true);
     }
 
     private void discard() {

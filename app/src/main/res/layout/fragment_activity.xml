@@ -31,7 +31,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchGPSEnabled"
+            android:id="@+id/switchActivityRecordGPS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -46,9 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:countDown="false"
-            app:layout_constraintEnd_toEndOf="@+id/switchGPSEnabled"
-            app:layout_constraintStart_toStartOf="@+id/switchGPSEnabled"
-            app:layout_constraintTop_toBottomOf="@+id/switchGPSEnabled" />
+            app:layout_constraintEnd_toEndOf="@+id/switchActivityRecordGPS"
+            app:layout_constraintStart_toStartOf="@+id/switchActivityRecordGPS"
+            app:layout_constraintTop_toBottomOf="@+id/switchActivityRecordGPS" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonStartActivityRecord"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/btnStartActivity"
-            app:layout_constraintStart_toStartOf="@+id/switchGPSEnabled"
+            app:layout_constraintStart_toStartOf="@+id/switchActivityRecordGPS"
             app:layout_constraintTop_toBottomOf="@+id/cmtActivity"
             tools:ignore="DuplicateClickableBoundsCheck"
             app:icon="@drawable/ic_baseline_not_started_24"/>
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/btnStopActivity"
-            app:layout_constraintEnd_toEndOf="@+id/switchGPSEnabled"
+            app:layout_constraintEnd_toEndOf="@+id/switchActivityRecordGPS"
             app:layout_constraintTop_toBottomOf="@+id/cmtActivity"
             app:icon="@drawable/ic_baseline_stop_circle_24"/>
 
