@@ -36,4 +36,11 @@
         <item>24</item>
     </string-array>
 
+    <string-array name="surveyRumination">
+        <item>I was stuck on negative thoughts and could not disengage from them</item>
+        <item>I am thinking about my feelings</item>
+        <item>I am thinking about my problems</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>
