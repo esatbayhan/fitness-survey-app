@@ -2,6 +2,7 @@ package de.rub.selab22a15.services;
 
 import static de.rub.selab22a15.App.CHANNEL_ID_ACTIVITY_RECORD;
 import static de.rub.selab22a15.App.CHANNEL_ID_NR_ACTIVITY_RECORD;
+import static de.rub.selab22a15.helpers.ServiceNotification.NOTIFICATION_ID;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -24,6 +25,7 @@ import de.rub.selab22a15.R;
 import de.rub.selab22a15.db.Accelerometer;
 import de.rub.selab22a15.db.AccelerometerRepository;
 import de.rub.selab22a15.db.Activity;
+import de.rub.selab22a15.helpers.ServiceNotification;
 
 public class ActivityRecordService extends Service {
     private static final String LOG_ACTIVITY_SERVICE = "ACTIVITY_SERVICE";
@@ -78,18 +80,7 @@ public class ActivityRecordService extends Service {
         isRunning = true;
         timeElapsedRealtimeStarted = SystemClock.elapsedRealtime();
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                0, notificationIntent, 0);
-
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_ACTIVITY_RECORD)
-                .setContentTitle(getString(R.string.channelActivityRecordTitle))
-                .setContentText(getString(R.string.channelActivityRecordText))
-                .setSmallIcon(R.drawable.ic_baseline_directions_run_24)
-                .setContentIntent(pendingIntent)
-                .build();
-
-        startForeground(CHANNEL_ID_NR_ACTIVITY_RECORD, notification);
+        startForeground(NOTIFICATION_ID, ServiceNotification.getNotification(this));
         sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
 
