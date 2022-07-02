@@ -89,6 +89,7 @@ public class ActivityFragment extends Fragment {
                 return;
             }
 
+            //noinspection StatementWithEmptyBody
             if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 // In this case just continue
@@ -282,7 +283,7 @@ public class ActivityFragment extends Fragment {
 
             // Actions
             textEditDate.setOnClickListener(v -> pickDateTime());
-            buttonSave.setOnClickListener(v -> addRecord());
+            buttonSave.setOnClickListener(v -> save());
 
             isInitialised = true;
         }
@@ -307,7 +308,7 @@ public class ActivityFragment extends Fragment {
             buttonSave.setEnabled(false);
         }
 
-        private void addRecord() {
+        private void save() {
             if (textEditName.getText() == null) {
                 Log.e(LOG_TAG, "textEditAddRecordName.getText() is null");
                 return;
@@ -329,6 +330,11 @@ public class ActivityFragment extends Fragment {
 
             new ActivityRepository(requireActivity().getApplication())
                     .insert(new Activity(timestamp, activityName));
+
+            Toast.makeText(requireContext(), R.string.stringSaved, Toast.LENGTH_LONG).show();
+
+            textEditName.setText("");
+            textEditDate.setText("");
         }
 
         private void pickTime() {
