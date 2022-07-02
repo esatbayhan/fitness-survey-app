@@ -13,21 +13,27 @@ import de.rub.selab22a15.R;
 
 @Database(entities =
         {Accelerometer.class,
-        GPS.class,
-        Activity.class,
-        Survey.class,
-        Rumination.class}, version = 1, exportSchema = false)
+                GPS.class,
+                Activity.class,
+                Survey.class,
+                Rumination.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
+
     abstract GPSDao gpsDao();
+
     abstract ActivityDao activityDao();
+
     abstract SurveyDao surveyDao();
+
     abstract RuminationDao ruminationDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    private static final String LOG_TAG_FIREBASE_AUTH = "FIREBASE_AUTH";
 
     static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -41,17 +47,5 @@ public abstract class AppDatabase extends RoomDatabase {
         }
 
         return INSTANCE;
-    }
-
-    public static void destroyInstance() {
-        if (INSTANCE == null) {
-            return;
-        }
-
-        if (INSTANCE.isOpen()) {
-            INSTANCE.close();
-        }
-
-        INSTANCE = null;
     }
 }

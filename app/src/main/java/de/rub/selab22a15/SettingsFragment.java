@@ -17,8 +17,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import de.rub.selab22a15.db.AppDatabase;
-
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private static final String TAG_FIREBASE_AUTH = "FIREBASE_AUTH";
@@ -38,8 +36,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private boolean uploadDatabase() {
-        AppDatabase.destroyInstance();
-
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             FirebaseAuth.getInstance().signInAnonymously()
                     .addOnCompleteListener(requireActivity(), task -> {
@@ -47,7 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                             Log.w(TAG_FIREBASE_AUTH, "signInAnonymously:failure",
                                     task.getException());
                             Toast.makeText(requireContext(), "Authentication failed. Try again later",
-                                    Toast.LENGTH_LONG)
+                                            Toast.LENGTH_LONG)
                                     .show();
                         }
                     });
