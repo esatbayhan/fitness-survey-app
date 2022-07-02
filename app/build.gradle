@@ -72,3 +72,8 @@ dependencies {
 dependencies {
     implementation "androidx.work:work-runtime:2.7.1"
 }
+
+dependencies {
+    implementation "androidx.lifecycle:lifecycle-process:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-common:2.5.0"
+}
