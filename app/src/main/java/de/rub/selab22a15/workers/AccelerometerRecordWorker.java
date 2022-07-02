@@ -37,10 +37,6 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
     @NonNull
     @Override
     public Result doWork() {
-        if (App.isRunningInForeground()) {
-            return Result.success();
-        }
-
         accelerometerRepository = new AccelerometerRepository(App.getInstance());
         sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);

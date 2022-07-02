@@ -34,16 +34,12 @@ public class App extends Application {
         return INSTANCE;
     }
 
-    public static boolean isRunningInForeground() {
-        return IS_RUNNING_FOREGROUND;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
 
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleListener());
+        createWorkManager();
         createNotificationChannelService();
     }
 
@@ -61,32 +57,15 @@ public class App extends Application {
     private void createWorkManager() {
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
                 AccelerometerRecordWorker.class,
-                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS
-        )
+                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(TAG_PASSIVE_RECORDING)
                 .build();
 
         WorkManager.getInstance(getApplicationContext())
                 .enqueueUniquePeriodicWork(
                         TAG_PASSIVE_RECORDING,
-                        ExistingPeriodicWorkPolicy.REPLACE,
+                        ExistingPeriodicWorkPolicy.KEEP,
                         workRequest
                 );
-    }
-
-    private class AppLifecycleListener implements DefaultLifecycleObserver {
-        @Override
-        public void onStart(@NonNull LifecycleOwner owner) {
-            DefaultLifecycleObserver.super.onStart(owner);
-            WorkManager.getInstance(getApplicationContext()).cancelUniqueWork(TAG_PASSIVE_RECORDING);
-            IS_RUNNING_FOREGROUND = true;
-        }
-
-        @Override
-        public void onStop(@NonNull LifecycleOwner owner) {
-            DefaultLifecycleObserver.super.onStop(owner);
-            IS_RUNNING_FOREGROUND = false;
-            createWorkManager();
-        }
     }
 }
