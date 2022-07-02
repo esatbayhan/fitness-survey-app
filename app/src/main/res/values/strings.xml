@@ -25,7 +25,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btnExportDatabaseText">Export Database</string>
-    <string name="textInputLayoutActivityRecordActiveRecordingHint">Activity</string>
+    <string name="textInputLayoutActivityRecordActiveRecordingNameHint">Activity</string>
     <string name="switchActivityRecordActiveRecordingLocationText">Enable Location?</string>
     <string name="buttonActivityRecordActiveRecordingStartText">Start</string>
     <string name="buttonActivityRecordActiveRecordingStopText">Stop</string>
@@ -110,9 +110,13 @@
     <string name="stringCardViewAddActivityTitle">Add Activity</string>
     <string name="stringCardViewAddActivitySupportingText">Add here an already finished activity</string>
     <string name="buttonAddRecordSelectTimeText">Select Time</string>
-    <string name="textInputLayoutAddRecordHint">Which activity do you want to add?</string>
+    <string name="textInputLayoutActivityRecordAddRecordNameHelperText">Which activity do you want to add?</string>
     <string name="stringActivityRecordActiveRecordingTitle">Active Activity Recording</string>
     <string name="textInputLayoutActivityRecordActiveRecordingHelperText">Which activity do you want to track?</string>
+    <string name="textInputLayoutAddRecordDatetimeHint">Date</string>
+    <string name="textInputLayoutActivityRecordAddRecordDateHelperText">When was your activity you want to add?</string>
+    <string name="toastActivityRecordAddRecordSaveDateMissing">Date missing</string>
+    <string name="toastActivityRecordAddRecordSaveActivityMissing">Error: Activity Name Missing</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>
