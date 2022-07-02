@@ -5,7 +5,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.InputType;
@@ -35,8 +34,6 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -60,14 +57,10 @@ public class ActivityFragment extends Fragment {
     private MaterialButton buttonActiveRecordingStart;
     private MaterialButton buttonActiveRecordingStop;
 
-    private CardView cardViewAddRecord;
-    private TextInputEditText textEditAddRecordName;
-    private TextInputEditText textEditAddRecordDate;
-    private MaterialButton buttonAddRecordSave;
+    private AddRecord addRecord;
 
     private Activity activity;
 
-    private Long timestampAddRecord;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,11 +88,7 @@ public class ActivityFragment extends Fragment {
         buttonActiveRecordingStart = activity.findViewById(R.id.buttonActivityRecordActiveRecordingStart);
         buttonActiveRecordingStop = activity.findViewById(R.id.buttonActivityRecordActiveRecordingStop);
 
-        // Add Record Views
-        cardViewAddRecord = activity.findViewById(R.id.cardViewActivityRecordAddRecord);
-        textEditAddRecordName = activity.findViewById(R.id.textEditActivityRecordAddRecordName);
-        textEditAddRecordDate = activity.findViewById(R.id.textEditActivityRecordAddRecordDate);
-        buttonAddRecordSave = activity.findViewById(R.id.buttonActivityRecordAddRecordSave);
+
 
         // Active Recording Actions
         switchActiveRecordingLocation.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -124,18 +113,7 @@ public class ActivityFragment extends Fragment {
         buttonActiveRecordingStart.setOnClickListener(v -> startRecord());
         buttonActiveRecordingStop.setOnClickListener(v -> stopRecord());
 
-        // Add Record Actions
-        textEditAddRecordDate.setOnClickListener(v -> pickDateTime());
-        buttonAddRecordSave.setOnClickListener(v -> addRecord());
-
-        resetUI();
-
-        Log.d("ARF", "inside on view created");
-
-        if (ActivityRecordService.isRunning()) {
-            resumeIntent();
-            Log.d("ARF", "inside is running");
-        }
+        addRecord = new AddRecord();
     }
 
     @Override
@@ -143,11 +121,14 @@ public class ActivityFragment extends Fragment {
         super.onResume();
 
         if (ActivityRecordService.isRunning()) {
-            resumeIntent();
+            resumeActiveRecording();
+            return;
         }
+
+        resetUI();
     }
 
-    private void resumeIntent() {
+    private void resumeActiveRecording() {
         if (!ActivityRecordService.isRunning()) {
             Log.w(LOG_TAG_ACTIVITY_RECORD, "resumeIntent() got called while no service is running");
             return;
@@ -169,7 +150,7 @@ public class ActivityFragment extends Fragment {
         buttonActiveRecordingStart.setEnabled(false);
         buttonActiveRecordingStop.setEnabled(true);
 
-        cardViewAddRecord.setVisibility(View.GONE);
+        addRecord.disable();
     }
 
     private void startRecord() {
@@ -224,7 +205,7 @@ public class ActivityFragment extends Fragment {
         buttonActiveRecordingStart.setEnabled(true);
         buttonActiveRecordingStop.setEnabled(false);
 
-        cardViewAddRecord.setVisibility(View.VISIBLE);
+        addRecord.enable();
     }
 
     private void blockUI() {
@@ -235,7 +216,7 @@ public class ActivityFragment extends Fragment {
         buttonActiveRecordingStart.setEnabled(false);
         buttonActiveRecordingStop.setEnabled(true);
 
-        cardViewAddRecord.setVisibility(View.GONE);
+        addRecord.disable();
     }
 
     private void discard() {
@@ -263,65 +244,7 @@ public class ActivityFragment extends Fragment {
         new ActivityRepository(requireActivity().getApplication()).insert(activity);
     }
 
-    private void addRecord() {
-        if (textEditAddRecordName.getText() == null) {
-            Log.e(LOG_TAG_ACTIVITY_RECORD, "textEditAddRecordName.getText() is null");
-            return;
-        }
 
-        String activityName = textEditAddRecordName.getText().toString();
-
-        if (activityName.isEmpty()) {
-            Toast.makeText(requireContext(), R.string.toastActivityRecordAddRecordSaveActivityMissing, Toast.LENGTH_LONG )
-                    .show();
-            return;
-        }
-
-        if (timestampAddRecord == null) {
-            Toast.makeText(requireContext(), R.string.toastActivityRecordAddRecordSaveDateMissing, Toast.LENGTH_LONG )
-                    .show();
-            return;
-        }
-
-        new ActivityRepository(requireActivity().getApplication())
-                .insert(new Activity(timestampAddRecord, activityName));
-    }
-
-    private void pickTime() {
-        Calendar calendar = Calendar.getInstance();
-
-        MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
-                .setTitleText("Select Activity Time")
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setHour(calendar.get(Calendar.HOUR_OF_DAY))
-                .setMinute(calendar.get(Calendar.MINUTE))
-                .build();
-
-        timePicker.addOnPositiveButtonClickListener(v -> {
-            timestampAddRecord +=TimeUnit.MILLISECONDS.convert(timePicker.getHour(), TimeUnit.HOURS);
-            timestampAddRecord += TimeUnit.MILLISECONDS.convert(timePicker.getMinute(), TimeUnit.MINUTES);
-            // Timezone is buggy if not done like this
-            Long timestampEditText = timestampAddRecord - calendar.getTimeZone().getOffset(timestampAddRecord);
-            textEditAddRecordDate.setText(DateFormat.getInstance().format(timestampEditText));
-        });
-
-        timePicker.show(getParentFragmentManager(), null);
-    }
-
-    private void pickDateTime() {
-        // Pick Date
-        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select Activity Date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build();
-        datePicker.addOnPositiveButtonClickListener(currentDateInMillis -> {
-            timestampAddRecord = currentDateInMillis;
-
-            Log.d("picker", timestampAddRecord.toString());
-            pickTime(); // Pick Time
-        });
-        datePicker.show(getParentFragmentManager(), null);
-    }
 
     private void startAccelerometerRecording() {
         ActivityRecordService.setActivity(activity);
@@ -341,5 +264,109 @@ public class ActivityFragment extends Fragment {
 
     private void stopLocationRecording() {
         requireActivity().stopService(new Intent(requireActivity(), LocationRecordService.class));
+    }
+
+    private class ActiveRecording {
+
+    }
+
+    private class AddRecord {
+        private boolean isInitialised;
+        private boolean isEnabled;
+
+        private CardView cardViewAddRecord;
+        private TextInputEditText textEditAddRecordName;
+        private TextInputEditText textEditAddRecordDate;
+        private Long timestampAddRecord;
+
+        private void initViews() {
+            FragmentActivity activity = requireActivity();
+
+            // Bind Views
+            cardViewAddRecord = activity.findViewById(R.id.cardViewActivityRecordAddRecord);
+            textEditAddRecordName = activity.findViewById(R.id.textEditActivityRecordAddRecordName);
+            textEditAddRecordDate = activity.findViewById(R.id.textEditActivityRecordAddRecordDate);
+            MaterialButton buttonAddRecordSave = activity.findViewById(R.id.buttonActivityRecordAddRecordSave);
+
+            // Actions
+            textEditAddRecordDate.setOnClickListener(v -> pickDateTime());
+            buttonAddRecordSave.setOnClickListener(v -> addRecord());
+
+            isInitialised = true;
+        }
+
+        protected void enable() {
+            if (!isInitialised) {
+                initViews();
+            }
+
+            cardViewAddRecord.setVisibility(View.VISIBLE);
+            isEnabled = true;
+        }
+
+        protected void disable() {
+            cardViewAddRecord.setVisibility(View.GONE);
+            isEnabled = false;
+        }
+
+        private void addRecord() {
+            if (textEditAddRecordName.getText() == null) {
+                Log.e(LOG_TAG_ACTIVITY_RECORD, "textEditAddRecordName.getText() is null");
+                return;
+            }
+
+            String activityName = textEditAddRecordName.getText().toString();
+
+            if (activityName.isEmpty()) {
+                Toast.makeText(requireContext(), R.string.toastActivityRecordAddRecordSaveActivityMissing, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+            if (timestampAddRecord == null) {
+                Toast.makeText(requireContext(), R.string.toastActivityRecordAddRecordSaveDateMissing, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+            new ActivityRepository(requireActivity().getApplication())
+                    .insert(new Activity(timestampAddRecord, activityName));
+        }
+
+        private void pickTime() {
+            Calendar calendar = Calendar.getInstance();
+
+            MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+                    .setTitleText("Select Activity Time")
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+                    .setMinute(calendar.get(Calendar.MINUTE))
+                    .build();
+
+            timePicker.addOnPositiveButtonClickListener(v -> {
+                timestampAddRecord += TimeUnit.MILLISECONDS.convert(timePicker.getHour(), TimeUnit.HOURS);
+                timestampAddRecord += TimeUnit.MILLISECONDS.convert(timePicker.getMinute(), TimeUnit.MINUTES);
+                // Timezone is buggy if not done like this
+                Long timestampEditText = timestampAddRecord - calendar.getTimeZone().getOffset(timestampAddRecord);
+                textEditAddRecordDate.setText(DateFormat.getInstance().format(timestampEditText));
+            });
+
+            timePicker.show(getParentFragmentManager(), null);
+        }
+
+        private void pickDateTime() {
+            // Pick Date
+            MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select Activity Date")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .build();
+            datePicker.addOnPositiveButtonClickListener(currentDateInMillis -> {
+                timestampAddRecord = currentDateInMillis;
+
+                Log.d("picker", timestampAddRecord.toString());
+                pickTime(); // Pick Time
+            });
+            datePicker.show(getParentFragmentManager(), null);
+        }
     }
 }
