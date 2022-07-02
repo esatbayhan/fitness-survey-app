@@ -4,6 +4,8 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.DateFormat;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.InputType;
@@ -24,11 +26,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import de.rub.selab22a15.activities.SurveyActivity;
 import de.rub.selab22a15.db.AccelerometerRepository;
@@ -48,6 +54,8 @@ public class ActivityFragment extends Fragment {
     private Chronometer cmtActivity;
     private MaterialButton buttonStartActivityRecord;
     private MaterialButton buttonStopActivityRecord;
+
+    private AddRecord addRecord;
 
     private Activity activity;
 
@@ -70,17 +78,18 @@ public class ActivityFragment extends Fragment {
 
         FragmentActivity fragmentActivity = requireActivity();
 
-        textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecord);
-        switchActivityRecordGPS = fragmentActivity.findViewById(R.id.switchActivityRecordGPS);
-        cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
-        buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonStartActivityRecord);
-        buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonStopActivityRecord);
+        textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecordActiveRecording);
+        switchActivityRecordGPS = fragmentActivity.findViewById(R.id.switchActivityRecordActiveRecordingLocation);
+        cmtActivity = fragmentActivity.findViewById(R.id.chronometerActivityRecordActiveRecording);
+        buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonActivityRecordActiveRecordingStart);
+        buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonActivityRecordActiveRecordingStop);
 
         switchActivityRecordGPS.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
                 return;
             }
 
+            //noinspection StatementWithEmptyBody
             if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 // In this case just continue
@@ -98,6 +107,9 @@ public class ActivityFragment extends Fragment {
         buttonStartActivityRecord.setOnClickListener(v -> startRecord());
         buttonStopActivityRecord.setOnClickListener(v -> stopRecord());
 
+        // Add Record
+        addRecord = new AddRecord();
+
         resetUI();
 
         if (ActivityRecordService.isRunning()) {
@@ -112,6 +124,12 @@ public class ActivityFragment extends Fragment {
         if (ActivityRecordService.isRunning()) {
             resumeIntent();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        resetUI();
     }
 
     private void resumeIntent() {
@@ -135,6 +153,8 @@ public class ActivityFragment extends Fragment {
 
         buttonStartActivityRecord.setEnabled(false);
         buttonStopActivityRecord.setEnabled(true);
+
+        addRecord.disable();
     }
 
     private void startRecord() {
@@ -188,6 +208,8 @@ public class ActivityFragment extends Fragment {
         cmtActivity.stop();
         buttonStartActivityRecord.setEnabled(true);
         buttonStopActivityRecord.setEnabled(false);
+
+        addRecord.enable();
     }
 
     private void blockUI() {
@@ -197,6 +219,8 @@ public class ActivityFragment extends Fragment {
         cmtActivity.start();
         buttonStartActivityRecord.setEnabled(false);
         buttonStopActivityRecord.setEnabled(true);
+
+        addRecord.disable();
     }
 
     private void discard() {
@@ -242,5 +266,117 @@ public class ActivityFragment extends Fragment {
 
     private void stopLocationRecording() {
         requireActivity().stopService(new Intent(requireActivity(), LocationRecordService.class));
+    }
+
+    private class AddRecord {
+        private static final String LOG_TAG = "ADD_RECORD";
+
+        private boolean isInitialised;
+        private Long timestamp;
+
+        // Views
+        private TextInputEditText textEditName;
+        private TextInputEditText textEditDate;
+        private MaterialButton buttonSave;
+
+        private void initViews() {
+            FragmentActivity activity = requireActivity();
+
+            // Bind Views
+            textEditName = activity.findViewById(R.id.textEditActivityRecordAddRecordName);
+            textEditDate = activity.findViewById(R.id.textEditActivityRecordAddRecordDate);
+            buttonSave = activity.findViewById(R.id.buttonActivityRecordAddRecordSave);
+
+            // Actions
+            textEditDate.setOnClickListener(v -> pickDateTime());
+            buttonSave.setOnClickListener(v -> save());
+
+            isInitialised = true;
+        }
+
+        protected void enable() {
+            if (!isInitialised) {
+                initViews();
+            }
+
+            textEditName.setEnabled(true);
+            textEditDate.setEnabled(true);
+            buttonSave.setEnabled(true);
+        }
+
+        protected void disable() {
+            if (!isInitialised) {
+                initViews();
+            }
+
+            textEditName.setEnabled(false);
+            textEditDate.setEnabled(false);
+            buttonSave.setEnabled(false);
+        }
+
+        private void save() {
+            if (textEditName.getText() == null) {
+                Log.e(LOG_TAG, "textEditAddRecordName.getText() is null");
+                return;
+            }
+
+            String activityName = textEditName.getText().toString();
+
+            if (activityName.isEmpty()) {
+                Toast.makeText(requireContext(), R.string.toastActivityRecordAddRecordSaveActivityMissing, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+            if (timestamp == null) {
+                Toast.makeText(requireContext(), R.string.toastActivityRecordAddRecordSaveDateMissing, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+            new ActivityRepository(requireActivity().getApplication())
+                    .insert(new Activity(timestamp, activityName));
+
+            Toast.makeText(requireContext(), R.string.stringSaved, Toast.LENGTH_LONG).show();
+
+            textEditName.setText("");
+            textEditDate.setText("");
+        }
+
+        private void pickTime() {
+            Calendar calendar = Calendar.getInstance();
+
+            MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+                    .setTitleText("Select Activity Time")
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+                    .setMinute(calendar.get(Calendar.MINUTE))
+                    .build();
+
+            timePicker.addOnPositiveButtonClickListener(v -> {
+                timestamp += TimeUnit.MILLISECONDS.convert(timePicker.getHour(), TimeUnit.HOURS);
+                timestamp += TimeUnit.MILLISECONDS.convert(timePicker.getMinute(), TimeUnit.MINUTES);
+                // Timezone is buggy if not done like this
+                Long timestampEditText = timestamp - calendar.getTimeZone().getOffset(timestamp);
+                textEditDate.setText(DateFormat.getInstance().format(timestampEditText));
+            });
+
+            timePicker.show(getParentFragmentManager(), null);
+        }
+
+        private void pickDateTime() {
+            // Pick Date
+            MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select Activity Date")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .build();
+            datePicker.addOnPositiveButtonClickListener(currentDateInMillis -> {
+                timestamp = currentDateInMillis;
+
+                Log.d("picker", timestamp.toString());
+                pickTime(); // Pick Time
+            });
+            datePicker.show(getParentFragmentManager(), null);
+        }
     }
 }

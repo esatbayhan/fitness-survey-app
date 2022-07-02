@@ -192,7 +192,6 @@ public class SurveyActivity extends AppCompatActivity {
                 .setMessage(R.string.alertSurveySaveDialog)
                 .setNeutralButton(R.string.stringDecline, (dialog, which) -> {
                 })
-                .setNegativeButton(R.string.alertSaveActivityNegative, (dialogInterface, i) -> exitSurvey())
                 .setPositiveButton(R.string.alertSaveActivityPositive, (dialogInterface, i) -> {
                     save();
                     exitSurvey();

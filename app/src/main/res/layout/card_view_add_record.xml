@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewActivityRecordAddRecord"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/design_default_color_primary"
+    app:strokeWidth="1dp">
+
+    <!-- Title, Supporting Text and Text Edit -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!--Title-->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stringCardViewAddActivityTitle"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+        <!--Supporting Text-->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/stringCardViewAddActivitySupportingText"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <!--Text Edit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutAddRecordName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/textInputLayoutActivityRecordActiveRecordingNameHint"
+            app:helperText="@string/textInputLayoutActivityRecordAddRecordNameHelperText"
+            app:startIconDrawable="@drawable/ic_baseline_directions_run_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textEditActivityRecordAddRecordName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Date Picker-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutAddRecordDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/textInputLayoutAddRecordDatetimeHint"
+            app:helperText="@string/textInputLayoutActivityRecordAddRecordDateHelperText"
+            app:startIconDrawable="@drawable/ic_baseline_edit_calendar_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textEditActivityRecordAddRecordDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:longClickable="false"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Save Button-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonActivityRecordAddRecordSave"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/stringSave" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
