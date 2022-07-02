@@ -10,16 +10,16 @@
         <item>english</item>
     </string-array>
 
-    <string-array name="preferenceScreenBatteryEntries">
+    <string-array name="BATTERY_MODE_ENTRIES">
         <item>Low Battery Drain &amp; Low Accuracy</item>
         <item>Medium Battery Drain &amp; Medium Accuracy</item>
         <item>High Battery Drain &amp; High Accuracy</item>
     </string-array>
 
-    <string-array name="preferenceScreenBatteryValues">
-        <item>low</item>
-        <item>medium</item>
-        <item>high</item>
+    <string-array name="BATTERY_MODE_VALUES">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="preferenceScreenSurveyEntries">

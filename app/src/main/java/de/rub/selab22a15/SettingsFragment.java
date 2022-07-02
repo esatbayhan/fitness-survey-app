@@ -17,9 +17,18 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
 public class SettingsFragment extends PreferenceFragmentCompat {
+
+    // BATTERY MODES
+    public static final String BATTERY_USAGE_LOW = "0";
+    public static final String BATTERY_USAGE_MEDIUM = "1";
+    public static final String BATTERY_USAGE_HIGH = "2";
+
     private static final String TAG_FIREBASE_AUTH = "FIREBASE_AUTH";
+    public static final String KEY_LANGUAGE = "LANGUAGE";
+    public static final String KEY_BATTERY = "BATTERY";
+    public static final String KEY_SURVEY = "SURVEY";
+    public static final String KEY_UPLOAD = "UPLOAD";
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
@@ -30,9 +39,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Preference prefExport = findPreference(getString(R.string.preferenceScreenUpload));
-        assert prefExport != null;
-        prefExport.setOnPreferenceClickListener(preference -> uploadDatabase());
+        Preference preferenceUpload = findPreference(KEY_UPLOAD);
+        assert preferenceUpload != null;
+        preferenceUpload.setOnPreferenceClickListener(preference -> uploadDatabase());
     }
 
     private boolean uploadDatabase() {

@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
-        app:key="@string/preferenceScreenLanguage"
-        app:icon="@drawable/ic_baseline_language_24"
-        app:title="@string/preferenceScreenLanguageTitle"
-        app:summary="@string/preferenceScreenLanguageSummary"
-        app:useSimpleSummaryProvider="true"
+        app:defaultValue="english"
         app:entries="@array/preferenceScreenLanguageEntries"
         app:entryValues="@array/preferenceScreenLanguageValues"
-        app:defaultValue="english" />
+        app:icon="@drawable/ic_baseline_language_24"
+        app:key="LANGUAGE"
+        app:summary="@string/preferenceScreenLanguageSummary"
+        app:title="@string/preferenceScreenLanguageTitle"
+        app:useSimpleSummaryProvider="true" />
 
     <ListPreference
-        app:key="@string/preferenceScreenBattery"
+        app:defaultValue="0"
+        app:entries="@array/BATTERY_MODE_ENTRIES"
+        app:entryValues="@array/BATTERY_MODE_VALUES"
         app:icon="@drawable/ic_baseline_battery_saver_24"
-        app:title="@string/preferencesScreenBatteryTitle"
+        app:key="BATTERY"
         app:summary="@string/preferenceScreenBatterySummary"
-        app:useSimpleSummaryProvider="true"
-        app:entries="@array/preferenceScreenBatteryEntries"
-        app:entryValues="@array/preferenceScreenBatteryValues"
-        app:defaultValue="medium" />
+        app:title="@string/preferencesScreenBatteryTitle"
+        app:useSimpleSummaryProvider="true" />
 
     <ListPreference
-        app:key="@string/preferenceScreenSurvey"
-        app:icon="@drawable/ic_baseline_poll_24"
-        app:title="@string/preferenceScreenSurveyTitle"
-        app:summary="@string/preferenceScreenSurveySummary"
-        app:useSimpleSummaryProvider="true"
+        app:defaultValue="12"
         app:entries="@array/preferenceScreenSurveyEntries"
         app:entryValues="@array/preferenceScreenSurveyValues"
-        app:defaultValue="12" />
+        app:icon="@drawable/ic_baseline_poll_24"
+        app:key="SURVEY"
+        app:summary="@string/preferenceScreenSurveySummary"
+        app:title="@string/preferenceScreenSurveyTitle"
+        app:useSimpleSummaryProvider="true" />
 
     <Preference
-        app:key="@string/preferenceScreenUpload"
         app:icon="@drawable/ic_baseline_send_24"
-        app:title="@string/preferenceScreenUploadTitle"
-        app:summary="@string/preferenceScreenUploadSummary" />
+        app:key="UPLOAD"
+        app:summary="@string/preferenceScreenUploadSummary"
+        app:title="@string/preferenceScreenUploadTitle" />
 
 
 </PreferenceScreen>
