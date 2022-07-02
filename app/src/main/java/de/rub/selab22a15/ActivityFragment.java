@@ -70,11 +70,11 @@ public class ActivityFragment extends Fragment {
 
         FragmentActivity fragmentActivity = requireActivity();
 
-        textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecord);
-        switchActivityRecordGPS = fragmentActivity.findViewById(R.id.switchActivityRecordGPS);
-        cmtActivity = fragmentActivity.findViewById(R.id.cmtActivity);
-        buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonStartActivityRecord);
-        buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonStopActivityRecord);
+        textEditActivityRecord = fragmentActivity.findViewById(R.id.textEditActivityRecordActiveRecording);
+        switchActivityRecordGPS = fragmentActivity.findViewById(R.id.switchActivityRecordActiveRecordingLocation);
+        cmtActivity = fragmentActivity.findViewById(R.id.chronometerActivityRecordActiveRecording);
+        buttonStartActivityRecord = fragmentActivity.findViewById(R.id.buttonActivityRecordActiveRecordingStart);
+        buttonStopActivityRecord = fragmentActivity.findViewById(R.id.buttonActivityRecordActiveRecordingStop);
 
         switchActivityRecordGPS.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
@@ -100,8 +100,11 @@ public class ActivityFragment extends Fragment {
 
         resetUI();
 
+        Log.d("ARF", "inside on view created");
+
         if (ActivityRecordService.isRunning()) {
             resumeIntent();
+            Log.d("ARF", "inside is running");
         }
     }
 
