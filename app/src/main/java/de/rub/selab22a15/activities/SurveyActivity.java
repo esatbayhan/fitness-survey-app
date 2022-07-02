@@ -1,9 +1,13 @@
 package de.rub.selab22a15.activities;
 
+import static de.rub.selab22a15.workers.PeriodicNotificationWorker.NOTIFICATION_ID_PERIODIC_NOTIFICATION;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +28,7 @@ import de.rub.selab22a15.fragments.SurveySocialContextFragment;
 public class SurveyActivity extends AppCompatActivity {
     private static final String LOG_TAG = "SURVEY";
     public static final String EXTRA_ACTIVITY_TIMESTAMP = "activityTimestamp";
+    public static final String EXTRA_FROM_NOTIFICATION = "FROM_NOTIFICATION";
 
     private Long activityTimestamp;
 
@@ -100,6 +105,19 @@ public class SurveyActivity extends AppCompatActivity {
                 .setSingleChoiceItems(R.array.surveyRumination, ruminationItemIndex,
                         (dialog, which) -> ruminationItemIndex = which)
                 .show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (getIntent().hasExtra(EXTRA_FROM_NOTIFICATION)) {
+            Log.d(LOG_TAG, "has extra");
+
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(
+                    getApplicationContext());
+            notificationManagerCompat.cancel(NOTIFICATION_ID_PERIODIC_NOTIFICATION);
+        }
     }
 
     private void setMoodFragment() {
