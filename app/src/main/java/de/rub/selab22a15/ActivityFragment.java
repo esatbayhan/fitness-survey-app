@@ -126,6 +126,12 @@ public class ActivityFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        resetUI();
+    }
+
     private void resumeIntent() {
         if (!ActivityRecordService.isRunning()) {
             Log.w(LOG_ACTIVITY, "resumeIntent() got called while no service is running");
