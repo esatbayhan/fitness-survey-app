@@ -4,6 +4,7 @@ import static de.rub.selab22a15.SettingsFragment.BATTERY_USAGE_HIGH;
 import static de.rub.selab22a15.SettingsFragment.BATTERY_USAGE_LOW;
 import static de.rub.selab22a15.SettingsFragment.BATTERY_USAGE_MEDIUM;
 import static de.rub.selab22a15.SettingsFragment.KEY_BATTERY;
+import static de.rub.selab22a15.SettingsFragment.KEY_PASSIVE_RECORDING;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,6 +43,11 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
     private AccelerometerRepository accelerometerRepository;
 
     public static void start(Context context) {
+        if (!hasPermissions(context)) {
+            Log.d(LOG_TAG, "User deselected passive recording");
+            return;
+        }
+
         setBatteryUsage(context);
 
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
@@ -56,6 +62,16 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
                         ExistingPeriodicWorkPolicy.REPLACE,
                         workRequest
                 );
+    }
+
+    public static void stop(Context context) {
+        WorkManager.getInstance(context)
+                .cancelUniqueWork(TAG_PASSIVE_RECORDING);
+    }
+
+    private static boolean hasPermissions(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(KEY_PASSIVE_RECORDING, false);
     }
 
     public static void setBatteryUsage(Context context) {

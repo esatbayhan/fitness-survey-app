@@ -1,5 +1,6 @@
 package de.rub.selab22a15;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import de.rub.selab22a15.workers.AccelerometerRecordWorker;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -24,11 +30,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String BATTERY_USAGE_MEDIUM = "1";
     public static final String BATTERY_USAGE_HIGH = "2";
 
-    private static final String TAG_FIREBASE_AUTH = "FIREBASE_AUTH";
+    private static final String LOG_TAG = "PREFERENCES";
+
     public static final String KEY_LANGUAGE = "LANGUAGE";
+    public static final String KEY_PASSIVE_RECORDING = "PASSIVE_RECORDING";
     public static final String KEY_BATTERY = "BATTERY";
     public static final String KEY_SURVEY = "SURVEY";
     public static final String KEY_UPLOAD = "UPLOAD";
+
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
@@ -39,17 +49,43 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Preference preferenceUpload = findPreference(KEY_UPLOAD);
-        assert preferenceUpload != null;
-        preferenceUpload.setOnPreferenceClickListener(preference -> uploadDatabase());
+        listener = (sharedPreferences, key) -> {
+            if (key.equals(KEY_PASSIVE_RECORDING)) {
+                passiveRecordingHandler(sharedPreferences);
+            }
+            else if (key.equals(KEY_UPLOAD)) {
+                uploadDatabase();
+            }
+        };
+
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .registerOnSharedPreferenceChangeListener(listener);
     }
 
-    private boolean uploadDatabase() {
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    private void passiveRecordingHandler(SharedPreferences sharedPreferences) {
+        boolean isGranted = sharedPreferences.getBoolean(KEY_PASSIVE_RECORDING, false);
+
+        if (isGranted) {
+            AccelerometerRecordWorker.start(requireContext());
+        } else {
+            AccelerometerRecordWorker.stop(requireContext());
+        }
+    }
+
+    private void uploadDatabase() {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             FirebaseAuth.getInstance().signInAnonymously()
                     .addOnCompleteListener(requireActivity(), task -> {
                         if (!task.isSuccessful()) {
-                            Log.w(TAG_FIREBASE_AUTH, "signInAnonymously:failure",
+                            Log.w(LOG_TAG, "signInAnonymously:failure",
                                     task.getException());
                             Toast.makeText(requireContext(), "Authentication failed. Try again later",
                                             Toast.LENGTH_LONG)
@@ -58,7 +94,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     });
         }
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            return false;
+            return;
         }
 
         AtomicBoolean isSuccessful = new AtomicBoolean(false);
@@ -80,7 +116,5 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                             .show();
                     isSuccessful.set(false);
                 });
-
-        return isSuccessful.get();
     }
 }
