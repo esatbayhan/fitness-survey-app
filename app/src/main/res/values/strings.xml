@@ -42,8 +42,8 @@
     <string name="preferenceScreenLanguageSummary">Select your preferred language.</string>
     <string name="preferencesScreenBatteryTitle">Battery Consumption &amp; Accuracy</string>
     <string name="preferenceScreenBatterySummary">Select your preferred battery consumption option.</string>
-    <string name="preferenceScreenSurveyTitle">Survey Interval</string>
-    <string name="preferenceScreenSurveySummary">How often do you want to get notified for new surveys</string>
+    <string name="preferenceScreenSurveyTitle">Survey Schedule</string>
+    <string name="preferenceScreenSurveySummary">When do you want to be notified for a new survey?</string>
     <string name="preferenceScreenUploadTitle">Upload Database</string>
     <string name="preferenceScreenUploadSummary">Upload research data to researcher</string>
     <string name="preferenceScreenUpload">preferenceUpload</string>

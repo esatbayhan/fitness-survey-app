@@ -21,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -30,12 +31,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String BATTERY_USAGE_MEDIUM = "1";
     public static final String BATTERY_USAGE_HIGH = "2";
 
+    // SURVEY SCHEDULE
+    public static final String SURVEY_SCHEDULE_MORNING = "0";
+    public static final String SURVEY_SCHEDULE_AFTERNOON = "1";
+    public static final String SURVEY_SCHEDULE_EVENING = "2";
+    public static final String SURVEY_SCHEDULE_NIGHT = "3";
+
     private static final String LOG_TAG = "PREFERENCES";
 
     public static final String KEY_LANGUAGE = "LANGUAGE";
     public static final String KEY_PASSIVE_RECORDING = "PASSIVE_RECORDING";
     public static final String KEY_BATTERY = "BATTERY";
-    public static final String KEY_SURVEY = "SURVEY";
+    public static final String KEY_SURVEY_SCHEDULE = "SURVEY_SCHEDULE";
     public static final String KEY_UPLOAD = "UPLOAD";
 
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
@@ -50,11 +57,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onViewCreated(view, savedInstanceState);
 
         listener = (sharedPreferences, key) -> {
-            if (key.equals(KEY_PASSIVE_RECORDING)) {
-                passiveRecordingHandler(sharedPreferences);
-            }
-            else if (key.equals(KEY_UPLOAD)) {
-                uploadDatabase();
+            switch (key) {
+                case KEY_PASSIVE_RECORDING:
+                    passiveRecordingHandler(sharedPreferences);
+                    break;
+                case KEY_UPLOAD:
+                    uploadDatabase();
+                    break;
+                case KEY_SURVEY_SCHEDULE:
+                    SurveyAlarmReceiver.setAlarm(requireContext());
+                    break;
             }
         };
 

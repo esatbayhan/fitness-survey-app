@@ -39,11 +39,11 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="12"
+            app:defaultValue="2"
             app:entries="@array/preferenceScreenSurveyEntries"
             app:entryValues="@array/preferenceScreenSurveyValues"
             app:icon="@drawable/ic_baseline_poll_24"
-            app:key="SURVEY"
+            app:key="SURVEY_SCHEDULE"
             app:summary="@string/preferenceScreenSurveySummary"
             app:title="@string/preferenceScreenSurveyTitle"
             app:useSimpleSummaryProvider="true" />

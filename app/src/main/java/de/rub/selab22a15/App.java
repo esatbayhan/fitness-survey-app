@@ -28,7 +28,7 @@ public class App extends Application {
         INSTANCE = this;
 
         AccelerometerRecordWorker.start(getApplicationContext());
-        PeriodicNotificationWorker.start(getApplicationContext());
+//        PeriodicNotificationWorker.start(getApplicationContext());
 
         createServiceNotificationChannel();
     }
