@@ -120,6 +120,10 @@
     <string name="stringSaved">Saved</string>
     <string name="stringSurvey">Survey</string>
     <string name="periodicNotificationText">It would be great if you have a little bit time for a new survey</string>
+    <string name="preferenceScreenDeleteSummary">Delete all recorded data</string>
+    <string name="preferenceScreenDeleteTitle">Delete Data</string>
+    <string name="preferenceScreenPassiveRecordingSummary">Consider enabling passive recording for a better result</string>
+    <string name="preferenceScreenPassiveRecordingTitle">Passive Recording</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>

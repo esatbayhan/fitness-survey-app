@@ -1,41 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ListPreference
-        app:defaultValue="english"
-        app:entries="@array/preferenceScreenLanguageEntries"
-        app:entryValues="@array/preferenceScreenLanguageValues"
-        app:icon="@drawable/ic_baseline_language_24"
-        app:key="LANGUAGE"
-        app:summary="@string/preferenceScreenLanguageSummary"
-        app:title="@string/preferenceScreenLanguageTitle"
-        app:useSimpleSummaryProvider="true" />
 
-    <ListPreference
-        app:defaultValue="0"
-        app:entries="@array/BATTERY_MODE_ENTRIES"
-        app:entryValues="@array/BATTERY_MODE_VALUES"
-        app:icon="@drawable/ic_baseline_battery_saver_24"
-        app:key="BATTERY"
-        app:summary="@string/preferenceScreenBatterySummary"
-        app:title="@string/preferencesScreenBatteryTitle"
-        app:useSimpleSummaryProvider="true" />
+    <PreferenceCategory
+        app:key="LOCALE"
+        app:title="Locale">
 
-    <ListPreference
-        app:defaultValue="12"
-        app:entries="@array/preferenceScreenSurveyEntries"
-        app:entryValues="@array/preferenceScreenSurveyValues"
-        app:icon="@drawable/ic_baseline_poll_24"
-        app:key="SURVEY"
-        app:summary="@string/preferenceScreenSurveySummary"
-        app:title="@string/preferenceScreenSurveyTitle"
-        app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="english"
+            app:entries="@array/preferenceScreenLanguageEntries"
+            app:entryValues="@array/preferenceScreenLanguageValues"
+            app:icon="@drawable/ic_baseline_language_24"
+            app:key="LANGUAGE"
+            app:summary="@string/preferenceScreenLanguageSummary"
+            app:title="@string/preferenceScreenLanguageTitle"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
-    <Preference
-        app:icon="@drawable/ic_baseline_send_24"
-        app:key="UPLOAD"
-        app:summary="@string/preferenceScreenUploadSummary"
-        app:title="@string/preferenceScreenUploadTitle" />
+    <PreferenceCategory
+        app:key="BACKGROUND"
+        app:title="Background">
 
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_baseline_directions_run_24"
+            app:key="PASSIVE_RECORDING"
+            app:summary="@string/preferenceScreenPassiveRecordingSummary"
+            app:title="@string/preferenceScreenPassiveRecordingTitle" />
 
+        <ListPreference
+            app:defaultValue="0"
+            app:dependency="PASSIVE_RECORDING"
+            app:entries="@array/BATTERY_MODE_ENTRIES"
+            app:entryValues="@array/BATTERY_MODE_VALUES"
+            app:icon="@drawable/ic_baseline_battery_saver_24"
+            app:key="BATTERY"
+            app:summary="@string/preferenceScreenBatterySummary"
+            app:title="@string/preferencesScreenBatteryTitle"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="12"
+            app:entries="@array/preferenceScreenSurveyEntries"
+            app:entryValues="@array/preferenceScreenSurveyValues"
+            app:icon="@drawable/ic_baseline_poll_24"
+            app:key="SURVEY"
+            app:summary="@string/preferenceScreenSurveySummary"
+            app:title="@string/preferenceScreenSurveyTitle"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="RESEARCH"
+        app:title="Research">
+
+        <Preference
+            app:icon="@drawable/ic_baseline_send_24"
+            app:key="UPLOAD"
+            app:summary="@string/preferenceScreenUploadSummary"
+            app:title="@string/preferenceScreenUploadTitle" />
+
+        <Preference
+            app:icon="@drawable/ic_baseline_delete_forever_24"
+            app:key="DELETE"
+            app:summary="@string/preferenceScreenDeleteSummary"
+            app:title="@string/preferenceScreenDeleteTitle" />
+    </PreferenceCategory>
 </PreferenceScreen>
