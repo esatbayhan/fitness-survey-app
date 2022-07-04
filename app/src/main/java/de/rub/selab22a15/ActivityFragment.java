@@ -2,6 +2,8 @@ package de.rub.selab22a15;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
+import static de.rub.selab22a15.services.AccelerometerRecordService.EXTRA_IS_ACTIVE_RECORDING;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.text.DateFormat;
@@ -41,7 +43,7 @@ import de.rub.selab22a15.database.research.AccelerometerRepository;
 import de.rub.selab22a15.database.research.Activity;
 import de.rub.selab22a15.database.research.ActivityRepository;
 import de.rub.selab22a15.database.research.GPSRepository;
-import de.rub.selab22a15.services.ActivityRecordService;
+import de.rub.selab22a15.services.AccelerometerRecordService;
 import de.rub.selab22a15.services.LocationRecordService;
 
 public class ActivityFragment extends Fragment {
@@ -112,7 +114,7 @@ public class ActivityFragment extends Fragment {
 
         resetUI();
 
-        if (ActivityRecordService.isRunning()) {
+        if (AccelerometerRecordService.isActiveRecording()) {
             resumeIntent();
         }
     }
@@ -121,7 +123,7 @@ public class ActivityFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (ActivityRecordService.isRunning()) {
+        if (AccelerometerRecordService.isActiveRecording()) {
             resumeIntent();
         }
     }
@@ -133,12 +135,12 @@ public class ActivityFragment extends Fragment {
     }
 
     private void resumeIntent() {
-        if (!ActivityRecordService.isRunning()) {
+        if (!AccelerometerRecordService.isActiveRecording()) {
             Log.w(LOG_ACTIVITY, "resumeIntent() got called while no service is running");
             return;
         }
 
-        activity = ActivityRecordService.getActivity();
+        activity = AccelerometerRecordService.getActivity();
 
         textEditActivityRecord.setText(activity.getActivity());
         textEditActivityRecord.setInputType(InputType.TYPE_NULL);
@@ -148,7 +150,7 @@ public class ActivityFragment extends Fragment {
         }
         switchActivityRecordGPS.setEnabled(false);
 
-        cmtActivity.setBase(ActivityRecordService.getTimeElapsedRealtimeStarted());
+        cmtActivity.setBase(AccelerometerRecordService.getTimeElapsedRealtimeStarted());
         cmtActivity.start();
 
         buttonStartActivityRecord.setEnabled(false);
@@ -249,13 +251,14 @@ public class ActivityFragment extends Fragment {
     }
 
     private void startAccelerometerRecording() {
-        ActivityRecordService.setActivity(activity);
-        Intent activityRecordService = new Intent(getActivity(), ActivityRecordService.class);
-        ContextCompat.startForegroundService(requireActivity(), activityRecordService);
+        AccelerometerRecordService.setActivity(activity);
+        Intent activeRecordingIntent = new Intent(getActivity(), AccelerometerRecordService.class);
+        activeRecordingIntent.putExtra(EXTRA_IS_ACTIVE_RECORDING, true);
+        ContextCompat.startForegroundService(requireActivity(), activeRecordingIntent);
     }
 
     private void stopAccelerometerRecording() {
-        requireActivity().stopService(new Intent(getActivity(), ActivityRecordService.class));
+        requireActivity().stopService(new Intent(getActivity(), AccelerometerRecordService.class));
     }
 
     private void startLocationRecording() {

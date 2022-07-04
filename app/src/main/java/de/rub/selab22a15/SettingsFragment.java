@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.rub.selab22a15.database.research.ResearchRepository;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
-import de.rub.selab22a15.services.ActivityRecordService;
+import de.rub.selab22a15.services.AccelerometerRecordService;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -152,7 +152,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void deleteDataDialog() {
-        if (ActivityRecordService.isRunning()) {
+        if (AccelerometerRecordService.isActiveRecording()) {
             Toast.makeText(requireContext(), R.string.toastPreferenceDeleteAbortText, Toast.LENGTH_LONG)
                     .show();
             return;

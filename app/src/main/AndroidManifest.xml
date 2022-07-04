@@ -40,7 +40,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
-        <service android:name=".services.ActivityRecordService" />
+        <service android:name=".services.AccelerometerRecordService" />
 
         <service
             android:name=".services.LocationRecordService"
