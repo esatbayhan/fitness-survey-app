@@ -12,16 +12,11 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.IBinder;
-import android.os.SystemClock;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -34,7 +29,6 @@ import de.rub.selab22a15.activities.SurveyActivity;
 
 public class SurveyAlarmReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = "SURVEY_ALARM_RECEIVER";
-    public static final String TAG_PERIODIC_NOTIFICATION = "PERIODIC_NOTIFICATION";
     public static final String CHANNEL_ID_PERIODIC_NOTIFICATION = "PERIODIC_NOTIFICATION";
     public static final String CHANNEL_NAME_PERIODIC_NOTIFICATION = CHANNEL_ID_PERIODIC_NOTIFICATION;
     public static final int NOTIFICATION_ID_PERIODIC_NOTIFICATION = 2;
@@ -45,15 +39,9 @@ public class SurveyAlarmReceiver extends BroadcastReceiver {
     private static final int NIGHT_HOUR = 21;
 
     public static void setAlarm(Context context) {
-        Log.d(LOG_TAG, "Inside setAlarm");
-        String schedule = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_SURVEY_SCHEDULE, null);
         int hour;
-
-        if (schedule == null) {
-            Log.w(LOG_TAG, "Invalid schedule time. schedule is null");
-            return;
-        }
+        String schedule = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(KEY_SURVEY_SCHEDULE, "");
 
         switch (schedule) {
             case SURVEY_SCHEDULE_MORNING:
@@ -119,8 +107,6 @@ public class SurveyAlarmReceiver extends BroadcastReceiver {
     }
 
     private static Notification createNotification(Context context) {
-        Log.d(LOG_TAG, "INSIDE createNotification(Context)");
-
         Intent intent = new Intent(context, SurveyActivity.class);
         intent.putExtra(EXTRA_FROM_NOTIFICATION, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -129,25 +115,16 @@ public class SurveyAlarmReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-//        return new NotificationCompat.Builder(
-//                context, CHANNEL_ID_PERIODIC_NOTIFICATION)
-//                .setSmallIcon(R.drawable.ic_baseline_directions_run_24)
-//                .setContentTitle(context.getString(R.string.stringSurvey))
-//                .setContentText(context.getString(R.string.periodicNotificationText))
-//                .setContentIntent(pendingIntent)
-//                .build();
-
         return new NotificationCompat.Builder(
                 context, CHANNEL_ID_PERIODIC_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_baseline_directions_run_24)
-                .setContentTitle("SurveyAlarmReceiver")
+                .setContentTitle(context.getString(R.string.stringSurvey))
+                .setContentText(context.getString(R.string.periodicNotificationText))
                 .setContentIntent(pendingIntent)
                 .build();
     }
 
     private static void sendNotification(Context context, Notification notification) {
-        Log.d(LOG_TAG, "INSIDE sendNotification(Context, Notification)");
-
         NotificationManagerCompat.from(context)
                 .notify(NOTIFICATION_ID_PERIODIC_NOTIFICATION, notification);
     }
