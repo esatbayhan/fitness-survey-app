@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
@@ -11,7 +11,7 @@ public class GPSRepository {
     private final LiveData<List<GPS>> allGPS;
 
     public GPSRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getDatabase(application);
         gpsDao = db.gpsDao();
         allGPS = gpsDao.getGPSData();
     }
@@ -21,7 +21,7 @@ public class GPSRepository {
     }
 
     public void insert(GPS gps) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 gpsDao.insert(gps));
     }
 
@@ -30,12 +30,12 @@ public class GPSRepository {
             return;
         }
 
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 gpsDao.delete(activityTimestamp));
     }
 
     public void deleteAll() {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 gpsDao.deleteAll());
     }
 }

@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
@@ -11,7 +11,7 @@ public class RuminationRepository {
     private final LiveData<List<Rumination>> allRumination;
 
     public RuminationRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getDatabase(application);
         ruminationDao = db.ruminationDao();
         allRumination = ruminationDao.getRuminationData();
     }
@@ -21,12 +21,12 @@ public class RuminationRepository {
     }
 
     public void insert(Rumination rumination) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 ruminationDao.insert(rumination));
     }
 
     public void delete() {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 ruminationDao.delete());
     }
 }

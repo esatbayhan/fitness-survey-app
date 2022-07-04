@@ -23,8 +23,8 @@ import androidx.work.WorkerParameters;
 import java.util.concurrent.TimeUnit;
 
 import de.rub.selab22a15.App;
-import de.rub.selab22a15.db.Accelerometer;
-import de.rub.selab22a15.db.AccelerometerRepository;
+import de.rub.selab22a15.database.research.Accelerometer;
+import de.rub.selab22a15.database.research.AccelerometerRepository;
 import de.rub.selab22a15.helpers.AccelerometerEventListener;
 import de.rub.selab22a15.helpers.AccelerometerWriter;
 

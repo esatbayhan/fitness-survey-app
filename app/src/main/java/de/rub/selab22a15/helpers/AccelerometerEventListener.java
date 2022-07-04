@@ -4,7 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
-import de.rub.selab22a15.db.Accelerometer;
+import de.rub.selab22a15.database.research.Accelerometer;
 
 public class AccelerometerEventListener implements SensorEventListener {
     private static final float EPSILON = 0.1f;

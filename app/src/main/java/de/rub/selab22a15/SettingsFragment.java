@@ -1,5 +1,7 @@
 package de.rub.selab22a15;
 
+import static de.rub.selab22a15.database.research.ResearchDatabase.DATABASE_NAME_RESEARCH;
+
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +22,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import de.rub.selab22a15.db.AppRepository;
+import de.rub.selab22a15.database.research.ResearchRepository;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
 import de.rub.selab22a15.services.ActivityRecordService;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
@@ -131,8 +133,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         AtomicBoolean isSuccessful = new AtomicBoolean(false);
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        String databaseReferenceName = System.currentTimeMillis() + "." + getString(R.string.appDatabaseName);
-        Uri databaseUri = Uri.fromFile(requireActivity().getDatabasePath(getString(R.string.appDatabaseName)));
+        String databaseReferenceName = System.currentTimeMillis() + "." + DATABASE_NAME_RESEARCH;
+        Uri databaseUri = Uri.fromFile(requireActivity().getDatabasePath(DATABASE_NAME_RESEARCH));
         StorageReference databaseReference = storageReference.child(
                 FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + databaseReferenceName);
 
@@ -165,7 +167,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void deleteData() {
-        AppRepository.clearDatabase(requireContext());
+        ResearchRepository.clearDatabase(requireContext());
         Toast.makeText(requireContext(), R.string.toastPreferencesDeleteText, Toast.LENGTH_SHORT)
                 .show();
     }

@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
@@ -11,7 +11,7 @@ public class AccelerometerRepository {
     private final LiveData<List<Accelerometer>> allAccelerometer;
 
     public AccelerometerRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getDatabase(application);
         accelerometerDao = db.accelerometerDao();
         allAccelerometer = accelerometerDao.getAccelerometerData();
     }
@@ -21,12 +21,12 @@ public class AccelerometerRepository {
     }
 
     public void insert(Accelerometer accelerometer) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 accelerometerDao.insert(accelerometer));
     }
 
     public void delete() {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 accelerometerDao.delete());
     }
 
@@ -35,7 +35,7 @@ public class AccelerometerRepository {
             return;
         }
 
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 accelerometerDao.delete(activityTimestamp));
     }
 }

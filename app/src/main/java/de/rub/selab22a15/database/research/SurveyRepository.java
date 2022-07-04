@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
@@ -6,12 +6,12 @@ public class SurveyRepository {
     private final SurveyDao surveyDao;
 
     public SurveyRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getDatabase(application);
         surveyDao = db.surveyDao();
     }
 
     public void insert(Survey survey) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 surveyDao.insert(survey));
     }
 }

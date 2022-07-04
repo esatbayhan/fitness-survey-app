@@ -15,9 +15,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import de.rub.selab22a15.db.Accelerometer;
-import de.rub.selab22a15.db.AccelerometerRepository;
-import de.rub.selab22a15.db.Activity;
+import de.rub.selab22a15.database.research.Accelerometer;
+import de.rub.selab22a15.database.research.AccelerometerRepository;
+import de.rub.selab22a15.database.research.Activity;
 import de.rub.selab22a15.helpers.ServiceNotification;
 
 public class ActivityRecordService extends Service {

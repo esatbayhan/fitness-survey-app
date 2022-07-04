@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
@@ -11,7 +11,7 @@ public class ActivityRepository {
     private final LiveData<List<Activity>> allActivity;
 
     public ActivityRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getDatabase(application);
         activityDao = db.activityDao();
         allActivity = activityDao.getActivityData();
     }
@@ -21,12 +21,12 @@ public class ActivityRepository {
     }
 
     public void insert(Activity activity) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 activityDao.insert(activity));
     }
 
     public void delete() {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
                 activityDao.delete());
     }
 }

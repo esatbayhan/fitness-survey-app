@@ -37,10 +37,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import de.rub.selab22a15.activities.SurveyActivity;
-import de.rub.selab22a15.db.AccelerometerRepository;
-import de.rub.selab22a15.db.Activity;
-import de.rub.selab22a15.db.ActivityRepository;
-import de.rub.selab22a15.db.GPSRepository;
+import de.rub.selab22a15.database.research.AccelerometerRepository;
+import de.rub.selab22a15.database.research.Activity;
+import de.rub.selab22a15.database.research.ActivityRepository;
+import de.rub.selab22a15.database.research.GPSRepository;
 import de.rub.selab22a15.services.ActivityRecordService;
 import de.rub.selab22a15.services.LocationRecordService;
 

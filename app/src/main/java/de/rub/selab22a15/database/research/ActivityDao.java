@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -9,13 +9,13 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface RuminationDao {
-    @Query("SELECT * FROM rumination")
-    LiveData<List<Rumination>> getRuminationData();
+public interface ActivityDao {
+    @Query("SELECT * FROM activity")
+    LiveData<List<Activity>> getActivityData();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Rumination rumination);
+    void insert(Activity activity);
 
-    @Query("DELETE FROM rumination")
+    @Query("DELETE FROM activity")
     void delete();
 }

@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

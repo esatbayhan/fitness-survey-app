@@ -20,9 +20,9 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 
-import de.rub.selab22a15.db.Activity;
-import de.rub.selab22a15.db.GPS;
-import de.rub.selab22a15.db.GPSRepository;
+import de.rub.selab22a15.database.research.Activity;
+import de.rub.selab22a15.database.research.GPS;
+import de.rub.selab22a15.database.research.GPSRepository;
 import de.rub.selab22a15.helpers.ServiceNotification;
 
 public class LocationRecordService extends Service {

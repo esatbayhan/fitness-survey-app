@@ -16,7 +16,6 @@
     <string name="btnExportText">Export</string>
     <string name="btnExportActivityText">Export</string>
     <string name="msgExportError">Something went wrong</string>
-    <string name="appDatabaseName">app_database.db</string>
     <string name="researcherEmail">esat.bayhan@rub.de</string>
     <string name="btmNavSettingsLabel">Settings</string>
     <string name="btmNavActivityLabel">Activity</string>
