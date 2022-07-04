@@ -1,6 +1,6 @@
 package de.rub.selab22a15.activities;
 
-import static de.rub.selab22a15.workers.PeriodicNotificationWorker.NOTIFICATION_ID_PERIODIC_NOTIFICATION;
+import static de.rub.selab22a15.receivers.SurveyAlarmReceiver.NOTIFICATION_ID_PERIODIC_NOTIFICATION;
 
 import android.os.Bundle;
 import android.util.Log;

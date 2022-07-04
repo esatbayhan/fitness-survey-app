@@ -10,30 +10,30 @@
         <item>english</item>
     </string-array>
 
-    <string-array name="preferenceScreenBatteryEntries">
+    <string-array name="BATTERY_MODE_ENTRIES">
         <item>Low Battery Drain &amp; Low Accuracy</item>
         <item>Medium Battery Drain &amp; Medium Accuracy</item>
         <item>High Battery Drain &amp; High Accuracy</item>
     </string-array>
 
-    <string-array name="preferenceScreenBatteryValues">
-        <item>low</item>
-        <item>medium</item>
-        <item>high</item>
+    <string-array name="BATTERY_MODE_VALUES">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="preferenceScreenSurveyEntries">
-        <item>3 Hours</item>
-        <item>6 Hours</item>
-        <item>12 Hours</item>
-        <item>24 Hours</item>
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+        <item>Night</item>
     </string-array>
 
     <string-array name="preferenceScreenSurveyValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
         <item>3</item>
-        <item>6</item>
-        <item>12</item>
-        <item>24</item>
     </string-array>
 
     <string-array name="surveyRumination">

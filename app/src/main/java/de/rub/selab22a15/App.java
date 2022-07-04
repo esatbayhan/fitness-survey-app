@@ -5,18 +5,18 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
-import de.rub.selab22a15.workers.PeriodicNotificationWorker;
 
 
 public class App extends Application {
     public static final String CHANNEL_ID_ACTIVITY_RECORD = "SERVICE_CHANNEL_ACTIVITY_RECORD";
     public static final String CHANNEL_NAME_ACTIVITY_RECORD = CHANNEL_ID_ACTIVITY_RECORD;
 
-    private static Application INSTANCE;
+    // Applications Shared Preferences
+    public static final String APPLICATION_PREFERENCES = "APPLICATION_PREFERENCES";
+    // KEYS
+    public static final String KEY_IS_FIRST_START = "IS_FIRST_START";
 
-    private static final long LOW_DURATION_SECONDS = 75;
-    private static final long MEDIUM_DURATION_SECONDS = 125;
-    private static final long HIGH_DURATION_SECONDS = 175;
+    private static Application INSTANCE;
 
     public static Application getInstance() {
         return INSTANCE;
@@ -28,8 +28,6 @@ public class App extends Application {
         INSTANCE = this;
 
         AccelerometerRecordWorker.start(getApplicationContext());
-        PeriodicNotificationWorker.start(getApplicationContext());
-
         createServiceNotificationChannel();
     }
 

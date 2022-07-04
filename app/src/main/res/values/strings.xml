@@ -42,8 +42,8 @@
     <string name="preferenceScreenLanguageSummary">Select your preferred language.</string>
     <string name="preferencesScreenBatteryTitle">Battery Consumption &amp; Accuracy</string>
     <string name="preferenceScreenBatterySummary">Select your preferred battery consumption option.</string>
-    <string name="preferenceScreenSurveyTitle">Survey Interval</string>
-    <string name="preferenceScreenSurveySummary">How often do you want to get notified for new surveys</string>
+    <string name="preferenceScreenSurveyTitle">Survey Schedule</string>
+    <string name="preferenceScreenSurveySummary">When do you want to be notified for a new survey?</string>
     <string name="preferenceScreenUploadTitle">Upload Database</string>
     <string name="preferenceScreenUploadSummary">Upload research data to researcher</string>
     <string name="preferenceScreenUpload">preferenceUpload</string>
@@ -120,6 +120,15 @@
     <string name="stringSaved">Saved</string>
     <string name="stringSurvey">Survey</string>
     <string name="periodicNotificationText">It would be great if you have a little bit time for a new survey</string>
+    <string name="preferenceScreenDeleteSummary">Delete all recorded data</string>
+    <string name="preferenceScreenDeleteTitle">Delete Data</string>
+    <string name="preferenceScreenPassiveRecordingSummary">Consider enabling passive recording for a better result</string>
+    <string name="preferenceScreenPassiveRecordingTitle">Passive Recording</string>
+    <string name="alertPreferencesDeleteTitle">Delete Data</string>
+    <string name="alertPreferencesDeleteMessage">Are you really sure you want to delete all recorded data? This can not be undone.</string>
+    <string name="stringDelete">Delete</string>
+    <string name="toastPreferencesDeleteText">All data deleted</string>
+    <string name="toastPreferenceDeleteAbortText">Please stop your active activity recording first.</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>
