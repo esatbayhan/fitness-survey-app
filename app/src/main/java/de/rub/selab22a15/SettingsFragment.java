@@ -21,6 +21,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import de.rub.selab22a15.db.AppDatabase;
+import de.rub.selab22a15.db.AppRepository;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
 
@@ -45,6 +47,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String KEY_BATTERY = "BATTERY";
     public static final String KEY_SURVEY_SCHEDULE = "SURVEY_SCHEDULE";
     public static final String KEY_UPLOAD = "UPLOAD";
+    public static final String KEY_DELETE = "DELETE";
 
     // Default Shared Preferences Values
     public static final String DEFAULT_SURVEY_SCHEDULE = SURVEY_SCHEDULE_EVENING;
@@ -65,9 +68,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 case KEY_PASSIVE_RECORDING:
                     passiveRecordingHandler(sharedPreferences);
                     break;
-                case KEY_UPLOAD:
-                    uploadDatabase();
-                    break;
                 case KEY_SURVEY_SCHEDULE:
                     SurveyAlarmReceiver.setAlarm(requireContext());
                     break;
@@ -76,6 +76,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         PreferenceManager.getDefaultSharedPreferences(requireContext())
                 .registerOnSharedPreferenceChangeListener(listener);
+
+        Preference buttonUpload = findPreference(KEY_UPLOAD);
+        if (buttonUpload != null) {
+            buttonUpload.setOnPreferenceClickListener(preference -> {
+                uploadDatabase();
+                return true;
+            });
+        }
+
+        Preference buttonDelete = findPreference(KEY_DELETE);
+        if (buttonDelete != null) {
+            buttonDelete.setOnPreferenceClickListener(preference -> {
+                clearDatabase();
+                return true;
+            });
+        }
     }
 
     @Override
@@ -132,5 +148,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                             .show();
                     isSuccessful.set(false);
                 });
+    }
+
+    private void clearDatabase() {
+        Log.d(LOG_TAG, "Inside clear database");
+
+        AppRepository.clearDatabase(getContext());
     }
 }
