@@ -1,5 +1,6 @@
 package de.rub.selab22a15.receivers;
 
+import static de.rub.selab22a15.SettingsFragment.DEFAULT_SURVEY_SCHEDULE;
 import static de.rub.selab22a15.SettingsFragment.KEY_SURVEY_SCHEDULE;
 import static de.rub.selab22a15.SettingsFragment.SURVEY_SCHEDULE_AFTERNOON;
 import static de.rub.selab22a15.SettingsFragment.SURVEY_SCHEDULE_EVENING;
@@ -41,7 +42,7 @@ public class SurveyAlarmReceiver extends BroadcastReceiver {
     public static void setAlarm(Context context) {
         int hour;
         String schedule = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_SURVEY_SCHEDULE, "");
+                .getString(KEY_SURVEY_SCHEDULE, DEFAULT_SURVEY_SCHEDULE);
 
         switch (schedule) {
             case SURVEY_SCHEDULE_MORNING:

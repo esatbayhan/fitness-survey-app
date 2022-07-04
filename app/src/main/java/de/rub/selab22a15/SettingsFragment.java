@@ -39,11 +39,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private static final String LOG_TAG = "PREFERENCES";
 
+    // Shared Preferences Keys
     public static final String KEY_LANGUAGE = "LANGUAGE";
     public static final String KEY_PASSIVE_RECORDING = "PASSIVE_RECORDING";
     public static final String KEY_BATTERY = "BATTERY";
     public static final String KEY_SURVEY_SCHEDULE = "SURVEY_SCHEDULE";
     public static final String KEY_UPLOAD = "UPLOAD";
+
+    // Default Shared Preferences Values
+    public static final String DEFAULT_SURVEY_SCHEDULE = SURVEY_SCHEDULE_EVENING;
 
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
 

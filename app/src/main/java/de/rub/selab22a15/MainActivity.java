@@ -1,24 +1,30 @@
 package de.rub.selab22a15;
 
+import static de.rub.selab22a15.App.APPLICATION_PREFERENCES;
+import static de.rub.selab22a15.App.KEY_IS_FIRST_START;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-import android.util.Log;
-
-import java.util.Map;
-
 import de.rub.selab22a15.databinding.ActivityMainBinding;
+import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
-    @IdRes Integer currentItemId;
+    @IdRes
+    Integer currentItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handleFirstStart();
+
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         switchFragment(new HomeFragment(), R.id.btmNavHome);
@@ -53,5 +59,19 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frmLytMainActivity, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void handleFirstStart() {
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                APPLICATION_PREFERENCES, MODE_PRIVATE);
+
+        boolean isFirstStart = sharedPreferences.getBoolean(KEY_IS_FIRST_START, true);
+
+        if (!isFirstStart) {
+            return;
+        }
+
+        SurveyAlarmReceiver.setAlarm(getApplicationContext());
+        sharedPreferences.edit().putBoolean(KEY_IS_FIRST_START, false).apply();
     }
 }
