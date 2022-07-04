@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface AccelerometerDao {
     @Query("SELECT * FROM accelerometer")
-    LiveData<List<Accelerometer>> getAccelerometerData();
+    List<Accelerometer> getAll();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Accelerometer accelerometer);

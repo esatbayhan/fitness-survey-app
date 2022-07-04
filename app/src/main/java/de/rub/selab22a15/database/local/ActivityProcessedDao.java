@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import java.util.Collection;
 import java.util.List;
 
 @Dao
@@ -16,5 +17,8 @@ public interface ActivityProcessedDao {
     void insert(ActivityProcessed activityProcessed);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<ActivityProcessed> activityProcessed);
+    void insert(Collection<ActivityProcessed> activityProcessed);
+
+    @Query("SELECT * FROM activity_processed")
+    List<ActivityProcessed> getAll();
 }

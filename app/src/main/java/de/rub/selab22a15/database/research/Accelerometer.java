@@ -8,21 +8,21 @@ import androidx.room.PrimaryKey;
 public class Accelerometer {
     @PrimaryKey
     @ColumnInfo(name = "timestamp")
-    private final Long timestamp;
+    private final long timestamp;
 
     @ColumnInfo(name = "activity_timestamp")
     private final Long activityTimestamp;
 
     @ColumnInfo(name = "x")
-    private final Float x;
+    private final float x;
 
     @ColumnInfo(name = "y")
-    private final Float y;
+    private final float y;
 
     @ColumnInfo(name = "z")
-    private final Float z;
+    private final float z;
 
-    public Accelerometer(Long timestamp, Long activityTimestamp, Float x, Float y, Float z) {
+    public Accelerometer(long timestamp, Long activityTimestamp, float x, float y, float z) {
         this.timestamp = timestamp;
         this.activityTimestamp = activityTimestamp;
         this.x = x;
@@ -30,7 +30,7 @@ public class Accelerometer {
         this.z = z;
     }
 
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -38,15 +38,15 @@ public class Accelerometer {
         return activityTimestamp;
     }
 
-    public Float getX() {
+    public float getX() {
         return x;
     }
 
-    public Float getY() {
+    public float getY() {
         return y;
     }
 
-    public Float getZ() {
+    public float getZ() {
         return z;
     }
 }

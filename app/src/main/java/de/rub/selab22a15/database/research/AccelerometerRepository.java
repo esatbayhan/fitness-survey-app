@@ -8,16 +8,15 @@ import java.util.List;
 
 public class AccelerometerRepository {
     private final AccelerometerDao accelerometerDao;
-    private final LiveData<List<Accelerometer>> allAccelerometer;
 
     public AccelerometerRepository(Application application) {
         ResearchDatabase db = ResearchDatabase.getDatabase(application);
         accelerometerDao = db.accelerometerDao();
-        allAccelerometer = accelerometerDao.getAccelerometerData();
     }
 
-    public LiveData<List<Accelerometer>> getAllAccelerometer() {
-        return allAccelerometer;
+    // ATTENTION THIS SHOULD NOT BE USED ON THE MAIN THREAD!!!
+    public List<Accelerometer> getAll() {
+        return accelerometerDao.getAll();
     }
 
     public void insert(Accelerometer accelerometer) {
@@ -26,8 +25,7 @@ public class AccelerometerRepository {
     }
 
     public void delete() {
-        ResearchDatabase.databaseWriteExecutor.execute(() ->
-                accelerometerDao.delete());
+        ResearchDatabase.databaseWriteExecutor.execute(accelerometerDao::delete);
     }
 
     public void delete(Long activityTimestamp) {
@@ -37,5 +35,13 @@ public class AccelerometerRepository {
 
         ResearchDatabase.databaseWriteExecutor.execute(() ->
                 accelerometerDao.delete(activityTimestamp));
+    }
+
+    public static float getLength(Accelerometer accelerometer) {
+        float x = accelerometer.getX();
+        float y = accelerometer.getY();
+        float z = accelerometer.getZ();
+
+        return (float) Math.sqrt(x*x + y*y + z*z);
     }
 }

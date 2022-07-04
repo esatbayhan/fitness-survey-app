@@ -11,12 +11,12 @@ public class ActivityProcessed {
     private final long timestamp;
 
     @ColumnInfo(name = "weight")
-    private final long weight;
+    private float weight;
 
     @ColumnInfo(name = "rating")
-    private final float rating;
+    private float rating;
 
-    public ActivityProcessed(long timestamp, long weight, float rating) {
+    public ActivityProcessed(long timestamp, float weight, float rating) {
         this.timestamp = timestamp;
         this.weight = weight;
         this.rating = rating;
@@ -26,11 +26,23 @@ public class ActivityProcessed {
         return timestamp;
     }
 
-    public long getWeight() {
+    public float getWeight() {
         return weight;
     }
 
     public float getRating() {
         return rating;
+    }
+
+    public void addWeight(float weight) {
+        this.weight += weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
