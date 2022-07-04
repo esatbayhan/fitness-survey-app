@@ -124,6 +124,11 @@
     <string name="preferenceScreenDeleteTitle">Delete Data</string>
     <string name="preferenceScreenPassiveRecordingSummary">Consider enabling passive recording for a better result</string>
     <string name="preferenceScreenPassiveRecordingTitle">Passive Recording</string>
+    <string name="alertPreferencesDeleteTitle">Delete Data</string>
+    <string name="alertPreferencesDeleteMessage">Are you really sure you want to delete all recorded data? This can not be undone.</string>
+    <string name="stringDelete">Delete</string>
+    <string name="toastPreferencesDeleteText">All data deleted</string>
+    <string name="toastPreferenceDeleteAbortText">Please stop your active activity recording first.</string>
 
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>

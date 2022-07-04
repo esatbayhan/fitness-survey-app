@@ -12,18 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreference;
-import androidx.preference.SwitchPreferenceCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import de.rub.selab22a15.db.AppDatabase;
 import de.rub.selab22a15.db.AppRepository;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
+import de.rub.selab22a15.services.ActivityRecordService;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -88,7 +87,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference buttonDelete = findPreference(KEY_DELETE);
         if (buttonDelete != null) {
             buttonDelete.setOnPreferenceClickListener(preference -> {
-                clearDatabase();
+                deleteDataDialog();
                 return true;
             });
         }
@@ -150,9 +149,24 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 });
     }
 
-    private void clearDatabase() {
-        Log.d(LOG_TAG, "Inside clear database");
+    private void deleteDataDialog() {
+        if (ActivityRecordService.isRunning()) {
+            Toast.makeText(requireContext(), R.string.toastPreferenceDeleteAbortText, Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
 
-        AppRepository.clearDatabase(getContext());
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.alertPreferencesDeleteTitle)
+                .setMessage(R.string.alertPreferencesDeleteMessage)
+                .setPositiveButton(R.string.stringDelete, (dialog, which) -> deleteData())
+                .setNeutralButton(R.string.stringCancel, (dialog, which) -> {})
+                .show();
+    }
+
+    private void deleteData() {
+        AppRepository.clearDatabase(requireContext());
+        Toast.makeText(requireContext(), R.string.toastPreferencesDeleteText, Toast.LENGTH_SHORT)
+                .show();
     }
 }
