@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/activity_main.xml" value="0.1852355072463768" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/card_view_basic_statistics.xml" value="0.2689969604863222" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/card_view_survey.xml" value="0.1" />
+        <entry key="..\:/Users/Esat/Projects/Android/22A15/app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_accelerometer_test.xml" value="0.1" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_export_database.xml" value="0.1956521739130435" />
         <entry key="..\:/Users/esatb/AndroidStudioProjects/RUBSELAB22A15/app/src/main/res/layout/activity_firebase_storage_test.xml" value="0.264" />
