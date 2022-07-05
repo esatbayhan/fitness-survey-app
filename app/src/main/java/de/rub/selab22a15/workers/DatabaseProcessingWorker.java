@@ -1,6 +1,10 @@
 package de.rub.selab22a15.workers;
 
+import static de.rub.selab22a15.App.APPLICATION_PREFERENCES;
+import static de.rub.selab22a15.App.KEY_LAST_TIME_PROCESSED;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -50,16 +54,25 @@ public class DatabaseProcessingWorker extends Worker {
     public Result doWork() {
         Log.d(LOG_TAG, "Inside doWork()");
 
-        activityProcessing();
-        surveyProcessing();
+        long timestampUpTo = System.currentTimeMillis();
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                APPLICATION_PREFERENCES, Context.MODE_PRIVATE);
+
+        long timestampSince = sharedPreferences.getLong(KEY_LAST_TIME_PROCESSED, 0);
+
+        activityProcessing(timestampSince);
+        surveyProcessing(timestampSince);
+
+        sharedPreferences.edit().putLong(KEY_LAST_TIME_PROCESSED, timestampUpTo).apply();
 
         return Result.success();
     }
 
-    private static void activityProcessing() {
+    private static void activityProcessing(long timestamp) {
         /*Sums the length of the accelerometer vectors of one day */
         List<Accelerometer> accelerometerList = new AccelerometerRepository(App.getInstance())
-                .getAll();
+                .getSinceUnsafe(timestamp);
         Map<Long, ActivityProcessed> activityDateMap = new HashMap<>();
 
         for (Accelerometer accelerometer : accelerometerList) {
@@ -77,9 +90,9 @@ public class DatabaseProcessingWorker extends Worker {
         new ActivityProcessedRepository(App.getInstance()).insert(activityDateMap.values());
     }
 
-    private static void surveyProcessing() {
+    private static void surveyProcessing(long timestamp) {
         /*Maps all discrete survey values to a range of [0, 1]*/
-        List<Survey> surveyList = new SurveyRepository(App.getInstance()).getAllUnsafe();
+        List<Survey> surveyList = new SurveyRepository(App.getInstance()).getSinceUnsafe(timestamp);
         List<SurveyProcessed> surveyProcessedList = new ArrayList<>();
 
         for (Survey survey : surveyList) {
@@ -93,7 +106,6 @@ public class DatabaseProcessingWorker extends Worker {
     private static long removeTime(long timestamp) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);

@@ -1,6 +1,5 @@
 package de.rub.selab22a15.database.research;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -18,4 +17,7 @@ public interface SurveyDao {
 
     @Query("DELETE FROM survey")
     void delete();
+
+    @Query("SELECT * FROM survey WHERE timestamp > :timestamp")
+    List<Survey> getSince(long timestamp);
 }

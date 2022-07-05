@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        DatabaseProcessingWorker.start(requireContext());
         FragmentActivity activity = requireActivity();
 
         cardViewSurvey = activity.findViewById(R.id.cardViewSurvey);

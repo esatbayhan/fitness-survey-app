@@ -1,6 +1,5 @@
 package de.rub.selab22a15.database.research;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -21,4 +20,7 @@ public interface AccelerometerDao {
 
     @Query("DELETE FROM accelerometer WHERE activity_timestamp = :activityTimestamp")
     void delete(long activityTimestamp);
+
+    @Query("SELECT * FROM accelerometer WHERE timestamp > :timestamp")
+    List<Accelerometer> getSince(long timestamp);
 }

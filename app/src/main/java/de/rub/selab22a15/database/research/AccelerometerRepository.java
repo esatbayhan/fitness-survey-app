@@ -44,4 +44,8 @@ public class AccelerometerRepository {
 
         return (float) Math.sqrt(x*x + y*y + z*z);
     }
+
+    public List<Accelerometer> getSinceUnsafe(long timestamp) {
+        return accelerometerDao.getSince(timestamp);
+    }
 }

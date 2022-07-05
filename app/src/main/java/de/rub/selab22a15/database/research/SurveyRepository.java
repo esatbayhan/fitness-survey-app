@@ -3,7 +3,6 @@ package de.rub.selab22a15.database.research;
 import android.app.Application;
 import android.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyRepository {
@@ -21,6 +20,10 @@ public class SurveyRepository {
 
     public List<Survey> getAllUnsafe() {
         return surveyDao.getAll();
+    }
+
+    public List<Survey> getSinceUnsafe(long timestamp) {
+        return surveyDao.getSince(timestamp);
     }
 
     public static float getRating(Survey survey) {
@@ -127,4 +130,6 @@ public class SurveyRepository {
 
         return new Pair<>(counter, rating);
     }
+
+
 }
