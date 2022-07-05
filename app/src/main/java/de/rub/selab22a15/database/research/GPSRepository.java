@@ -2,22 +2,12 @@ package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-
-import java.util.List;
-
 public class GPSRepository {
     private final GPSDao gpsDao;
-    private final LiveData<List<GPS>> allGPS;
 
     public GPSRepository(Application application) {
         ResearchDatabase db = ResearchDatabase.getInstance(application);
         gpsDao = db.gpsDao();
-        allGPS = gpsDao.getGPSData();
-    }
-
-    public LiveData<List<GPS>> getAllGPS() {
-        return allGPS;
     }
 
     public void insert(GPS gps) {
