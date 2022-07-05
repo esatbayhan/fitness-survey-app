@@ -3,7 +3,6 @@ package de.rub.selab22a15.workers;
 import static de.rub.selab22a15.database.research.ResearchDatabase.DATABASE_NAME_RESEARCH;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
@@ -17,8 +16,6 @@ import androidx.work.WorkerParameters;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import de.rub.selab22a15.App;
 
 public class DatabaseUploadWorker extends Worker {
 
@@ -41,8 +38,6 @@ public class DatabaseUploadWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        long timestamp = System.currentTimeMillis();
-
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             FirebaseAuth.getInstance().signInAnonymously();
         }
@@ -57,13 +52,7 @@ public class DatabaseUploadWorker extends Worker {
         StorageReference databaseReference = storageReference.child(
                 FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + databaseReferenceName);
 
-        databaseReference.putFile(databaseUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-                            App.APPLICATION_PREFERENCES, Context.MODE_PRIVATE);
-
-                    sharedPreferences.edit().putLong(App.KEY_LAST_TIME_UPLOADED, timestamp).apply();
-                });
+        databaseReference.putFile(databaseUri);
 
         return Result.success();
     }
