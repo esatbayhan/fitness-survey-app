@@ -35,4 +35,10 @@ public abstract class LocalDatabase extends RoomDatabase {
 
         return INSTANCE;
     }
+
+    public static void delete(Context context) {
+        LocalDatabase.databaseWriteExecutor.execute(() ->
+                LocalDatabase.getInstance(context).clearAllTables()
+        );
+    }
 }

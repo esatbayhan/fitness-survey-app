@@ -1,9 +1,7 @@
 package de.rub.selab22a15;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,10 +13,8 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
-import de.rub.selab22a15.database.research.ResearchRepository;
+import de.rub.selab22a15.database.local.LocalDatabase;
+import de.rub.selab22a15.database.research.ResearchDatabase;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
 import de.rub.selab22a15.services.AccelerometerRecordService;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
@@ -129,7 +125,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void deleteData() {
-        ResearchRepository.clearDatabase(requireContext());
+        ResearchDatabase.delete(requireContext());
+        LocalDatabase.delete(requireContext());
+
         Toast.makeText(requireContext(), R.string.toastPreferencesDeleteText, Toast.LENGTH_SHORT)
                 .show();
     }

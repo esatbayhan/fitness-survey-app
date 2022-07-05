@@ -11,7 +11,7 @@ public class RuminationRepository {
     private final LiveData<List<Rumination>> allRumination;
 
     public RuminationRepository(Application application) {
-        ResearchDatabase db = ResearchDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getInstance(application);
         ruminationDao = db.ruminationDao();
         allRumination = ruminationDao.getRuminationData();
     }
@@ -26,7 +26,6 @@ public class RuminationRepository {
     }
 
     public void delete() {
-        ResearchDatabase.databaseWriteExecutor.execute(() ->
-                ruminationDao.delete());
+        ResearchDatabase.databaseWriteExecutor.execute(ruminationDao::delete);
     }
 }

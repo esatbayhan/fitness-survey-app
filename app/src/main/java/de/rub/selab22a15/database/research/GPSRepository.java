@@ -11,7 +11,7 @@ public class GPSRepository {
     private final LiveData<List<GPS>> allGPS;
 
     public GPSRepository(Application application) {
-        ResearchDatabase db = ResearchDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getInstance(application);
         gpsDao = db.gpsDao();
         allGPS = gpsDao.getGPSData();
     }
@@ -35,7 +35,6 @@ public class GPSRepository {
     }
 
     public void deleteAll() {
-        ResearchDatabase.databaseWriteExecutor.execute(() ->
-                gpsDao.deleteAll());
+        ResearchDatabase.databaseWriteExecutor.execute(gpsDao::deleteAll);
     }
 }

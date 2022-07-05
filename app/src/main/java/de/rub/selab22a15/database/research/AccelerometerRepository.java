@@ -2,15 +2,13 @@ package de.rub.selab22a15.database.research;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class AccelerometerRepository {
     private final AccelerometerDao accelerometerDao;
 
     public AccelerometerRepository(Application application) {
-        ResearchDatabase db = ResearchDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getInstance(application);
         accelerometerDao = db.accelerometerDao();
     }
 

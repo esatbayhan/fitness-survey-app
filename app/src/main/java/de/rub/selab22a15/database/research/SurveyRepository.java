@@ -9,7 +9,7 @@ public class SurveyRepository {
     private final SurveyDao surveyDao;
 
     public SurveyRepository(Application application) {
-        ResearchDatabase db = ResearchDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getInstance(application);
         surveyDao = db.surveyDao();
     }
 

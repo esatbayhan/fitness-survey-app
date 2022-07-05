@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import de.rub.selab22a15.database.local.LocalDatabase;
+
 @Database(entities =
         {Accelerometer.class,
                 GPS.class,
@@ -32,7 +34,7 @@ public abstract class ResearchDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static ResearchDatabase getDatabase(final Context context) {
+    static ResearchDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
             synchronized (ResearchDatabase.class) {
                 if (INSTANCE == null) {
@@ -44,5 +46,11 @@ public abstract class ResearchDatabase extends RoomDatabase {
         }
 
         return INSTANCE;
+    }
+
+    public static void delete(Context context) {
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
+                ResearchDatabase.getInstance(context).clearAllTables()
+        );
     }
 }

@@ -11,7 +11,7 @@ public class ActivityRepository {
     private final LiveData<List<Activity>> allActivity;
 
     public ActivityRepository(Application application) {
-        ResearchDatabase db = ResearchDatabase.getDatabase(application);
+        ResearchDatabase db = ResearchDatabase.getInstance(application);
         activityDao = db.activityDao();
         allActivity = activityDao.getActivityData();
     }
@@ -26,7 +26,6 @@ public class ActivityRepository {
     }
 
     public void delete() {
-        ResearchDatabase.databaseWriteExecutor.execute(() ->
-                activityDao.delete());
+        ResearchDatabase.databaseWriteExecutor.execute(activityDao::delete);
     }
 }
