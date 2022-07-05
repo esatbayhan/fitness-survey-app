@@ -10,11 +10,11 @@ import java.util.List;
 
 @Dao
 public interface SurveyDao {
-    @Query("SELECT * FROM survey")
-    LiveData<List<Survey>> getSurveyData();
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Survey survey);
+
+    @Query("SELECT * FROM survey")
+    List<Survey> getAll();
 
     @Query("DELETE FROM survey")
     void delete();

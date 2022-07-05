@@ -9,9 +9,12 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ActivityProcessed.class}, version = 1, exportSchema = false)
+@Database(entities = {
+        ActivityProcessed.class,
+        SurveyProcessed.class}, version = 1, exportSchema = false)
 public abstract class LocalDatabase extends RoomDatabase {
     abstract ActivityProcessedDao activityProcessedDao();
+    abstract SurveyProcessedDao surveyProcessedDao();
 
     public static final String DATABASE_NAME_LOCAL = "local.db";
     private static volatile LocalDatabase INSTANCE;
