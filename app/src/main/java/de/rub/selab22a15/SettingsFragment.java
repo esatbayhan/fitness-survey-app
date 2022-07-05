@@ -1,9 +1,7 @@
 package de.rub.selab22a15;
 
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,16 +12,13 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import de.rub.selab22a15.db.AppRepository;
+import de.rub.selab22a15.database.local.LocalDatabase;
+import de.rub.selab22a15.database.research.ResearchDatabase;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
-import de.rub.selab22a15.services.ActivityRecordService;
+import de.rub.selab22a15.services.AccelerometerRecordService;
 import de.rub.selab22a15.workers.AccelerometerRecordWorker;
+import de.rub.selab22a15.workers.DatabaseUploadWorker;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -47,6 +42,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String KEY_SURVEY_SCHEDULE = "SURVEY_SCHEDULE";
     public static final String KEY_UPLOAD = "UPLOAD";
     public static final String KEY_DELETE = "DELETE";
+
+    private static final int UPLOAD_SUMMARY_DELAY = 15000;
 
     // Default Shared Preferences Values
     public static final String DEFAULT_SURVEY_SCHEDULE = SURVEY_SCHEDULE_EVENING;
@@ -79,7 +76,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference buttonUpload = findPreference(KEY_UPLOAD);
         if (buttonUpload != null) {
             buttonUpload.setOnPreferenceClickListener(preference -> {
-                uploadDatabase();
+                DatabaseUploadWorker.start(requireContext());
                 return true;
             });
         }
@@ -111,46 +108,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void uploadDatabase() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            FirebaseAuth.getInstance().signInAnonymously()
-                    .addOnCompleteListener(requireActivity(), task -> {
-                        if (!task.isSuccessful()) {
-                            Log.w(LOG_TAG, "signInAnonymously:failure",
-                                    task.getException());
-                            Toast.makeText(requireContext(), "Authentication failed. Try again later",
-                                            Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-        }
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            return;
-        }
-
-        AtomicBoolean isSuccessful = new AtomicBoolean(false);
-
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        String databaseReferenceName = System.currentTimeMillis() + "." + getString(R.string.appDatabaseName);
-        Uri databaseUri = Uri.fromFile(requireActivity().getDatabasePath(getString(R.string.appDatabaseName)));
-        StorageReference databaseReference = storageReference.child(
-                FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + databaseReferenceName);
-
-        databaseReference.putFile(databaseUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(getContext(), getString(R.string.toastPreferenceUploadSuccess), Toast.LENGTH_LONG)
-                            .show();
-                    isSuccessful.set(true);
-                })
-                .addOnFailureListener(taskSnapshot -> {
-                    Toast.makeText(getContext(), getString(R.string.toastPreferenceUploadFailure), Toast.LENGTH_LONG)
-                            .show();
-                    isSuccessful.set(false);
-                });
-    }
-
     private void deleteDataDialog() {
-        if (ActivityRecordService.isRunning()) {
+        if (AccelerometerRecordService.isActiveRecording()) {
             Toast.makeText(requireContext(), R.string.toastPreferenceDeleteAbortText, Toast.LENGTH_LONG)
                     .show();
             return;
@@ -160,12 +119,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 .setTitle(R.string.alertPreferencesDeleteTitle)
                 .setMessage(R.string.alertPreferencesDeleteMessage)
                 .setPositiveButton(R.string.stringDelete, (dialog, which) -> deleteData())
-                .setNeutralButton(R.string.stringCancel, (dialog, which) -> {})
+                .setNeutralButton(R.string.stringCancel, (dialog, which) -> {
+                })
                 .show();
     }
 
     private void deleteData() {
-        AppRepository.clearDatabase(requireContext());
+        ResearchDatabase.delete(requireContext());
+        LocalDatabase.delete(requireContext());
+
         Toast.makeText(requireContext(), R.string.toastPreferencesDeleteText, Toast.LENGTH_SHORT)
                 .show();
     }

@@ -1,4 +1,4 @@
-package de.rub.selab22a15.db;
+package de.rub.selab22a15.database.research;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.rub.selab22a15.R;
+import de.rub.selab22a15.database.local.LocalDatabase;
 
 @Database(entities =
         {Accelerometer.class,
@@ -17,7 +17,7 @@ import de.rub.selab22a15.R;
                 Activity.class,
                 Survey.class,
                 Rumination.class}, version = 1, exportSchema = false)
-public abstract class AppDatabase extends RoomDatabase {
+public abstract class ResearchDatabase extends RoomDatabase {
     abstract AccelerometerDao accelerometerDao();
 
     abstract GPSDao gpsDao();
@@ -28,24 +28,29 @@ public abstract class AppDatabase extends RoomDatabase {
 
     abstract RuminationDao ruminationDao();
 
-    private static volatile AppDatabase INSTANCE;
+    public static final String DATABASE_NAME_RESEARCH = "research.db";
+    private static volatile ResearchDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    private static final String LOG_TAG_FIREBASE_AUTH = "FIREBASE_AUTH";
-
-    static AppDatabase getDatabase(final Context context) {
+    static ResearchDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
-            synchronized (AppDatabase.class) {
+            synchronized (ResearchDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, context.getString(R.string.appDatabaseName))
+                                    ResearchDatabase.class, DATABASE_NAME_RESEARCH)
                             .build();
                 }
             }
         }
 
         return INSTANCE;
+    }
+
+    public static void delete(Context context) {
+        ResearchDatabase.databaseWriteExecutor.execute(() ->
+                ResearchDatabase.getInstance(context).clearAllTables()
+        );
     }
 }

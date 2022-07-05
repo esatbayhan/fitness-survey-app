@@ -14,10 +14,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import de.rub.selab22a15.R;
-import de.rub.selab22a15.db.Rumination;
-import de.rub.selab22a15.db.RuminationRepository;
-import de.rub.selab22a15.db.Survey;
-import de.rub.selab22a15.db.SurveyRepository;
+import de.rub.selab22a15.database.research.Rumination;
+import de.rub.selab22a15.database.research.RuminationRepository;
+import de.rub.selab22a15.database.research.Survey;
+import de.rub.selab22a15.database.research.SurveyRepository;
 import de.rub.selab22a15.fragments.SurveyEventAppraisalFragment;
 import de.rub.selab22a15.fragments.SurveyImpulsivenessFragment;
 import de.rub.selab22a15.fragments.SurveyMoodFragment;

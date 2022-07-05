@@ -7,12 +7,12 @@ import static de.rub.selab22a15.SettingsFragment.KEY_BATTERY;
 import static de.rub.selab22a15.SettingsFragment.KEY_PASSIVE_RECORDING;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
@@ -22,13 +22,9 @@ import androidx.work.WorkerParameters;
 
 import java.util.concurrent.TimeUnit;
 
-import de.rub.selab22a15.App;
-import de.rub.selab22a15.db.Accelerometer;
-import de.rub.selab22a15.db.AccelerometerRepository;
-import de.rub.selab22a15.helpers.AccelerometerEventListener;
-import de.rub.selab22a15.helpers.AccelerometerWriter;
+import de.rub.selab22a15.services.AccelerometerRecordService;
 
-public class AccelerometerRecordWorker extends Worker implements AccelerometerWriter {
+public class AccelerometerRecordWorker extends Worker {
     private static final long LOW = 50000;
     private static final long MEDIUM = 100000;
     private static final long HIGH = 150000;
@@ -37,14 +33,10 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
     private static final String LOG_TAG = "ACCELEROMETER_RECORD_WORKER";
     private static final String TAG_PASSIVE_RECORDING = "PASSIVE_RECORDING";
 
-    private final SensorManager sensorManager;
-    private final Sensor sensorAccelerometer;
-    private final AccelerometerEventListener accelerometerEventListener;
-    private AccelerometerRepository accelerometerRepository;
-
     public static void start(Context context) {
+        Log.d(LOG_TAG, "Inside start(Context)");
+
         if (!hasPermissions(context)) {
-            Log.d(LOG_TAG, "User deselected passive recording");
             return;
         }
 
@@ -62,6 +54,8 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
                         ExistingPeriodicWorkPolicy.REPLACE,
                         workRequest
                 );
+
+        Log.d(LOG_TAG, "End of start(Context)");
     }
 
     public static void stop(Context context) {
@@ -74,12 +68,12 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
         return sharedPreferences.getBoolean(KEY_PASSIVE_RECORDING, false);
     }
 
-    public static void setBatteryUsage(Context context) {
+    private static void setBatteryUsage(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String batteryMode = sharedPreferences.getString(KEY_BATTERY, null);
 
         if (batteryMode == null) {
-            Log.e(LOG_TAG, "batteryMode is not valid. Got: " + batteryMode);
+            Log.e(LOG_TAG, "batteryMode is null");
             return;
         }
 
@@ -93,7 +87,6 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
             case BATTERY_USAGE_HIGH:
                 SLEEP_MS = HIGH;
                 break;
-            default:
         }
 
         Log.d(LOG_TAG, "Set battery usage to: " + SLEEP_MS);
@@ -103,37 +96,46 @@ public class AccelerometerRecordWorker extends Worker implements AccelerometerWr
             @NonNull Context context,
             @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-
-        sensorManager = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
-        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        accelerometerEventListener = new AccelerometerEventListener(this);
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        accelerometerRepository = new AccelerometerRepository(App.getInstance());
-        sensorManager.registerListener(accelerometerEventListener, sensorAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        Log.d(LOG_TAG, "Inside doWork()");
+
+        if (AccelerometerRecordService.isActiveRecording()) {
+            Log.d(LOG_TAG, "AccelerometerRecordService is currently active recording");
+            return Result.success();
+        }
+
+        Intent passiveRecordingIntent = new Intent(
+                getApplicationContext(), AccelerometerRecordService.class);
+        ContextCompat.startForegroundService(getApplicationContext(), passiveRecordingIntent);
 
         try {
             Thread.sleep(SLEEP_MS);
-            onStopped();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        clear();
+
+        Log.d(LOG_TAG, "Exiting doWork()");
         return Result.success();
     }
 
     @Override
     public void onStopped() {
+        Log.d(LOG_TAG, "Inside onStopped()");
+
         super.onStopped();
-        sensorManager.unregisterListener(accelerometerEventListener);
+        clear();
     }
 
-    @Override
-    public void write(Accelerometer accelerometer) {
-        accelerometerRepository.insert(accelerometer);
+    private void clear() {
+        Log.d(LOG_TAG, "Inside clear()");
+
+        getApplicationContext().stopService(new Intent(getApplicationContext(),
+                AccelerometerRecordService.class));
     }
 }

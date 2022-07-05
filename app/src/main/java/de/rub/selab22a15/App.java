@@ -15,6 +15,7 @@ public class App extends Application {
     public static final String APPLICATION_PREFERENCES = "APPLICATION_PREFERENCES";
     // KEYS
     public static final String KEY_IS_FIRST_START = "IS_FIRST_START";
+    public static final String KEY_LAST_TIME_PROCESSED = "LAST_TIME_PROCESSED";
 
     private static Application INSTANCE;
 
