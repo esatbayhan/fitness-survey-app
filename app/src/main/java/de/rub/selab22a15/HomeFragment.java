@@ -34,10 +34,7 @@ public class HomeFragment extends Fragment {
         FragmentActivity activity = requireActivity();
 
         cardViewSurvey = activity.findViewById(R.id.cardViewSurvey);
-        MaterialButton buttonCardViewSurveyRemind = activity.findViewById(R.id.buttonCardViewSurveyRemind);
         MaterialButton buttonCardViewSurveyStart = activity.findViewById(R.id.buttonCardViewSurveyStart);
-
-        buttonCardViewSurveyRemind.setOnClickListener(v -> cardViewSurvey.setVisibility(View.GONE));
         buttonCardViewSurveyStart.setOnClickListener(v -> startSurvey());
     }
 
