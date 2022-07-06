@@ -135,6 +135,11 @@ public class AccelerometerRecordWorker extends Worker {
     private void clear() {
         Log.d(LOG_TAG, "Inside clear()");
 
+        if (AccelerometerRecordService.isActiveRecording()) {
+            Log.d(LOG_TAG, "Inside Clear() -> skipped because is active recording");
+            return;
+        }
+
         getApplicationContext().stopService(new Intent(getApplicationContext(),
                 AccelerometerRecordService.class));
     }
