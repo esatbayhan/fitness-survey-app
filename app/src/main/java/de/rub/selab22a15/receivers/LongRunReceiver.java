@@ -50,7 +50,7 @@ public class LongRunReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         return new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_baseline_directions_run_24)
                 .setContentTitle("Active Activity Recording")
                 .setContentText("Are you still recording your activity?")
                 .setContentIntent(pendingIntent)
