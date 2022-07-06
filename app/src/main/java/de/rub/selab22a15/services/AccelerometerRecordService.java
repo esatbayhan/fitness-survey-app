@@ -25,8 +25,7 @@ public class AccelerometerRecordService extends Service {
     private static final String LOG_TAG = "ACCELEROMETER_RECORD_SERVICE";
     public static final String EXTRA_IS_ACTIVE_RECORDING = "IS_ACTIVE_RECORDING";
 
-//    private static final long LONG_RUN_DELAY_MS = 10800000; // 3 Hours
-    private static final long LONG_RUN_DELAY_MS = 70000; // 3 Hours
+    private static final long LONG_RUN_DELAY_MS = 10800000; // 3 Hours
 
     private static Long timeElapsedRealtimeStarted;
     private static boolean isActiveRecording;
