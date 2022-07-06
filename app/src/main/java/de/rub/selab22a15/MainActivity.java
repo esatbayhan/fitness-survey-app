@@ -12,10 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.Objects;
+
 import de.rub.selab22a15.databinding.ActivityMainBinding;
 import de.rub.selab22a15.receivers.SurveyAlarmReceiver;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EXTRA_FRAGMENT = "FRAGMENT";
+    public static final String EXTRA_FRAGMENT_ACTIVITY = "ACTIVITY";
 
     @IdRes
     Integer currentItemId;
@@ -27,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        switchFragment(new HomeFragment(), R.id.btmNavHome);
+
+        if (Objects.equals(getIntent().getStringExtra(EXTRA_FRAGMENT), EXTRA_FRAGMENT_ACTIVITY)) {
+            switchFragment(new ActivityFragment(), R.id.btmNavActivity);
+        } else {
+            switchFragment(new HomeFragment(), R.id.btmNavHome);
+        }
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> onClick(item.getItemId()));
     }
