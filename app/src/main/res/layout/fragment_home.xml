@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/card_view_survey" />
+        <include layout="@layout/card_view_survey"/>
+        <include layout="@layout/card_view_user_statistics"/>
+
     </LinearLayout>
 </ScrollView>

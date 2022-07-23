@@ -43,4 +43,15 @@
         <item>Other</item>
     </string-array>
 
+    <array name="statistics_rangeSlider">
+        <item>00.0</item>
+        <item>90.0</item>
+    </array>
+
+    <string-array name="initial_slider_values">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+
 </resources>
