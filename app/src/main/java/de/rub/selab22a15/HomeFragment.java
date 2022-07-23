@@ -28,8 +28,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.slider.Slider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,11 +40,17 @@ import de.rub.selab22a15.database.local.ActivityProcessed;
 import de.rub.selab22a15.database.local.ActivityProcessedRepository;
 import de.rub.selab22a15.database.local.SurveyProcessed;
 import de.rub.selab22a15.database.local.SurveyProcessedRepository;
+import de.rub.selab22a15.database.research.Activity;
+import de.rub.selab22a15.helpers.SurveySliderLabelFormatter;
+import de.rub.selab22a15.helpers.SurveySliderOnChangeListener;
 import de.rub.selab22a15.workers.DatabaseProcessingWorker;
 
 public class HomeFragment extends Fragment {
+    private static final float NEGATIVE_THRESHOLD = 0.35f;
+    private static final float POSITIVE_THRESHOLD = 0.65f;
+    private Slider sliderScaleChart;
     MaterialCardView cardViewSurvey;
-    Calendar calendar = Calendar.getInstance();
+
 
 
     @Override
@@ -65,12 +73,39 @@ public class HomeFragment extends Fragment {
         statistics();
     }
 
+
+
     private void startSurvey() {
         Intent surveyIntent = new Intent(requireActivity(), SurveyActivity.class);
         startActivity(surveyIntent);
     }
 
     private void statistics() {
+
+        FragmentActivity activity = requireActivity();
+
+        sliderScaleChart = activity.findViewById(R.id.userStatisticsSlider);
+
+
+
+
+        sliderScaleChart.addOnChangeListener(new userStatisticsSliderOnChangeListener());
+        sliderScaleChart.setLabelFormatter(new SurveySliderLabelFormatter(
+                requireContext(),
+                R.string.textViewUserStatisticsDailyViewLabelText,
+                R.string.textViewUserStatisticWeeklyViewLabelText,
+                R.string.textViewMonthlyPositiveLabelText,
+                NEGATIVE_THRESHOLD,
+                POSITIVE_THRESHOLD
+        ));
+        sliderScaleChart.setTrackActiveTintList(
+                sliderScaleChart.getTrackInactiveTintList()
+        );
+
+
+
+
+
         CombinedChart combinedChart = requireActivity().findViewById(R.id.combinedChartBasicStatistics);
 
         combinedChart.setMinimumHeight(720);
@@ -94,23 +129,16 @@ public class HomeFragment extends Fragment {
 
         XAxis xAxis = combinedChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setGranularity(1f);
+     ///   xAxis.setAxisMinimum(0f);
+        xAxis.setGranularity(2f);
         xAxis.setAxisMaximum(31f);
 
-/*
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return months[(int) value % months.length];
-            }
-        });
 
-
-*/
 
 
         new Thread(() -> {
+
+
             CombinedData combinedData = new CombinedData();
 
             combinedData.setData(generateMoodData());
@@ -132,10 +160,45 @@ public class HomeFragment extends Fragment {
 
         List<Entry> lineEntries = new ArrayList<>();
 
+/*
+        switch (sliderScaleChart.) {
+            case 0:
+                for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+                    Calendar calendar = Calendar.getInstance();
+
+
+                    calendar.setTimeInMillis(surveyProcessed.getTimestamp());
+                    lineEntries.add(new Entry(calendar.get(Calendar.HOUR_OF_DAY),
+                            surveyProcessed.getRating()));
+                }
+                break;
+            case 1:
+                for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(surveyProcessed.getTimestamp());
+                    lineEntries.add(new Entry(calendar.get(Calendar.DAY_OF_WEEK),
+                            surveyProcessed.getRating()));
+                }
+                break;
+            case 2:
+                for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(surveyProcessed.getTimestamp());
+                    lineEntries.add(new Entry(calendar.get(Calendar.MONTH),
+                            surveyProcessed.getRating()));
+                }
+                break;
+
+        }
+*/
+
+
+
 
         for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+            Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(surveyProcessed.getTimestamp());
-            lineEntries.add(new Entry(calendar.get(Calendar.SECOND),
+            lineEntries.add(new Entry(calendar.get(Calendar.HOUR_OF_DAY),
                     surveyProcessed.getRating()));
         }
 
@@ -167,8 +230,9 @@ public class HomeFragment extends Fragment {
         List<BarEntry> barEntries = new ArrayList<>();
 
         for (ActivityProcessed activityProcessed : activityProcessedList) {
+            Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(activityProcessed.getTimestamp());
-            barEntries.add(new BarEntry(calendar.get(Calendar.SECOND),
+            barEntries.add(new BarEntry(calendar.get(Calendar.HOUR_OF_DAY),
                     activityProcessed.getWeight()));
         }
 

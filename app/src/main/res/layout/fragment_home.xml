@@ -9,10 +9,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <include layout="@layout/card_view_survey"/>
-        <include layout="@layout/card_view_user_statistics"/>
+        <include layout="@layout/card_view_user_statistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </ScrollView>
