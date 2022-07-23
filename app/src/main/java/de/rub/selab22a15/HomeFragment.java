@@ -111,7 +111,6 @@ public class HomeFragment extends Fragment {
 
             combinedData.setData(generateMoodData());
             combinedData.setData(generateActivityDate());
-///        data.setValueTypeface(tfLight);
 
             xAxis.setAxisMaximum(combinedData.getXMax() + 0.25f);
 
