@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +27,8 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.slider.Slider;
@@ -46,10 +49,9 @@ import de.rub.selab22a15.helpers.SurveySliderOnChangeListener;
 import de.rub.selab22a15.workers.DatabaseProcessingWorker;
 
 public class HomeFragment extends Fragment {
-    private static final float NEGATIVE_THRESHOLD = 0.35f;
-    private static final float POSITIVE_THRESHOLD = 0.65f;
     private Slider sliderScaleChart;
     MaterialCardView cardViewSurvey;
+    int scaleSettingChart;
 
 
 
@@ -82,33 +84,20 @@ public class HomeFragment extends Fragment {
 
     private void statistics() {
 
+
         FragmentActivity activity = requireActivity();
 
         sliderScaleChart = activity.findViewById(R.id.userStatisticsSlider);
-
-
+        sliderScaleChart.addOnSliderTouchListener(touchListener);
+        scaleSettingChart=(int) sliderScaleChart.getValue();
 
 
         sliderScaleChart.addOnChangeListener(new userStatisticsSliderOnChangeListener());
-        sliderScaleChart.setLabelFormatter(new SurveySliderLabelFormatter(
-                requireContext(),
-                R.string.textViewUserStatisticsDailyViewLabelText,
-                R.string.textViewUserStatisticWeeklyViewLabelText,
-                R.string.textViewMonthlyPositiveLabelText,
-                NEGATIVE_THRESHOLD,
-                POSITIVE_THRESHOLD
-        ));
-        sliderScaleChart.setTrackActiveTintList(
-                sliderScaleChart.getTrackInactiveTintList()
-        );
-
-
-
+        sliderScaleChart.setTrackActiveTintList(sliderScaleChart.getTrackInactiveTintList());
 
 
         CombinedChart combinedChart = requireActivity().findViewById(R.id.combinedChartBasicStatistics);
-
-        combinedChart.setMinimumHeight(720);
+        combinedChart.setMinimumHeight(900);
 
         combinedChart.getDescription().setEnabled(false);
         combinedChart.setBackgroundColor(Color.WHITE);
@@ -123,35 +112,150 @@ public class HomeFragment extends Fragment {
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
 
-        YAxis yAxis = combinedChart.getAxisLeft();
-        yAxis.setDrawGridLines(false);
-        yAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        YAxis yAxisLeft = combinedChart.getAxisLeft();
+        yAxisLeft.setDrawGridLines(false);
+        yAxisLeft.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        yAxisLeft.setGranularity(2f);
+
+        YAxis yAxisRight = combinedChart.getAxisRight();
+        yAxisRight.setDrawGridLines(false);
+        yAxisRight.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        yAxisRight.setAxisMaximum(1f);
+        yAxisRight.setGranularity(0.05f);
 
         XAxis xAxis = combinedChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-     ///   xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMinimum(1f);
         xAxis.setGranularity(2f);
-        xAxis.setAxisMaximum(31f);
+        ///xAxis.setAxisMaximum(31f);
+
+
+        new Thread(()-> {
+           /// @Override
+            ///public void run() {
+
+            LineData lineData = new LineData();
+            BarData barData=new BarData();
+
+
+            List<SurveyProcessed> surveyProcessedList = new SurveyProcessedRepository(
+                    requireActivity().getApplication()).getAll();
+            List<ActivityProcessed> activityProcessedList = new ActivityProcessedRepository(
+                    requireActivity().getApplication()).getAll();
+
+
+            List<Entry> lineEntries = new ArrayList<>();
+            List<BarEntry> barEntries = new ArrayList<>();
 
 
 
+            switch (scaleSettingChart) {
+                    case 0:
+                        for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(surveyProcessed.getTimestamp());
+                            lineEntries.add(new Entry(calendar.get(Calendar.HOUR_OF_DAY),
+                                    surveyProcessed.getRating()));
+                        }
+                        for (ActivityProcessed activityProcessed : activityProcessedList) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(activityProcessed.getTimestamp());
+                            barEntries.add(new BarEntry(calendar.get(Calendar.HOUR_OF_DAY),
+                                    activityProcessed.getWeight()));
+                        }
+                        break;
+                    case 1:
+                        for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(surveyProcessed.getTimestamp());
+                            lineEntries.add(new Entry(calendar.get(Calendar.DAY_OF_WEEK),
+                                    surveyProcessed.getRating()));
+                        }
+                        for (ActivityProcessed activityProcessed : activityProcessedList) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(activityProcessed.getTimestamp());
+                            barEntries.add(new BarEntry(calendar.get(Calendar.DAY_OF_WEEK),
+                                    activityProcessed.getWeight()));
+                        }
+                        break;
+                    case 2:
+                        for (SurveyProcessed surveyProcessed : surveyProcessedList) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(surveyProcessed.getTimestamp());
+                            lineEntries.add(new Entry(calendar.get(Calendar.DAY_OF_MONTH),
+                                    surveyProcessed.getRating()));
+                        }
+                        for (ActivityProcessed activityProcessed : activityProcessedList) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(activityProcessed.getTimestamp());
+                            barEntries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH),
+                                    activityProcessed.getWeight()));
+                        }
+                        break;
+                }
 
-        new Thread(() -> {
+                LineDataSet lineDataSet = new LineDataSet(lineEntries, "average mood (-)");
+                lineDataSet.setHighlightEnabled(false);
+                lineDataSet.setColor(Color.rgb(240, 238, 70));
+                lineDataSet.setLineWidth(2.5f);
+                lineDataSet.setCircleColor(Color.rgb(240, 238, 70));
+                lineDataSet.setCircleRadius(5f);
+                lineDataSet.setFillColor(Color.rgb(240, 238, 70));
+                lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+                lineDataSet.setDrawValues(false);
+                lineDataSet.setValueTextColor(Color.rgb(240, 238, 70));
+
+                lineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+
+                lineData.addDataSet(lineDataSet);
 
 
-            CombinedData combinedData = new CombinedData();
 
-            combinedData.setData(generateMoodData());
-            combinedData.setData(generateActivityDate());
+                BarDataSet barDataSet = new BarDataSet(barEntries, "weigh acceleration activity (in m/s)");
+                barDataSet.setColor(Color.rgb(60, 220, 78));
+                barDataSet.setDrawValues(false);
+                barDataSet.setValueTextColor(Color.rgb(60, 220, 78));
+                barDataSet.setValueTextSize(10f);
+                barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
-            xAxis.setAxisMaximum(combinedData.getXMax() + 0.25f);
+                barData.addDataSet(barDataSet);
 
-            combinedChart.setData(combinedData);
-            combinedChart.invalidate();
+
+                activity.runOnUiThread(new Runnable(){
+                    @Override
+                    public void run(){
+                        CombinedData combinedData = new CombinedData();
+
+                        combinedData.setData(barData);
+                        combinedData.setData(lineData);
+                        xAxis.setAxisMaximum(combinedData.getXMax() + 0f);
+                        yAxisLeft.setAxisMaximum(combinedData.getYMax() + 10f);
+                        yAxisRight .setAxisMaximum(lineData.getYMax() + 0.25f);
+                        combinedChart.setData(combinedData);
+                        combinedChart.invalidate();
+
+                    }
+
+                });
+
+
+   ///         }
 
         }).start();
     }
 
+    private final Slider.OnSliderTouchListener touchListener = new Slider.OnSliderTouchListener() {
+                @Override
+                public void onStartTrackingTouch(Slider slider) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(Slider slider) {
+
+                }
+            };
+/*
     private LineData generateMoodData(){
         LineData lineData = new LineData();
 
@@ -160,13 +264,11 @@ public class HomeFragment extends Fragment {
 
         List<Entry> lineEntries = new ArrayList<>();
 
-/*
-        switch (sliderScaleChart.) {
+
+        switch (scaleSettingChart) {
             case 0:
                 for (SurveyProcessed surveyProcessed : surveyProcessedList) {
                     Calendar calendar = Calendar.getInstance();
-
-
                     calendar.setTimeInMillis(surveyProcessed.getTimestamp());
                     lineEntries.add(new Entry(calendar.get(Calendar.HOUR_OF_DAY),
                             surveyProcessed.getRating()));
@@ -184,34 +286,22 @@ public class HomeFragment extends Fragment {
                 for (SurveyProcessed surveyProcessed : surveyProcessedList) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(surveyProcessed.getTimestamp());
-                    lineEntries.add(new Entry(calendar.get(Calendar.MONTH),
+                    lineEntries.add(new Entry(calendar.get(Calendar.DAY_OF_MONTH),
                             surveyProcessed.getRating()));
                 }
                 break;
-
-        }
-*/
-
-
-
-
-        for (SurveyProcessed surveyProcessed : surveyProcessedList) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(surveyProcessed.getTimestamp());
-            lineEntries.add(new Entry(calendar.get(Calendar.HOUR_OF_DAY),
-                    surveyProcessed.getRating()));
         }
 
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "average mood (in %)");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "average mood (-)");
         lineDataSet.setHighlightEnabled(false);
         lineDataSet.setColor(Color.rgb(240, 238, 70));
         lineDataSet.setLineWidth(2.5f);
         lineDataSet.setCircleColor(Color.rgb(240, 238, 70));
         lineDataSet.setCircleRadius(5f);
         lineDataSet.setFillColor(Color.rgb(240, 238, 70));
-        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         lineDataSet.setDrawValues(true);
-        lineDataSet.setValueTextSize(10f);
+
         lineDataSet.setValueTextColor(Color.rgb(240, 238, 70));
 
         lineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
@@ -229,6 +319,33 @@ public class HomeFragment extends Fragment {
 
         List<BarEntry> barEntries = new ArrayList<>();
 
+        switch (scaleSettingChart) {
+            case 0:
+                for (ActivityProcessed activityProcessed : activityProcessedList) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(activityProcessed.getTimestamp());
+                    barEntries.add(new BarEntry(calendar.get(Calendar.HOUR_OF_DAY),
+                            activityProcessed.getWeight()));
+                }
+                break;
+            case 1:
+                for (ActivityProcessed activityProcessed : activityProcessedList) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(activityProcessed.getTimestamp());
+                    barEntries.add(new BarEntry(calendar.get(Calendar.DAY_OF_WEEK),
+                            activityProcessed.getWeight()));
+                }
+                break;
+            case 2:
+                for (ActivityProcessed activityProcessed : activityProcessedList) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(activityProcessed.getTimestamp());
+                    barEntries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH),
+                            activityProcessed.getWeight()));
+                }
+                break;
+        }
+
         for (ActivityProcessed activityProcessed : activityProcessedList) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(activityProcessed.getTimestamp());
@@ -240,6 +357,7 @@ public class HomeFragment extends Fragment {
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "weigh acceleration activity (in m/s)");
         barDataSet.setColor(Color.rgb(60, 220, 78));
+        barDataSet.setDrawValues(false);
         barDataSet.setValueTextColor(Color.rgb(60, 220, 78));
         barDataSet.setValueTextSize(10f);
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -248,5 +366,5 @@ public class HomeFragment extends Fragment {
 
         return barData;
     }
-
+*/
 }

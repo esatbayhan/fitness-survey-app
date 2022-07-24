@@ -90,6 +90,7 @@
                             android:text="@string/userStatisticsSliderMax" />
                     </LinearLayout>
             -->
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
