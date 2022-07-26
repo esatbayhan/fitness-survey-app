@@ -131,10 +131,11 @@
     <string name="textViewUserStatisticsDailyViewLabelText">Daily</string>
     <string name="textViewUserStatisticWeeklyViewLabelText">Weekly</string>
     <string name="textViewMonthlyPositiveLabelText">Monthly</string>
-<!--
-    <string name="userStatisticsSliderMin">1 Day</string>
-    <string name="userStatisticsSliderMax">90 Day</string>
--->
+    <string name="stringSelectDate">Select Date</string>
+    <!--
+        <string name="userStatisticsSliderMin">1 Day</string>
+        <string name="userStatisticsSliderMax">90 Day</string>
+    -->
     <string-array name="surveySocialContextLocationsItems">
         <item>Home</item>
         <item>Work</item>
