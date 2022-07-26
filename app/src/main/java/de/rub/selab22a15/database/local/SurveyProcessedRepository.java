@@ -13,8 +13,12 @@ public class SurveyProcessedRepository {
         surveyProcessedDao = database.surveyProcessedDao();
     }
 
-    public List<SurveyProcessed> getAll() {
+    public List<SurveyProcessed> getAllUnsafe() {
         return surveyProcessedDao.getAll();
+    }
+
+    public List<SurveyProcessed> getRangeUnsafe(long start, long end) {
+        return surveyProcessedDao.getRange(start, end);
     }
 
     public void insert(SurveyProcessed surveyProcessed) {
