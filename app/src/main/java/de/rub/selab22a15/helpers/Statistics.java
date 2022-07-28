@@ -1,19 +1,15 @@
 package de.rub.selab22a15.helpers;
 
 import android.graphics.Color;
-import android.util.Log;
 
-import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +21,9 @@ import de.rub.selab22a15.database.local.SurveyProcessed;
 import de.rub.selab22a15.database.local.SurveyProcessedRepository;
 
 public class Statistics {
-    private final CombinedChart chart;
+    private final LineChart chart;
 
-    public Statistics(CombinedChart chart) {
+    public Statistics(LineChart chart) {
         this.chart = chart;
         initialize();
     }
@@ -38,19 +34,31 @@ public class Statistics {
 
     public void draw(long start, long end) {
         new Thread(() -> {
-            CombinedData combinedData = new CombinedData();
+            ///  LineChart combinedData = new LineChart();
             LineData activityData = getActivityData(start, end);
-            LineData surveyData = getSurveyData(start, end);
-            combinedData.setData(surveyData);
-            combinedData.setData(activityData);
+            ///        LineData surveyData = getSurveyData(start, end);
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
-            chart.getXAxis().setAxisMinimum(combinedData.getXMin());
-            chart.getXAxis().setAxisMaximum(combinedData.getXMax());
+/*
+            combinedData.setData(activityData);
+            combinedData.setData(surveyData);
+*/
+
+
+            dataSets.add(getActivityDataset(start, end));
+            dataSets.add(getSurveyDataSet(start, end));
+            LineData lineData = new LineData(dataSets);
+
+
+            chart.getXAxis().setAxisMinimum(lineData.getXMin());
+            chart.getXAxis().setAxisMaximum(lineData.getXMax());
+
 
             chart.getAxisLeft().setAxisMaximum(activityData.getYMax());
-            chart.getAxisRight().setAxisMaximum(surveyData.getYMax());
+            chart.getAxisRight().setAxisMaximum(1f);
 
-            chart.setData(combinedData);
+
+            chart.setData(lineData);
             chart.invalidate();
         }).start();
     }
@@ -58,34 +66,43 @@ public class Statistics {
     private void initialize() {
         chart.setMinimumHeight(800);
         chart.getDescription().setEnabled(false);
-        chart.setBackgroundColor(Color.WHITE);
-        chart.setDrawGridBackground(false);
-        chart.setDrawBarShadow(false);
-        chart.setHighlightFullBarEnabled(false);
+        chart.setTouchEnabled(true);
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(false);
         chart.setScaleXEnabled(false);
         chart.setScaleYEnabled(true);
+        chart.setPinchZoom(false);
+        chart.setBackgroundColor(Color.WHITE);
+        chart.setDrawGridBackground(false);
 
         Legend legend = chart.getLegend();
+        legend.setEnabled(true);
         legend.setWordWrapEnabled(true);
+        legend.setDrawInside(false);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        legend.setDrawInside(false);
 
         YAxis yAxisLeft = chart.getAxisLeft();
+        yAxisLeft.setDrawLabels(true);
         yAxisLeft.setDrawGridLines(false);
+        yAxisLeft.setTextSize(12f);
         yAxisLeft.setAxisMinimum(0f);
-        yAxisLeft.setGranularity(2f);
+        yAxisLeft.setGranularity(5f);
 
         YAxis yAxisRight = chart.getAxisRight();
+        yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawGridLines(false);
+        yAxisRight.setTextSize(12f);
+
         yAxisRight.setAxisMinimum(0f);
         yAxisRight.setAxisMaximum(1f);
         yAxisRight.setGranularity(0.05f);
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawLabels(false);
         xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(5f);
     }
 
@@ -97,24 +114,43 @@ public class Statistics {
         List<Entry> entries = new ArrayList<>();
         List<ActivityProcessed> activities = new ActivityProcessedRepository(App.getInstance())
                 .getRangeUnsafe(start, end);
-        LineDataSet set;
 
-        Log.d("stat_log", activities.size() + "");
+        LineDataSet lineDataSetActivity;
+
+///        Log.d("stat_log", activities.size() + "");
 
         for (ActivityProcessed activity : activities) {
             entries.add(new Entry(activity.getTimestamp(), activity.getWeight()));
+
         }
 
-        set = new LineDataSet(entries, "Activity");
+        lineDataSetActivity = new LineDataSet(entries, "Activity");
 
-//        set.setColor(Color.rgb(0, 53, 96));
-//        set.setDrawValues(false);
-//        set.setValueTextColor(Color.rgb(0, 53, 96));
-//        set.setValueTextSize(12f);
-//        set.setValueTextColor(Color.rgb(0, 53, 96));
-//        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSetActivity.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        lineDataSetActivity.setCubicIntensity(0.2f);
 
-        return set;
+        lineDataSetActivity.setHighlightEnabled(false);
+
+        lineDataSetActivity.setColor(Color.rgb(0, 53, 96));
+
+        lineDataSetActivity.setLineWidth(2.5f);
+
+        lineDataSetActivity.setDrawCircles(true);
+        lineDataSetActivity.setCircleColor(Color.rgb(0, 53, 96));
+
+        lineDataSetActivity.setDrawCircleHole(false);
+
+        lineDataSetActivity.setDrawFilled(true);
+        lineDataSetActivity.setFillColor(Color.rgb(0, 53, 96));
+        lineDataSetActivity.setFillAlpha(50);
+
+        lineDataSetActivity.setDrawValues(false);
+        lineDataSetActivity.setValueTextColor(Color.rgb(0, 53, 96));
+        lineDataSetActivity.setValueTextSize(12f);
+
+        lineDataSetActivity.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        return lineDataSetActivity;
     }
 
     private LineData getSurveyData(long start, long end) {
@@ -125,29 +161,39 @@ public class Statistics {
         List<Entry> entries = new ArrayList<>();
         List<SurveyProcessed> surveys = new SurveyProcessedRepository(App.getInstance())
                 .getRangeUnsafe(start, end);
-        LineDataSet lineDataSet;
+        LineDataSet lineDataSetSurvey;
 
         for (SurveyProcessed survey : surveys) {
             entries.add(new Entry(survey.getTimestamp(), survey.getRating()));
         }
 
-        lineDataSet = new LineDataSet(entries, "Mood");
+        lineDataSetSurvey = new LineDataSet(entries, "Mood");
 
-        lineDataSet.setHighlightEnabled(false);
-        lineDataSet.setColor(Color.rgb(238, 114, 3));
-        lineDataSet.setLineWidth(2.5f);
-        lineDataSet.setCircleColor(Color.rgb(238, 114, 3));
-        lineDataSet.setCircleRadius(5f);
-        lineDataSet.setFillColor(Color.rgb(238, 114, 3));
-        lineDataSet.setCircleHoleColor(Color.rgb(238, 114, 3));
+        lineDataSetSurvey.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        lineDataSetSurvey.setCubicIntensity(0.2f);
 
-        lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        lineDataSet.setDrawValues(false);
-        lineDataSet.setValueTextColor(Color.rgb(238, 114, 3));
-        lineDataSet.setValueTextSize(12f);
+        lineDataSetSurvey.setHighlightEnabled(false);
 
-        lineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        lineDataSetSurvey.setColor(Color.rgb(238, 114, 3));
 
-        return lineDataSet;
+        lineDataSetSurvey.setLineWidth(2.5f);
+
+        lineDataSetSurvey.setDrawCircles(true);
+        lineDataSetSurvey.setCircleColor(Color.rgb(238, 114, 3));
+
+        lineDataSetSurvey.setDrawCircleHole(false);
+
+        lineDataSetSurvey.setDrawFilled(true);
+        lineDataSetSurvey.setFillColor(Color.rgb(238, 114, 3));
+        lineDataSetSurvey.setFillAlpha(50);
+
+        lineDataSetSurvey.setDrawValues(false);
+        lineDataSetSurvey.setValueTextColor(Color.rgb(238, 114, 3));
+        lineDataSetSurvey.setValueTextSize(12f);
+
+        lineDataSetSurvey.setAxisDependency(YAxis.AxisDependency.RIGHT);
+
+        return lineDataSetSurvey;
+
     }
 }

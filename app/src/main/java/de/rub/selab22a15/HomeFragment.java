@@ -12,7 +12,7 @@ import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
         buttonCardViewSurveyStart.setOnClickListener(v -> startSurvey());
 
         // Statistics
-        CombinedChart combinedChart = activity.findViewById(R.id.combinedChartStatistics);
+        LineChart combinedChart = activity.findViewById(R.id.cardViewUserStatisticsChart);
         Statistics statistics = new Statistics(combinedChart);
         MaterialButton buttonCardViewSelectDate = activity.findViewById(R.id.buttonCardViewSelectDate);
         buttonCardViewSelectDate.setOnClickListener(v -> {

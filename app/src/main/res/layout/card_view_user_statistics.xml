@@ -14,8 +14,8 @@
         android:padding="16dp"
         android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.CombinedChart
-            android:id="@+id/combinedChartStatistics"
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/cardViewUserStatisticsChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
