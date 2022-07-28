@@ -34,29 +34,19 @@ public class Statistics {
 
     public void draw(long start, long end) {
         new Thread(() -> {
-            ///  LineChart combinedData = new LineChart();
             LineData activityData = getActivityData(start, end);
-            ///        LineData surveyData = getSurveyData(start, end);
+            LineData surveyData = getSurveyData(start, end);
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-
-/*
-            combinedData.setData(activityData);
-            combinedData.setData(surveyData);
-*/
-
 
             dataSets.add(getActivityDataset(start, end));
             dataSets.add(getSurveyDataSet(start, end));
             LineData lineData = new LineData(dataSets);
 
-
             chart.getXAxis().setAxisMinimum(lineData.getXMin());
             chart.getXAxis().setAxisMaximum(lineData.getXMax());
 
-
             chart.getAxisLeft().setAxisMaximum(activityData.getYMax());
-            chart.getAxisRight().setAxisMaximum(1f);
-
+            chart.getAxisRight().setAxisMaximum(surveyData.getYMax());
 
             chart.setData(lineData);
             chart.invalidate();
@@ -121,7 +111,6 @@ public class Statistics {
 
         for (ActivityProcessed activity : activities) {
             entries.add(new Entry(activity.getTimestamp(), activity.getWeight()));
-
         }
 
         lineDataSetActivity = new LineDataSet(entries, "Activity");
