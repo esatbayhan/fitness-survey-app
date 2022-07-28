@@ -46,7 +46,7 @@ public class Statistics {
             chart.getXAxis().setAxisMaximum(lineData.getXMax());
 
             chart.getAxisLeft().setAxisMaximum(activityData.getYMax());
-            chart.getAxisRight().setAxisMaximum(surveyData.getYMax());
+            chart.getAxisRight().setAxisMaximum(1f);
 
             chart.setData(lineData);
             chart.invalidate();
@@ -106,8 +106,6 @@ public class Statistics {
                 .getRangeUnsafe(start, end);
 
         LineDataSet lineDataSetActivity;
-
-///        Log.d("stat_log", activities.size() + "");
 
         for (ActivityProcessed activity : activities) {
             entries.add(new Entry(activity.getTimestamp(), activity.getWeight()));
@@ -172,9 +170,7 @@ public class Statistics {
 
         lineDataSetSurvey.setDrawCircleHole(false);
 
-        lineDataSetSurvey.setDrawFilled(true);
-        lineDataSetSurvey.setFillColor(Color.rgb(238, 114, 3));
-        lineDataSetSurvey.setFillAlpha(50);
+        lineDataSetSurvey.setDrawFilled(false);
 
         lineDataSetSurvey.setDrawValues(false);
         lineDataSetSurvey.setValueTextColor(Color.rgb(238, 114, 3));
