@@ -34,18 +34,24 @@ public class Statistics {
 
     public void draw(long start, long end) {
         new Thread(() -> {
-            LineData activityData = getActivityData(start, end);
-            LineData surveyData = getSurveyData(start, end);
+            LineDataSet activityDataSet = getActivityDataSet(start, end);
+            LineDataSet surveyDataSet = getSurveyDataSet(start, end);
+
+            if (activityDataSet.getEntryCount() == 0 && surveyDataSet.getEntryCount() == 0) {
+                Reset();
+                return;
+            }
+
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
-            dataSets.add(getActivityDataset(start, end));
-            dataSets.add(getSurveyDataSet(start, end));
+            dataSets.add(activityDataSet);
+            dataSets.add(surveyDataSet);
             LineData lineData = new LineData(dataSets);
 
             chart.getXAxis().setAxisMinimum(lineData.getXMin());
             chart.getXAxis().setAxisMaximum(lineData.getXMax());
 
-            chart.getAxisLeft().setAxisMaximum(activityData.getYMax());
+            chart.getAxisLeft().setAxisMaximum(activityDataSet.getYMax());
             chart.getAxisRight().setAxisMaximum(1f);
 
             chart.setData(lineData);
@@ -96,11 +102,11 @@ public class Statistics {
         xAxis.setGranularity(5f);
     }
 
-    private LineData getActivityData(long start, long end) {
-        return new LineData(getActivityDataset(start, end));
+    private void Reset() {
+        chart.clear();
     }
 
-    private LineDataSet getActivityDataset(long start, long end) {
+    private LineDataSet getActivityDataSet(long start, long end) {
         List<Entry> entries = new ArrayList<>();
         List<ActivityProcessed> activities = new ActivityProcessedRepository(App.getInstance())
                 .getRangeUnsafe(start, end);
@@ -138,10 +144,6 @@ public class Statistics {
         lineDataSetActivity.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         return lineDataSetActivity;
-    }
-
-    private LineData getSurveyData(long start, long end) {
-        return new LineData(getSurveyDataSet(start, end));
     }
 
     private LineDataSet getSurveyDataSet(long start, long end) {
