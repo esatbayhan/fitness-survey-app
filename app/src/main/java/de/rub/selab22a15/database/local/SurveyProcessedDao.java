@@ -14,6 +14,9 @@ public interface SurveyProcessedDao {
     @Query("SELECT * FROM survey_processed")
     List<SurveyProcessed> getAll();
 
+    @Query("SELECT * FROM survey_processed WHERE timestamp >= :start AND timestamp <= :end")
+    List<SurveyProcessed> getRange(long start, long end);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Collection<SurveyProcessed> surveyProcessedCollection);
 

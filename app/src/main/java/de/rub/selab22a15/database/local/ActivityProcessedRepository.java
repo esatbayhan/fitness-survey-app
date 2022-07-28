@@ -4,10 +4,7 @@ import android.app.Application;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.rub.selab22a15.database.research.Accelerometer;
 
@@ -19,8 +16,12 @@ public class ActivityProcessedRepository {
         activityProcessedDao = database.activityProcessedDao();
     }
 
-    public List<ActivityProcessed> getAll() {
+    public List<ActivityProcessed> getAllUnsafe() {
         return activityProcessedDao.getAll();
+    }
+
+    public List<ActivityProcessed> getRangeUnsafe(long start, long end) {
+        return activityProcessedDao.getRange(start, end);
     }
 
     public void insert(ActivityProcessed activityProcessed) {
@@ -33,27 +34,21 @@ public class ActivityProcessedRepository {
                 activityProcessedDao.insert(activityProcessed));
     }
 
-    public void processInsert(Collection<Accelerometer> accelerometerList) {
-
-        LocalDatabase.databaseWriteExecutor.execute(() -> {
-        });
-    }
-
     private float getLength(Accelerometer accelerometer) {
         float x = accelerometer.getX();
         float y = accelerometer.getY();
         float z = accelerometer.getZ();
 
-        return (float) Math.sqrt(x*x + y*y + z*z);
+        return (float) Math.sqrt(x * x + y * y + z * z);
     }
-    
+
     private long removeTime(long timestamp) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        
+
         return calendar.getTimeInMillis();
     }
 }

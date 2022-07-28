@@ -10,8 +10,12 @@ import java.util.List;
 
 @Dao
 public interface ActivityProcessedDao {
+    /*
     @Query("SELECT * FROM activity_processed WHERE timestamp BETWEEN :timestampStart AND :timestampEnd")
     List<ActivityProcessed> getBetween(long timestampStart, long timestampEnd);
+*/
+    @Query("SELECT * FROM activity_processed WHERE timestamp >= :start AND timestamp <= :end")
+    List<ActivityProcessed> getRange(long start, long end);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ActivityProcessed activityProcessed);
