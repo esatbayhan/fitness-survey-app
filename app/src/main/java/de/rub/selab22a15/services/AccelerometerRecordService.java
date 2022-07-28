@@ -122,7 +122,8 @@ public class AccelerometerRecordService extends Service {
         Intent intent = new Intent(getApplicationContext(), LongRunReceiver.class);
 
         return PendingIntent.getBroadcast(
-                getApplicationContext(), 0, intent, 0);
+                getApplicationContext(), 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     @Nullable
