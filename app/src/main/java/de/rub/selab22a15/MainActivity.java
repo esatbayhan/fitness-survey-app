@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.Objects;
 
 import de.rub.selab22a15.databinding.ActivityMainBinding;
@@ -24,14 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
     @IdRes
     private Integer currentItemId;
-    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handleFirstStart();
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        de.rub.selab22a15.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> onClick(item.getItemId()));
@@ -82,7 +83,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        SurveyAlarmReceiver.setAlarm(getApplicationContext());
-        sharedPreferences.edit().putBoolean(KEY_IS_FIRST_START, false).apply();
+        new MaterialAlertDialogBuilder(MainActivity.this)
+                .setTitle(R.string.stringPrivacyPolicy)
+                .setMessage(R.string.stringPrivacyPolicyText)
+                .setIcon(R.drawable.ic_baseline_privacy_tip_24)
+                .setPositiveButton(R.string.stringYes, (dialogInterface, i) -> {
+                    SurveyAlarmReceiver.setAlarm(getApplicationContext());
+                    sharedPreferences.edit().putBoolean(KEY_IS_FIRST_START, false).apply();
+                })
+                .setCancelable(false)
+                .create()
+                .show();
     }
 }
