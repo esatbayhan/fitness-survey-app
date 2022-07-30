@@ -9,7 +9,7 @@ import de.rub.selab22a15.workers.AccelerometerRecordWorker;
 
 public class App extends Application {
     public static final String CHANNEL_ID_ACTIVITY_RECORD = "SERVICE_CHANNEL_ACTIVITY_RECORD";
-    public static final String CHANNEL_NAME_ACTIVITY_RECORD = CHANNEL_ID_ACTIVITY_RECORD;
+    public static final String CHANNEL_NAME_ACTIVITY_RECORD = "Activity Recording Notification";
 
     // Applications Shared Preferences
     public static final String APPLICATION_PREFERENCES = "APPLICATION_PREFERENCES";

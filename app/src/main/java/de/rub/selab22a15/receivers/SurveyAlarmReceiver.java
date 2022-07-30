@@ -31,7 +31,7 @@ import de.rub.selab22a15.activities.SurveyActivity;
 public class SurveyAlarmReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = "SURVEY_ALARM_RECEIVER";
     public static final String CHANNEL_ID_PERIODIC_NOTIFICATION = "PERIODIC_NOTIFICATION";
-    public static final String CHANNEL_NAME_PERIODIC_NOTIFICATION = CHANNEL_ID_PERIODIC_NOTIFICATION;
+    public static final String CHANNEL_NAME_PERIODIC_NOTIFICATION = "Periodic Survey Notification";
     public static final int NOTIFICATION_ID_PERIODIC_NOTIFICATION = 2;
 
     private static final int MORNING_HOUR = 8;

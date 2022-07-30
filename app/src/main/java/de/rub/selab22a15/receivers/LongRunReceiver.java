@@ -21,7 +21,7 @@ import de.rub.selab22a15.R;
 public class LongRunReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = "LONG_RUN_RECEIVER";
     private static final String CHANNEL_ID = "LONG_RUN_NOTIFICATION";
-    private static final String CHANNEL_NAME = CHANNEL_ID;
+    private static final String CHANNEL_NAME = "Long Running Notification";
     private static final int NOTIFICATION_ID = 3;
 
     @Override
