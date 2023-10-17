@@ -5,6 +5,10 @@
 - [Report of project](./doc/report.pdf)
 - [Presentation of project](./doc/presentation.pdf)
 
+## Archived
+
+This project has been archived. No further security audits will be conducted. Related cloud services have been shut down and will no longer function. Any API keys will no longer work.
+
 ## How to interact with the database?
 - Instantiate `XyzRepository` (replace Xyz with the Entity name)
 - Call one of the public methods 
