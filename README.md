@@ -1,5 +1,10 @@
 # 22A15
 
+## Documents
+
+- [Report of project](./doc/report.pdf)
+- [Presentation of project](./doc/presentation.pdf)
+
 ## How to interact with the database?
 - Instantiate `XyzRepository` (replace Xyz with the Entity name)
 - Call one of the public methods 
